@@ -10,12 +10,12 @@ protected:
 	sf::RenderWindow window;
 	sf::Clock clock;
 
-	int screenWidth = 1280;
-	int screenHeight = 720;
+	int screenWidth = 256;
+	int screenHeight = 256;
 	std::string title = "Antarctic Adventure!";
 
 	float gravity = 9.8f;
-	float dotPerMeter = 100.0f;
+	float dotPerMeter = 10.0f;
 
 	sf::Cursor cursor;
 

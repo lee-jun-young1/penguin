@@ -31,21 +31,21 @@ public:
 	virtual void SetOrigin(Origins origin);
 	virtual void SetOrigin(float originX, float originY);
 
-	virtual void Init() = 0;
+	virtual void Init() {};
 	virtual void Release() {};
 
-	virtual void Reset() = 0; //초기화
+	virtual void Reset() {}; //초기화
 
 	virtual void Update(float dt);
 	virtual void Draw(sf::RenderWindow& window);
 
-	GameObject(const std::string& name);
+	GameObject(const std::string& name = "");
 	virtual ~GameObject();
 
-	template <typename T>
-	T* GetComponent();
-	template <typename T>
-	void GetComponents(std::list<T*>& list);
+	//template <typename T>
+	//T* GetComponent();
+	//template <typename T>
+	//void GetComponents(std::list<T*>& list);
 
 
 	Component* GetComponent(const ComponentType type);
@@ -63,7 +63,7 @@ public:
 	virtual void OnTriggerStay(Collider* col) {};
 	virtual void OnTriggerExit(Collider* col) {};
 };
-
+/*
 template<typename T>
 inline T* GameObject::GetComponent()
 {
@@ -90,3 +90,4 @@ inline void GameObject::GetComponents(std::list<T*>& list)
 		}
 	}
 }
+*/

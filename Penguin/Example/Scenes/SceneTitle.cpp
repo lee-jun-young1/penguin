@@ -1,24 +1,13 @@
 #include "stdafx.h"
 #include <Framework.h>
 #include "SceneTitle.h"
-#include "SceneManager.h"
-#include "InputManager.h"
-#include "ResourceManager.h"
-#include "GameObject.h"
-#include "SoundGO.h"
-#include <SpriteGO.h>
-#include "TextGameObj.h"
-#include <DataTableManager.h>
-#include <StringTable.h>
-#include "Player.h"
-#include <RectangleShapeGO.h>
-#include "RigidBody2D.h"
-#include "BoxCollider.h"
-#include <Player_2.h>
-#include <UIButton.h>
-#include <SpriteTextGO.h>
+#include <SpriteFont.h>
+#include <GameObjects/SpriteTextGO.h>
+#include <Animator.h>
 #include <AnimatorPlayer.h>
-#include <AudioSource.h>
+#include <RigidBody2D.h>
+#include <BoxCollider.h>
+#include <GameObjects/RectangleShapeGO.h>
 
 SceneTitle::SceneTitle() 
 	: Scene(SceneId::Title)
@@ -35,11 +24,12 @@ void SceneTitle::Enter()
 {
 	auto size = FRAMEWORK.GetWindowSize();
 	auto screenCenter = size * 0.5f;
-	worldView.setSize(size);
-	worldView.setCenter(0.0f, 0.0f);
-
 	uiView.setSize(size);
 	uiView.setCenter(screenCenter.x, screenCenter.y);
+	screenCenter.y -= 60.0f;
+	worldView.setSize(size);
+	worldView.setCenter(screenCenter);
+
 
 	Scene::Enter();
 	Reset();
@@ -64,15 +54,31 @@ void SceneTitle::Init()
 	Scene::Init();
 	Release();
 
-	SpriteFont* font = new SpriteFont("fonts/SpriteFont_Data.csv");
-	SpriteTextGO* st = (SpriteTextGO*)AddGameObject(new SpriteTextGO());
-	st->SetFont(font);
-	st->SetText("ANTARCTIC ADVENTURE");
+	SpriteGO* bg = (SpriteGO*)AddGameObject(new SpriteGO("graphics/tempBG.png", ""));
+	bg->sortLayer = -1;
 
-	AnimatorPlayer* test = (AnimatorPlayer*)AddGameObject(new AnimatorPlayer("", "Player"));
+	//SpriteFont* font = new SpriteFont("fonts/SpriteFont_Data.csv");
+	//SpriteTextGO* st = (SpriteTextGO*)AddGameObject(new SpriteTextGO());
+	//st->SetFont(font);
+	//st->SetText("ANTARCTIC ADVENTURE");
+
+	AnimatorPlayer* test = (AnimatorPlayer*)AddGameObject(new AnimatorPlayer("graphics/Penta.png", "Player"));
 	Animator* animator = new Animator(*test);
 	test->AddComponent(animator);
 	test->SetAnimator(animator);
+	RigidBody2D* playerRig = new RigidBody2D(*test);
+	test->AddComponent(playerRig);
+	BoxCollider* playerCol = new BoxCollider(*test);
+	playerCol->SetRigidbody(playerRig);
+	test->AddComponent(playerCol);
+	test->SetPosition(100.0f, 100.0f);
+
+	RectangleShapeGO* ground = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO());
+	BoxCollider* boxCol = new BoxCollider(*ground);
+	ground->SetSize({ FRAMEWORK.GetWindowSize().x, 100.0f });
+	ground->SetPosition({ 0.0f, 150.0f });
+	boxCol->SetRect({ 0.0f, 150.0f, FRAMEWORK.GetWindowSize().x, 100.0f });
+	ground->AddComponent(boxCol);
 
 	
 	for (auto go : gameObjects)

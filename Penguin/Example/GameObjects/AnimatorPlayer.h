@@ -9,7 +9,7 @@ protected:
 	bool isJump = false;
 	Animator* animator = nullptr;
 	sf::Vector2f direction;
-	float speed = 100.0f; 
+	float speed = 50.0f; 
 	AudioSource* audio;
 public:
 	AnimatorPlayer(const std::string& textureID = "", const std::string& name = "")

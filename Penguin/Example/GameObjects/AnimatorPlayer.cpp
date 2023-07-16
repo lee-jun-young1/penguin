@@ -13,33 +13,30 @@ void AnimatorPlayer::SetAnimator(Animator* animator)
 
 void AnimatorPlayer::Init()
 {
-	RESOURCE_MANAGER.Load(ResourceTypes::AnimationClip, "animations/IdleLeft.csv");
-	RESOURCE_MANAGER.Load(ResourceTypes::AnimationClip, "animations/IdleRight.csv");
-	RESOURCE_MANAGER.Load(ResourceTypes::AnimationClip, "animations/IdleBack.csv");
-	RESOURCE_MANAGER.Load(ResourceTypes::AnimationClip, "animations/IdleFront.csv");
-	RESOURCE_MANAGER.Load(ResourceTypes::AnimationClip, "animations/MoveLeft.csv");
-	RESOURCE_MANAGER.Load(ResourceTypes::AnimationClip, "animations/MoveRight.csv");
-	RESOURCE_MANAGER.Load(ResourceTypes::AnimationClip, "animations/MoveBack.csv");
-	RESOURCE_MANAGER.Load(ResourceTypes::AnimationClip, "animations/MoveFront.csv");
+	RESOURCE_MANAGER.Load(ResourceTypes::AnimationClip, "animations/Penta_Jump.csv");
+	RESOURCE_MANAGER.Load(ResourceTypes::AnimationClip, "animations/Penta_Move.csv");
 
 	//TODO : File Read To Add
-	animator->LoadFromFile("animations/AnimatorPlayer");
+	animator->LoadFromFile("animations/Penta");
 
 	audio = new AudioSource(*this);
 	AddComponent(audio);
 
 	SetOrigin(Origins::BC);
+	BoxCollider* boxCol = (BoxCollider*)GetComponent(ComponentType::Collider);
+	boxCol->SetRect({ position.x, position.y, 32, 34 });
+	boxCol->SetOffset({ 32.0f * -0.5f, -34.0f});
 }
 
 void AnimatorPlayer::Reset()
 {
-	animator->SetState("IdleFront");
+	animator->SetState("Move");
 	animator->Play();
 	SetOrigin(origin);
-	SetPosition(0, 0);
+	SetPosition(FRAMEWORK.GetWindowSize().x * 0.5f, 150.0f);
 	spriteDirection = { 1.0f, 0.0f };
 	direction.y = 1.0f;
-	audio->SetClip(RESOURCE_MANAGER.GetSoundBuffer("sound/powerup.wav"));
+	audio->SetClip(RESOURCE_MANAGER.GetSoundBuffer("sound/sfx/6_Jump.wav"));
 }
 
 void AnimatorPlayer::Update(float dt)
@@ -47,7 +44,7 @@ void AnimatorPlayer::Update(float dt)
 	SpriteGO::Update(dt);
 
 	
-	Vector2f axis = { INPUT.GetAxis(Axis::Horizontal), INPUT.GetAxis(Axis::Vertical) };
+	Vector2f axis = { INPUT.GetAxis(Axis::Horizontal), 0.0f };
 	if (Utils::SqrMagnitude(axis) != 0.0f)
 	{
 		if (abs(axis.x) > abs(axis.y))
@@ -60,48 +57,22 @@ void AnimatorPlayer::Update(float dt)
 		}
 	}
 
+	if (INPUT.GetKeyDown(sf::Keyboard::Space))
+	{
+		//Jump
+		((RigidBody2D*)GetComponent(ComponentType::RigidBody))->AddForce({ 0.0f, -100.0f });
+		animator->SetEvent("Jump");
+		audio->Play();
+	}
+
 	position += axis * dt * speed;
+	cout << position.y << endl;
 	SetPosition(position);
 
 	if (Utils::SqrMagnitude(axis) == 0.0f)
 	{
 		//Idle
-		animator->SetEvent("Idle");
-	}
-	else
-	{
-		if (abs(axis.x) > abs(axis.y))
-		{
-			if (axis.x < 0.0f)
-			{
-				animator->SetEvent("Left");
-				sprite.setScale({ abs(sprite.getScale().x) * 1.0f, sprite.getScale().y });
-			}
-			else
-			{
-				animator->SetEvent("Right");
-				sprite.setScale({ abs(sprite.getScale().x) * -1.0f, sprite.getScale().y });
-			}
-		}
-		else
-		{
-			if (axis.y < 0.0f)
-			{
-				animator->SetEvent("Back");
-				sprite.setScale({ abs(sprite.getScale().x) * 1.0f, sprite.getScale().y });
-			}
-			else
-			{
-				animator->SetEvent("Front");
-				sprite.setScale({ abs(sprite.getScale().x) * 1.0f, sprite.getScale().y });
-			}
-		}
-		//Move
 		animator->SetEvent("Move");
-	}
-	if (INPUT.GetKeyDown(sf::Keyboard::F))
-	{
-		audio->Play();
 	}
 }
 

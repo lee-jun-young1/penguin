@@ -1,0 +1,5 @@
+ID,FPS,LOOPTYPE,,
+Hide,1,1,,
+,,,,
+TextureID,Left,Top,Width,Height
+graphics/Seal.png,0,0,32,32

@@ -1,0 +1,5 @@
+StateName,EventName,IgnoreExitTime,ExitTime,TargetState,EnterTime
+Hide,Ready,1,0,Ready,0
+Ready,Pop,1,0,Pop,0
+Ready,Reset,1,0,Hide,0
+Pop,Reset,1,0,Hide,0

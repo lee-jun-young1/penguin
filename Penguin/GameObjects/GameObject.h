@@ -42,12 +42,6 @@ public:
 	GameObject(const std::string& name = "");
 	virtual ~GameObject();
 
-	//template <typename T>
-	//T* GetComponent();
-	//template <typename T>
-	//void GetComponents(std::list<T*>& list);
-
-
 	Component* GetComponent(const ComponentType type);
 	void GetComponents(std::list<Component*>& list, const ComponentType type);
 	bool Exist(Component* component);
@@ -63,31 +57,3 @@ public:
 	virtual void OnTriggerStay(Collider* col) {};
 	virtual void OnTriggerExit(Collider* col) {};
 };
-/*
-template<typename T>
-inline T* GameObject::GetComponent()
-{
-	auto it = components.begin();
-	while (it != components.end())
-	{
-		if (dynamic_cast<T>(*it) != nullptr)
-		{
-			return *it;
-		}
-	}
-	return nullptr;
-}
-
-template<typename T>
-inline void GameObject::GetComponents(std::list<T*>& list)
-{
-	auto it = components.begin();
-	while (it != components.end())
-	{
-		if (dynamic_cast<T>(*it) != nullptr)
-		{
-			list.push_back(*it);
-		}
-	}
-}
-*/

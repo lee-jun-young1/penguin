@@ -8,6 +8,10 @@ Animation::Animation(SpriteGO& spriteGO)
 	target = &spriteGO.sprite;
 }
 
+Animation::~Animation()
+{
+}
+
 void Animation::SetClip(AnimationClip* newClip)
 {
 	clip = newClip;

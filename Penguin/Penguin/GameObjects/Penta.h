@@ -3,7 +3,7 @@
 #include "Animator.h"
 #include <AudioSource.h>
 
-class AnimatorPlayer : public SpriteGO
+class Penta : public SpriteGO
 {
 protected:
 	bool isJump = false;
@@ -12,9 +12,9 @@ protected:
 	float speed = 50.0f; 
 	AudioSource* audio;
 public:
-	AnimatorPlayer(const std::string& textureID = "", const std::string& name = "")
+	Penta(const std::string& textureID = "", const std::string& name = "")
 		:SpriteGO(textureID, name) {}
-	virtual ~AnimatorPlayer() override { Release(); };
+	virtual ~Penta() override { Release(); };
 
 	void SetAnimator(Animator* animator);
 
@@ -24,5 +24,6 @@ public:
 	virtual void Reset() override;
 	virtual void Update(float dt) override;
 	virtual void Draw(sf::RenderWindow& window) override;
+	void OnCollisionEnter(Collider* col);
 };
 

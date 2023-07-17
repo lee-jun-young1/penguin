@@ -1,17 +1,17 @@
 #include "stdafx.h"
-#include "AnimatorPlayer.h"
+#include "Penta.h"
 #include "InputManager.h"
 #include "RigidBody2D.h"
 #include <Framework.h>
 #include <BoxCollider.h>
 #include <Utils.h>
 
-void AnimatorPlayer::SetAnimator(Animator* animator)
+void Penta::SetAnimator(Animator* animator)
 {
 	this->animator = animator;
 }
 
-void AnimatorPlayer::Init()
+void Penta::Init()
 {
 	RESOURCE_MANAGER.Load(ResourceTypes::AnimationClip, "animations/Penta_Jump.csv");
 	RESOURCE_MANAGER.Load(ResourceTypes::AnimationClip, "animations/Penta_Move.csv");
@@ -28,7 +28,7 @@ void AnimatorPlayer::Init()
 	boxCol->SetOffset({ 32.0f * -0.5f, -34.0f});
 }
 
-void AnimatorPlayer::Reset()
+void Penta::Reset()
 {
 	animator->SetState("Move");
 	animator->Play();
@@ -39,7 +39,7 @@ void AnimatorPlayer::Reset()
 	audio->SetClip(RESOURCE_MANAGER.GetSoundBuffer("sound/sfx/6_Jump.wav"));
 }
 
-void AnimatorPlayer::Update(float dt)
+void Penta::Update(float dt)
 {
 	SpriteGO::Update(dt);
 
@@ -57,26 +57,35 @@ void AnimatorPlayer::Update(float dt)
 		}
 	}
 
-	if (INPUT.GetKeyDown(sf::Keyboard::Space))
+	if (!isJump && INPUT.GetKeyDown(sf::Keyboard::Space))
 	{
 		//Jump
 		((RigidBody2D*)GetComponent(ComponentType::RigidBody))->AddForce({ 0.0f, -100.0f });
 		animator->SetEvent("Jump");
 		audio->Play();
+		isJump = true;
 	}
 
 	position += axis * dt * speed;
-	cout << position.y << endl;
 	SetPosition(position);
 
-	if (Utils::SqrMagnitude(axis) == 0.0f)
-	{
-		//Idle
-		animator->SetEvent("Move");
-	}
+	//if (Utils::SqrMagnitude(axis) == 0.0f)
+	//{
+	//	//Idle
+	//	animator->SetEvent("Move");
+	//}
 }
 
-void AnimatorPlayer::Draw(sf::RenderWindow& window)
+void Penta::Draw(sf::RenderWindow& window)
 {
 	SpriteGO::Draw(window);
+}
+
+void Penta::OnCollisionEnter(Collider* col)
+{
+	isJump = false;
+	if (col->GetGameObject().GetName() == "Ground")
+	{
+		animator->SetEvent("Move");
+	}
 }

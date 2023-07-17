@@ -11,6 +11,8 @@ public:
 	bool IsUnique();
 	ComponentType GetComponentType();
 
+	GameObject& GetGameObject();
+
 	Component(GameObject& gameObject, ComponentType type, bool isUnique);
 
 	virtual void Init() = 0;

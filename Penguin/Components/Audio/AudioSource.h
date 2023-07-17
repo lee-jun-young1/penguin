@@ -12,7 +12,7 @@ protected:
 	
 public:
 	AudioSource(GameObject& gameObject);
-
+	virtual ~AudioSource();
 	// Component을(를) 통해 상속됨
 	virtual void Init() override;
 	virtual void Update(float deltaTime) override;

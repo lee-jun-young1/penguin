@@ -120,7 +120,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>./SFML-2.5.1/include;./Framework;./Scenes;./Global;./;./Utility;./GameObjects;./Components;./Components/Physics;./Components/Animation;./Components/Audio;./3rd;./DataTables;./Animation;./Example;./Example/Scenes;./Example/GameObjects;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./SFML-2.5.1/include;./Framework;./Scenes;./Global;./;./Utility;./GameObjects;./Components;./Components/Physics;./Components/Animation;./Components/Audio;./3rd;./DataTables;./Animation;./Example;./Example/Scenes;./Example/GameObjects;./Penguin/GameObjects;./Penguin/Scenes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
     </ClCompile>
     <Link>
@@ -172,10 +172,7 @@
     <ClCompile Include="Components\Physics\Component.cpp" />
     <ClCompile Include="DataTables\DataTable.cpp" />
     <ClCompile Include="DataTables\StringTable.cpp" />
-    <ClCompile Include="Example\Player_2.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="Example\GameObjects\AnimatorPlayer.cpp">
+    <ClCompile Include="Penguin\GameObjects\Penta.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Framework\DataTableManager.cpp" />
@@ -192,18 +189,16 @@
     <ClCompile Include="GameObjects\SpriteGO.cpp" />
     <ClCompile Include="GameObjects\TextGameObj.cpp" />
     <ClCompile Include="GameObjects\VertexArrayGO.cpp" />
+    <ClCompile Include="Penguin\GameObjects\IceHole.cpp" />
     <ClCompile Include="main.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Framework\ResourceManager.cpp" />
     <ClCompile Include="Components\Physics\RigidBody2D.cpp" />
     <ClCompile Include="Framework\PhysicsManager.cpp" />
-    <ClCompile Include="Example\Player.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="Scenes\Scene.cpp" />
     <ClCompile Include="Framework\SceneManager.cpp" />
-    <ClCompile Include="Example\Scenes\SceneTitle.cpp" />
+    <ClCompile Include="Penguin\Scenes\SceneGame.cpp" />
     <ClCompile Include="Global\Utils.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
     </ClCompile>
@@ -211,6 +206,8 @@
     <ClCompile Include="GameObjects\UIButton.cpp" />
     <ClCompile Include="Framework\SpriteFont.cpp" />
     <ClCompile Include="GameObjects\SpriteTextGO.cpp" />
+    <ClCompile Include="GameObjects\SlicedSpriteGO.cpp" />
+    <ClCompile Include="Seal.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3rd\rapidcsv.h" />
@@ -237,10 +234,7 @@
     <ClInclude Include="Components\Physics\Component.h" />
     <ClInclude Include="DataTables\DataTable.h" />
     <ClInclude Include="DataTables\StringTable.h" />
-    <ClInclude Include="Example\Player_2.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="Example\GameObjects\AnimatorPlayer.h">
+    <ClInclude Include="Penguin\GameObjects\Penta.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="Framework\DataTableManager.h" />
@@ -260,15 +254,15 @@
     <ClInclude Include="Framework\ResourceManager.h" />
     <ClInclude Include="Components\Physics\RigidBody2D.h" />
     <ClInclude Include="Framework\PhysicsManager.h" />
-    <ClInclude Include="Example\Player.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClInclude>
+    <ClInclude Include="Penguin\GameObjects\IceHole.h" />
     <ClInclude Include="Scenes\Scene.h" />
     <ClInclude Include="Framework\SceneManager.h" />
-    <ClInclude Include="Example\Scenes\SceneTitle.h" />
+    <ClInclude Include="Penguin\Scenes\SceneGame.h" />
     <ClInclude Include="Global\Singleton.h" />
     <ClInclude Include="Framework\SpriteFont.h" />
     <ClInclude Include="GameObjects\SpriteTextGO.h" />
+    <ClInclude Include="GameObjects\SlicedSpriteGO.h" />
+    <ClInclude Include="Seal.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Global\Utils.h" />
     <ClInclude Include="Global\Variables.h" />

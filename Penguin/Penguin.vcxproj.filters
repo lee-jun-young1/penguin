@@ -30,7 +30,7 @@
     <ClCompile Include="Scenes\Scene.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Example\Scenes\SceneTitle.cpp">
+    <ClCompile Include="Penguin\Scenes\SceneGame.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Framework\ResourceManager.cpp">
@@ -102,12 +102,6 @@
     <ClCompile Include="Animation\AnimationController.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Example\Player.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Example\Player_2.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Components\Animation\Animator.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -123,13 +117,22 @@
     <ClCompile Include="Framework\SpriteFont.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Example\GameObjects\AnimatorPlayer.cpp">
+    <ClCompile Include="Penguin\GameObjects\Penta.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Components\Audio\AudioSource.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Components\Audio\AudioGroup.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObjects\SlicedSpriteGO.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Penguin\GameObjects\IceHole.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Seal.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -155,7 +158,7 @@
     <ClInclude Include="Global\Defines.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Example\Scenes\SceneTitle.h">
+    <ClInclude Include="Penguin\Scenes\SceneGame.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Framework\ResourceManager.h">
@@ -233,13 +236,7 @@
     <ClInclude Include="Animation\AnimationController.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Example\Player.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="3rd\rapidcsv.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Example\Player_2.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Components\Animation\Animator.h">
@@ -257,13 +254,22 @@
     <ClInclude Include="Framework\SpriteFont.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Example\GameObjects\AnimatorPlayer.h">
+    <ClInclude Include="Penguin\GameObjects\Penta.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Components\Audio\AudioSource.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Components\Audio\AudioGroup.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjects\SlicedSpriteGO.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Penguin\GameObjects\IceHole.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Seal.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

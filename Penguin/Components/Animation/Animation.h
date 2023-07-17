@@ -17,6 +17,7 @@ protected:
 	sf::Sprite* target = nullptr;
 public:
 	Animation(SpriteGO& spriteGO);
+	virtual ~Animation();
 	void SetClip(AnimationClip* newClip);
 	void SetSprite(sf::Sprite* sprite) { target = sprite; }
 	sf::Sprite* GetSprite() const { return target; }

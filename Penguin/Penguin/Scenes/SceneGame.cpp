@@ -1,26 +1,28 @@
 #include "stdafx.h"
 #include <Framework.h>
-#include "SceneTitle.h"
+#include "SceneGame.h"
 #include <SpriteFont.h>
 #include <GameObjects/SpriteTextGO.h>
 #include <Animator.h>
-#include <AnimatorPlayer.h>
+#include <Penta.h>
 #include <RigidBody2D.h>
 #include <BoxCollider.h>
 #include <GameObjects/RectangleShapeGO.h>
+#include <SlicedSpriteGO.h>
+#include <IceHole.h>
 
-SceneTitle::SceneTitle() 
-	: Scene(SceneId::Title)
+SceneGame::SceneGame() 
+	: Scene(SceneId::Game)
 {
-	sceneName = "TitleScene";
+	sceneName = "GameScene";
 }
 
-SceneTitle::~SceneTitle()
+SceneGame::~SceneGame()
 {
-	Release();
+	//Release();
 }
 
-void SceneTitle::Enter()
+void SceneGame::Enter()
 {
 	auto size = FRAMEWORK.GetWindowSize();
 	auto screenCenter = size * 0.5f;
@@ -30,26 +32,28 @@ void SceneTitle::Enter()
 	worldView.setSize(size);
 	worldView.setCenter(screenCenter);
 
+	IceHole* test = (IceHole*)AddGameObject(new IceHole());
 
 	Scene::Enter();
 	Reset();
+
+	//test->SetTexture(*RESOURCE_MANAGER.GetTexture("graphics/SliceSpriteTest.png"), { 10, 6, 20, 2 }, { 0, 0, 40, 13 });
 }
 
-void SceneTitle::Reset()
+void SceneGame::Reset()
 {
-
 	for (auto go : gameObjects)
 	{
 		go->Reset();
 	}
 }
 
-void SceneTitle::Exit()
+void SceneGame::Exit()
 {
 	Scene::Exit();
 }
 
-void SceneTitle::Init()
+void SceneGame::Init()
 {
 	Scene::Init();
 	Release();
@@ -62,18 +66,19 @@ void SceneTitle::Init()
 	//st->SetFont(font);
 	//st->SetText("ANTARCTIC ADVENTURE");
 
-	AnimatorPlayer* test = (AnimatorPlayer*)AddGameObject(new AnimatorPlayer("graphics/Penta.png", "Player"));
-	Animator* animator = new Animator(*test);
-	test->AddComponent(animator);
-	test->SetAnimator(animator);
-	RigidBody2D* playerRig = new RigidBody2D(*test);
-	test->AddComponent(playerRig);
-	BoxCollider* playerCol = new BoxCollider(*test);
+	Penta* player = (Penta*)AddGameObject(new Penta("graphics/Penta.png", "Player"));
+	Animator* animator = new Animator(*player);
+	player->AddComponent(animator);
+	player->SetAnimator(animator);
+	player->sortLayer = 2;
+	RigidBody2D* playerRig = new RigidBody2D(*player);
+	player->AddComponent(playerRig);
+	BoxCollider* playerCol = new BoxCollider(*player);
 	playerCol->SetRigidbody(playerRig);
-	test->AddComponent(playerCol);
-	test->SetPosition(100.0f, 100.0f);
+	player->AddComponent(playerCol);
+	player->SetPosition(100.0f, 100.0f);
 
-	RectangleShapeGO* ground = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO());
+	RectangleShapeGO* ground = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
 	BoxCollider* boxCol = new BoxCollider(*ground);
 	ground->SetSize({ FRAMEWORK.GetWindowSize().x, 100.0f });
 	ground->SetPosition({ 0.0f, 150.0f });
@@ -87,7 +92,7 @@ void SceneTitle::Init()
 	}
 }
 
-void SceneTitle::Release()
+void SceneGame::Release()
 {
 	for (auto go : gameObjects)
 	{
@@ -95,12 +100,12 @@ void SceneTitle::Release()
 	}
 }
 
-void SceneTitle::Update(float deltaTime)
+void SceneGame::Update(float deltaTime)
 {
 	Scene::Update(deltaTime);
 }
 
-void SceneTitle::Draw(sf::RenderWindow& window)
+void SceneGame::Draw(sf::RenderWindow& window)
 {
 	Scene::Draw(window);
 }

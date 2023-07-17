@@ -54,12 +54,12 @@ sf::Vector2f Collider::GetNormal(Collider* col)
 
 	if (abs(val.x) < abs(val.y))
 	{
-		cout << " X " << endl;
+		//cout << " X " << endl;
 		return val.y < 0.0f ? sf::Vector2f(0.0f, 1.0f) : sf::Vector2f(0.0f, -1.0f);
 	}
 	else
 	{
-		cout << " Y " << endl;
+		//cout << " Y " << endl;
 		return val.x < 0.0f ? sf::Vector2f(1.0f, 0.0f) : sf::Vector2f(-1.0f, 0.0f);
 	}
 }

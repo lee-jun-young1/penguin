@@ -2,8 +2,8 @@
 #include "ShapeGameObj.h"
 #include <Utils.h>
 
-ShapeGameObj::ShapeGameObj(ShapeType shapeType)
-	:GameObject("Shape"), type(shapeType)
+ShapeGameObj::ShapeGameObj(ShapeType shapeType, const string& name)
+	:GameObject(name), type(shapeType)
 {
 	switch (type)
 	{

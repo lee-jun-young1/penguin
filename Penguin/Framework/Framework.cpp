@@ -16,6 +16,7 @@ Framework::Framework(int width, int height, const std::string& title)
 void Framework::Init(int width, int height, const std::string& title)
 {
     window.create(sf::VideoMode(width, height), title);
+    window.setSize({ (unsigned int)width * 3, (unsigned int)height * 3 });
 
     DATATABLE_MANAGER.LoadAll();
     RESOURCE_MANAGER.Init();

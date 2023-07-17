@@ -2,8 +2,8 @@
 #include "RectangleShapeGO.h"
 
 
-RectangleShapeGO::RectangleShapeGO()
-	:ShapeGameObj(ShapeType::Rectangle)
+RectangleShapeGO::RectangleShapeGO(const string& name)
+	:ShapeGameObj(ShapeType::Rectangle, name)
 {
 }
 

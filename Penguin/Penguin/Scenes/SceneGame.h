@@ -1,19 +1,13 @@
 #pragma once
 #include "Scene.h"
-#include "ObjectPool.h"
-#include <SpriteEffect.h>
-
-class Player;
-class VertexArrayGO;
-class Zombie;
-class Item;
-
-class SceneDev1 : public Scene
+class SceneGame : public Scene
 {
 protected:
+	std::map<std::string, bool> mouseOverStates;
+	float testF = 0.0f;
 public:
-	SceneDev1();
-	virtual ~SceneDev1() override;
+	SceneGame();
+	virtual ~SceneGame() override;
 
 	virtual void Enter() override;
 	void Reset();
@@ -23,7 +17,5 @@ public:
 	virtual void Release() override;
 	virtual void Update(float deltaTime) override;
 	virtual void Draw(sf::RenderWindow& window) override;
-
-	template <typename T>
-	void ClearObjectPool(ObjectPool<T>& pool);
 };
+

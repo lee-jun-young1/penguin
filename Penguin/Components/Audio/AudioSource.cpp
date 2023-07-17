@@ -6,6 +6,10 @@ AudioSource::AudioSource(GameObject& gameObject)
 {
 }
 
+AudioSource::~AudioSource()
+{
+}
+
 void AudioSource::Init()
 {
 }

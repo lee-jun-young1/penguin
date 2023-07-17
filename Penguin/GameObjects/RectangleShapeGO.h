@@ -3,7 +3,7 @@
 class RectangleShapeGO : public ShapeGameObj
 {
 public:
-	RectangleShapeGO();
+	RectangleShapeGO(const string& name = "");
 	void SetSize(sf::Vector2f size);
 	sf::Vector2f GetSize();
 };

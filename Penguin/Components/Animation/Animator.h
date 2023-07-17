@@ -29,6 +29,7 @@ protected:
 	string currentEvent;
 public:
 	Animator(SpriteGO& spriteGO);
+	virtual ~Animator() override;
 	void AddTransition(const std::string& stateName, const std::string& transitionName, Transition transition);
 	void AddState(const std::string& stateName, const AnimationClip& newClip);
 

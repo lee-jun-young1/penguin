@@ -7,6 +7,10 @@ Animator::Animator(SpriteGO& spriteGO)
 {
 }
 
+Animator::~Animator()
+{
+}
+
 void Animator::AddTransition(const std::string& stateName, const std::string& transitionName, Transition transition)
 {
 	if (transition.enterAnimationState == nullptr)

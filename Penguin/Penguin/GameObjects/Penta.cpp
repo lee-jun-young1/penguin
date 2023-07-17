@@ -33,7 +33,7 @@ void Penta::Reset()
 	animator->SetState("Move");
 	animator->Play();
 	SetOrigin(origin);
-	SetPosition(FRAMEWORK.GetWindowSize().x * 0.5f, 150.0f);
+	SetPosition(FRAMEWORK.GetWindowSize().x * 0.5f, 180.0f);
 	spriteDirection = { 1.0f, 0.0f };
 	direction.y = 1.0f;
 	audio->SetClip(RESOURCE_MANAGER.GetSoundBuffer("sound/sfx/6_Jump.wav"));

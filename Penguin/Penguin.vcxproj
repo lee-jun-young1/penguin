@@ -167,6 +167,7 @@
     <ClCompile Include="Components\Physics\BoxCollider.cpp" />
     <ClCompile Include="Components\Physics\Collider.cpp" />
     <ClCompile Include="Components\Physics\Component.cpp" />
+    <ClCompile Include="Penguin\GameObjects\Crevasse.cpp" />
     <ClCompile Include="DataTables\DataTable.cpp" />
     <ClCompile Include="DataTables\StringTable.cpp" />
     <ClCompile Include="Penguin\GameObjects\Penta.cpp">
@@ -204,7 +205,7 @@
     <ClCompile Include="Framework\SpriteFont.cpp" />
     <ClCompile Include="GameObjects\SpriteTextGO.cpp" />
     <ClCompile Include="GameObjects\SlicedSpriteGO.cpp" />
-    <ClCompile Include="Seal.cpp" />
+    <ClCompile Include="Penguin\GameObjects\Seal.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3rd\rapidcsv.h" />
@@ -226,6 +227,7 @@
     <ClInclude Include="Components\Physics\BoxCollider.h" />
     <ClInclude Include="Components\Physics\Collider.h" />
     <ClInclude Include="Components\Physics\Component.h" />
+    <ClInclude Include="Penguin\GameObjects\Crevasse.h" />
     <ClInclude Include="DataTables\DataTable.h" />
     <ClInclude Include="DataTables\StringTable.h" />
     <ClInclude Include="Penguin\GameObjects\Penta.h">
@@ -256,7 +258,7 @@
     <ClInclude Include="Framework\SpriteFont.h" />
     <ClInclude Include="GameObjects\SpriteTextGO.h" />
     <ClInclude Include="GameObjects\SlicedSpriteGO.h" />
-    <ClInclude Include="Seal.h" />
+    <ClInclude Include="Penguin\GameObjects\Seal.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Global\Utils.h" />
     <ClInclude Include="Global\Variables.h" />

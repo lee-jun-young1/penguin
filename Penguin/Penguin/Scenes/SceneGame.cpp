@@ -2,14 +2,16 @@
 #include <Framework.h>
 #include "SceneGame.h"
 #include <SpriteFont.h>
-#include <GameObjects/SpriteTextGO.h>
+#include <SpriteTextGO.h>
 #include <Animator.h>
 #include <Penta.h>
 #include <RigidBody2D.h>
 #include <BoxCollider.h>
-#include <GameObjects/RectangleShapeGO.h>
+#include <RectangleShapeGO.h>
 #include <SlicedSpriteGO.h>
 #include <IceHole.h>
+#include <Crevasse.h>
+#include <Seal.h>
 
 SceneGame::SceneGame() 
 	: Scene(SceneId::Game)
@@ -32,7 +34,6 @@ void SceneGame::Enter()
 	worldView.setSize(size);
 	worldView.setCenter(screenCenter);
 
-	IceHole* test = (IceHole*)AddGameObject(new IceHole());
 
 	Scene::Enter();
 	Reset();
@@ -46,6 +47,9 @@ void SceneGame::Reset()
 	{
 		go->Reset();
 	}
+	AudioSource* bgm = (AudioSource*)FindGameObject("Background")->GetComponent(ComponentType::Audio);
+	bgm->SetClip(RESOURCE_MANAGER.GetSoundBuffer("sound/bg/2_MainBgm.ogg"));
+	bgm->Play();
 }
 
 void SceneGame::Exit()
@@ -58,8 +62,10 @@ void SceneGame::Init()
 	Scene::Init();
 	Release();
 
-	SpriteGO* bg = (SpriteGO*)AddGameObject(new SpriteGO("graphics/tempBG.png", ""));
+	SpriteGO* bg = (SpriteGO*)AddGameObject(new SpriteGO("graphics/tempBG.png", "Background"));
 	bg->sortLayer = -1;
+	AudioSource* bgm = new AudioSource(*bg);
+	bg->AddComponent(bgm);
 
 	//SpriteFont* font = new SpriteFont("fonts/SpriteFont_Data.csv");
 	//SpriteTextGO* st = (SpriteTextGO*)AddGameObject(new SpriteTextGO());
@@ -81,10 +87,18 @@ void SceneGame::Init()
 	RectangleShapeGO* ground = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
 	BoxCollider* boxCol = new BoxCollider(*ground);
 	ground->SetSize({ FRAMEWORK.GetWindowSize().x, 100.0f });
-	ground->SetPosition({ 0.0f, 150.0f });
-	boxCol->SetRect({ 0.0f, 150.0f, FRAMEWORK.GetWindowSize().x, 100.0f });
+	ground->SetPosition({ 0.0f, 165.0f });
+	boxCol->SetRect({ 0.0f, 165.0f, FRAMEWORK.GetWindowSize().x, 100.0f });
 	ground->AddComponent(boxCol);
 
+	Seal* testSeal = (Seal*)AddGameObject(new Seal());
+	testSeal->sortOrder = 2;
+	Animator* sealAnimator = new Animator(*testSeal);
+	testSeal->AddComponent(sealAnimator);
+	testSeal->SetAnimator(sealAnimator);
+	IceHole* testIceHole = (IceHole*)AddGameObject(new IceHole());
+	testIceHole->SetSeal(testSeal);
+	Crevasse* testCrevasse = (Crevasse*)AddGameObject(new Crevasse());
 	
 	for (auto go : gameObjects)
 	{

@@ -129,7 +129,10 @@
     <ClCompile Include="Penguin\GameObjects\IceHole.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Seal.cpp">
+    <ClCompile Include="Penguin\GameObjects\Seal.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Penguin\GameObjects\Crevasse.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -263,7 +266,10 @@
     <ClInclude Include="Penguin\GameObjects\IceHole.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Seal.h">
+    <ClInclude Include="Penguin\GameObjects\Seal.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Penguin\GameObjects\Crevasse.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

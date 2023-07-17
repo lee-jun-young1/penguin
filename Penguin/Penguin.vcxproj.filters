@@ -99,9 +99,6 @@
     <ClCompile Include="Components\Animation\Animation.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Animation\AnimationController.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Components\Animation\Animator.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -231,9 +228,6 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Components\Animation\Animation.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Animation\AnimationController.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="3rd\rapidcsv.h">

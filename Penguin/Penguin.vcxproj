@@ -152,9 +152,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Animation\AnimationController.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="Components\Audio\AudioGroup.cpp" />
     <ClCompile Include="Components\Audio\AudioSource.cpp" />
     <ClCompile Include="Components\Animation\AnimationClip.cpp">
@@ -211,9 +208,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3rd\rapidcsv.h" />
-    <ClInclude Include="Animation\AnimationController.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClInclude>
     <ClInclude Include="Components\Audio\AudioGroup.h" />
     <ClInclude Include="Components\Audio\AudioSource.h" />
     <ClInclude Include="Components\Animation\Animator.h">

@@ -1,0 +1,8 @@
+ID,FPS,LOOPTYPE,,
+HoleMove,3,1,,
+,,,,
+TextureID,Left,Top,Width,Height
+graphics/Penta.png,0,0,32,34
+graphics/Penta.png,120,0,32,34
+graphics/Penta.png,240,0,32,34
+graphics/Penta.png,120,0,32,34

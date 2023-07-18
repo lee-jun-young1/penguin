@@ -116,12 +116,12 @@ float BoxCollider::GetHeight()
 void BoxCollider::OnCollisionEnter(Collider* col)
 {
 	Collider::OnCollisionEnter(col);
-	debugShape.setOutlineColor(sf::Color::Red);
 }
 
 void BoxCollider::OnCollisionStay(Collider* col)
 {
 	Collider::OnCollisionStay(col);
+	debugShape.setOutlineColor(sf::Color::Red);
 }
 
 void BoxCollider::OnCollisionExit(Collider* col)
@@ -133,12 +133,12 @@ void BoxCollider::OnCollisionExit(Collider* col)
 void BoxCollider::OnTriggerEnter(Collider* col)
 {
 	Collider::OnTriggerEnter(col);
-	debugShape.setOutlineColor(sf::Color::Red);
 }
 
 void BoxCollider::OnTriggerStay(Collider* col)
 {
 	Collider::OnTriggerStay(col);
+	debugShape.setOutlineColor(sf::Color::Red);
 }
 
 void BoxCollider::OnTriggerExit(Collider* col)

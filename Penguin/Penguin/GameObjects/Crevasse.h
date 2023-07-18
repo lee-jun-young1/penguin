@@ -1,11 +1,16 @@
 #pragma once
 #include "SlicedSpriteGO.h"
+#include "BoxCollider.h"
 class Crevasse : public SlicedSpriteGO
 {
 protected:
 	sf::Vector2f size;
 	GameObject* center;
-	GameObject* side;
+	GameObject* side; 
+
+	BoxCollider* centerCol;
+	BoxCollider* leftCol;
+	BoxCollider* rightCol;
 
 	sf::Vector2f startPos;
 	sf::Vector2f endPos;
@@ -27,5 +32,6 @@ public:
 	virtual void OnTriggerEnter(Collider* col) override;
 	virtual void OnTriggerStay(Collider* col) override;
 	virtual void OnTriggerExit(Collider* col) override;
+	void SetSize(sf::Vector2f size);
 };
 

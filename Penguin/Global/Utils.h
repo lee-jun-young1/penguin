@@ -28,6 +28,7 @@ public:
 	static void SetOrigin(sf::Transformable& transformable, Origins origin, const sf::FloatRect & rect);
 
 	static float Clamp(float v, float min, float max);
+	static int Clamp(int v, int min, int max);
 	//static int Clamp(int v, int min, int max);
 	static sf::Vector2f Clamp(const sf::Vector2f& v, const sf::Vector2f& min, const sf::Vector2f& max);
 

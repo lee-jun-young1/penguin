@@ -3,6 +3,9 @@
 #include <Framework.h>
 #include <BoxCollider.h>
 #include <Penta.h>
+#include <SceneManager.h>
+#include <SceneGame.h>
+#include <Utils.h>
 
 IceHole::IceHole(const std::string& textureID, sf::Rect<float> centerRect, sf::Rect<float> size)
 	:SlicedSpriteGO(textureID, centerRect, size, "IceHole")
@@ -19,6 +22,18 @@ void IceHole::OnTriggerStay(Collider* col)
 
 void IceHole::OnTriggerExit(Collider* col)
 {
+	if (col->GetGameObject().GetName() == "Ground")
+	{
+		Scene* scene = SCENE_MANAGER.GetCurrentScene();
+		SceneGame* gameScene = dynamic_cast<SceneGame*>(scene);
+		gameScene->GetObstacleManager()->ReturnIceHole(this);
+	}
+}
+
+void IceHole::SetDirection(sf::Vector2f startPos, sf::Vector2f endPos)
+{
+	this->startPos = startPos;
+	this->endPos = endPos;
 }
 
 void IceHole::Init()
@@ -37,16 +52,18 @@ void IceHole::Reset()
 	SetSize(size);
 	SetPosition({ FRAMEWORK.GetWindowSize().x * 0.4f, 60.0f });
 	collider->SetEnable(false);
+	SetOrigin(Origins::BC);
 }
 
 void IceHole::Update(float dt)
 {
+	time += dt * speed;
+
 	SlicedSpriteGO::Update(dt);
 	size.x += dt;
 	size.y += dt;
 	SetSize(size);
-	position.y += dt * 20.0f;
-	SetPosition(position);
+	SetPosition(Utils::Lerp(startPos, endPos, time, false));
 	if (position.y > 160.0f)
 	{
 		collider->SetEnable(true);
@@ -60,7 +77,9 @@ void IceHole::Update(float dt)
 void IceHole::SetSize(sf::Vector2f size)
 {
 	SlicedSpriteGO::SetSize(size);
+	SetOrigin(Origins::BC);
 	collider->SetRect({ position.x, position.y, size.x, size.y });
+	collider->SetOffset({ size.x * -0.5f, -size.y });
 }
 
 void IceHole::SetSeal(Seal* seal)

@@ -3,6 +3,8 @@
 #include <Framework.h>
 #include <BoxCollider.h>
 #include <Utils.h>
+#include <SceneGame.h>
+#include <SceneManager.h>
 
 Crevasse::Crevasse(const std::string& textureID, sf::Rect<float> centerRect, sf::Rect<float> size)
 	:SlicedSpriteGO(textureID, centerRect, size)
@@ -11,23 +13,26 @@ Crevasse::Crevasse(const std::string& textureID, sf::Rect<float> centerRect, sf:
 
 void Crevasse::Init()
 {
+	physicsLayer = 5;
+
 	center = new GameObject("CrevasseCenter");
 	center->physicsLayer = 5;
-	BoxCollider* centerCol = new BoxCollider(*center);
+	centerCol = new BoxCollider(*center);
 	centerCol->SetTrigger(true);
 	centerCol->SetRect({ 20.0f, 0.0f, 40.0f, 8.0f });
-	centerCol->SetOffset({ 30.0f, 0.0f });
+	centerCol->SetOffset({ -20.0f, 0.0f });
 	center->AddComponent(centerCol);
 
 	side = new GameObject("CrevasseSide");
 	side->physicsLayer = 5;
-	BoxCollider* leftCol = new BoxCollider(*side);
+	leftCol = new BoxCollider(*side);
 	leftCol->SetTrigger(true);
 	leftCol->SetRect({ 0.0f, 0.0f, 10.0f, 8.0f });
-	BoxCollider* rightCol = new BoxCollider(*side);
+	leftCol->SetOffset({ -40.0f, 0.0f });
+	rightCol = new BoxCollider(*side);
 	rightCol->SetTrigger(true);
 	rightCol->SetRect({ 90.0f, 0.0f, 10.0f, 8.0f });
-	rightCol->SetOffset({ 80.0f, 0.0f });
+	rightCol->SetOffset({ 40.0f, 0.0f });
 	side->AddComponent(leftCol);
 	side->AddComponent(rightCol);
 }
@@ -43,7 +48,7 @@ void Crevasse::Reset()
 	SlicedSpriteGO::Reset();
 	size = { 60.0f, 0.0f };
 	SetSize(size);
-	SetOrigin(Origins::BL);
+	SetOrigin(Origins::BC);
 	SetPosition({ FRAMEWORK.GetWindowSize().x * 0.6f, 60.0f });
 	time = 0.0f;
 }
@@ -97,4 +102,24 @@ void Crevasse::OnTriggerStay(Collider* col)
 
 void Crevasse::OnTriggerExit(Collider* col)
 {
+	if (col->GetGameObject().GetName() == "Ground")
+	{
+		Scene* scene = SCENE_MANAGER.GetCurrentScene();
+		SceneGame* gameScene = dynamic_cast<SceneGame*>(scene);
+		gameScene->GetObstacleManager()->ReturnCrevasse(this);
+	}
+}
+
+void Crevasse::SetSize(sf::Vector2f size)
+{
+	SlicedSpriteGO::SetSize(size);
+	SetOrigin(Origins::BC);
+	centerCol->SetRect({ position.x, position.y, size.x * 0.5f, size.y });
+	centerCol->SetOffset({ size.x * -0.25f, -size.y });
+
+	leftCol->SetRect({ position.x, position.y, size.x * 0.15f, size.y });
+	leftCol->SetOffset({ size.x * -0.5f, -size.y });
+
+	rightCol->SetRect({ position.x, position.y, size.x * 0.15f, size.y });
+	rightCol->SetOffset({ size.x * 0.35f, -size.y });
 }

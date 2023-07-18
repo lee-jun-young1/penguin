@@ -115,18 +115,7 @@ void SceneGame::Init()
 	wall->AddComponent(rightWallCol);
 
 
-	Seal* testSeal = (Seal*)AddGameObject(new Seal());
-	testSeal->physicsLayer = 5;
-	testSeal->sortOrder = 2;
-	Animator* sealAnimator = new Animator(*testSeal);
-	testSeal->AddComponent(sealAnimator);
-	testSeal->SetAnimator(sealAnimator);
-
-	IceHole* testIceHole = (IceHole*)AddGameObject(new IceHole());
-	testIceHole->SetSeal(testSeal);
-
-	Crevasse* testCrevasse = (Crevasse*)AddGameObject(new Crevasse());
-	testCrevasse->physicsLayer = 5;
+	obstacleManager = (ObstacleManager*)AddGameObject(new ObstacleManager());
 	
 	for (auto go : gameObjects)
 	{
@@ -145,9 +134,16 @@ void SceneGame::Release()
 void SceneGame::Update(float deltaTime)
 {
 	Scene::Update(deltaTime);
+
+
 }
 
 void SceneGame::Draw(sf::RenderWindow& window)
 {
 	Scene::Draw(window);
+}
+
+ObstacleManager* SceneGame::GetObstacleManager()
+{
+	return obstacleManager;
 }

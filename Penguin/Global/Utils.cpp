@@ -63,6 +63,11 @@ float Utils::Clamp(float v, float min, float max)
 	return std::max(std::min(v, max), min);
 }
 
+int Utils::Clamp(int v, int min, int max)
+{
+	return std::max(std::min(v, max), min);
+}
+
 sf::Vector2f Utils::Clamp(const sf::Vector2f& v, const sf::Vector2f& min, const sf::Vector2f& max)
 {
 	sf::Vector2f result;

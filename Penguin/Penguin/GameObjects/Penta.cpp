@@ -167,7 +167,7 @@ void Penta::OnCollisionEnter(Collider* col)
 		animator->SetEvent("Move");
 	}
 
-	if (col->GetGameObject().GetName() == "IceHole" || col->GetGameObject().GetName() == "Seal" || col->GetGameObject().GetName() == "CrevasseSide")
+	if ((animator->GetClipName() != "CrevasseIdle" && animator->GetClipName() != "CrevasseMove")&& (col->GetGameObject().GetName() == "IceHole" || col->GetGameObject().GetName() == "Seal" || col->GetGameObject().GetName() == "CrevasseSide"))
 	{
 		animator->SetEvent("Hit");
 		if (position.x < col->GetGameObject().GetPosition().x)
@@ -186,6 +186,8 @@ void Penta::OnCollisionEnter(Collider* col)
 	if (col->GetGameObject().GetName() == "CrevasseCenter")
 	{
 		animator->SetEvent("Crevasse");
+		rigidBody->SetVelocity({ 0.0f, 0.0f });
+		direction.x = 0.0f;
 		stateUpdate = std::bind(&Penta::UpdateCrevasse, this, std::placeholders::_1);
 	}
 }

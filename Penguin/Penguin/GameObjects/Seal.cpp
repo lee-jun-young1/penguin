@@ -14,6 +14,12 @@ void Seal::Init()
 	RESOURCE_MANAGER.Load(ResourceTypes::AnimationClip, "animations/Seal_Pop.csv");
 
 	physicsLayer = 5;
+	sortOrder = 2;
+
+	Animator* sealAnimator = new Animator(*this);
+	AddComponent(sealAnimator);
+	SetAnimator(sealAnimator);
+
 	collider = new BoxCollider(*this);
 	collider->SetTrigger(true);
 	AddComponent(collider);

@@ -1,0 +1,16 @@
+ID,FPS,LOOPTYPE,,
+CrevasseMove,3,1,,
+,,,,
+TextureID,Left,Top,Width,Height
+graphics/Penta.png,32,102,32,34
+graphics/Penta.png,64,102,32,34
+graphics/Penta.png,96,102,32,34
+graphics/Penta.png,64,102,32,34
+graphics/Penta.png,32,102,32,34
+graphics/Penta.png,64,102,32,34
+graphics/Penta.png,96,102,32,34
+graphics/Penta.png,64,102,32,34
+graphics/Penta.png,32,102,32,34
+graphics/Penta.png,64,102,32,34
+graphics/Penta.png,96,102,32,34
+graphics/Penta.png,64,102,32,34

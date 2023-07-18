@@ -28,6 +28,10 @@ float CircleCollider::GetRaidus()
 
 void CircleCollider::Update(float deltaTime)
 {
+	if (!isEnable)
+	{
+		return;
+	}
 	center = gameObject.GetPosition() + offset;
 	Collider::Update(deltaTime);
 }

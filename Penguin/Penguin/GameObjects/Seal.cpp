@@ -13,6 +13,12 @@ void Seal::Init()
 	RESOURCE_MANAGER.Load(ResourceTypes::AnimationClip, "animations/Seal_Ready.csv");
 	RESOURCE_MANAGER.Load(ResourceTypes::AnimationClip, "animations/Seal_Pop.csv");
 
+	physicsLayer = 5;
+	collider = new BoxCollider(*this);
+	collider->SetTrigger(true);
+	AddComponent(collider);
+
+
 	//TODO : File Read To Add
 	animator->LoadFromFile("animations/Seal");
 }
@@ -29,15 +35,21 @@ void Seal::Reset()
 	animator->SetState("Hide");
 	animator->Play();
 	SetOrigin(Origins::BC);
+
+	collider->SetEnable(false);
+	collider->SetRect({ position.x, position.y, GetSize().x, GetSize().y });
+	collider->SetOffset({ GetSize().x * -0.5f , -GetSize().y });
 }
 
 void Seal::Update(float dt)
 {
+	SpriteGO::Update(dt);
 	time += dt;
 	int intTime = time;
 	if (intTime >= 2)
 	{
 		animator->SetEvent("Pop");
+		collider->SetEnable(true);
 	}
 	else if (intTime >= 1)
 	{

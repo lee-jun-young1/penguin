@@ -166,7 +166,8 @@
     <ClCompile Include="Components\Physics\CircleCollider.cpp" />
     <ClCompile Include="Components\Physics\BoxCollider.cpp" />
     <ClCompile Include="Components\Physics\Collider.cpp" />
-    <ClCompile Include="Components\Physics\Component.cpp" />
+    <ClCompile Include="Components\Component.cpp" />
+    <ClCompile Include="Penguin\GameObjects\ObstaclePools.cpp" />
     <ClCompile Include="Penguin\GameObjects\Crevasse.cpp" />
     <ClCompile Include="DataTables\DataTable.cpp" />
     <ClCompile Include="DataTables\StringTable.cpp" />
@@ -226,7 +227,8 @@
     <ClInclude Include="Components\Physics\CircleCollider.h" />
     <ClInclude Include="Components\Physics\BoxCollider.h" />
     <ClInclude Include="Components\Physics\Collider.h" />
-    <ClInclude Include="Components\Physics\Component.h" />
+    <ClInclude Include="Components\Component.h" />
+    <ClInclude Include="Penguin\GameObjects\ObstaclePools.h" />
     <ClInclude Include="Penguin\GameObjects\Crevasse.h" />
     <ClInclude Include="DataTables\DataTable.h" />
     <ClInclude Include="DataTables\StringTable.h" />

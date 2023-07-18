@@ -15,7 +15,7 @@ protected:
 	std::string title = "Antarctic Adventure!";
 
 	float gravity = 9.8f;
-	float dotPerMeter = 10.0f;
+	float dotPerMeter = 20.0f;
 
 	sf::Cursor cursor;
 
@@ -29,6 +29,7 @@ public:
 
 	virtual void Update(float deltaTime);
 	virtual void Draw();
+	virtual void OnGUI();
 
 	virtual void Run();
 
@@ -40,7 +41,18 @@ public:
 
 	float GetGravity();
 	float GetDPM();
-
+#ifdef _DEBUG
+	enum class DebugMode 
+	{
+		None = 0,
+		Collider = 1,
+	};
+protected:
+	DebugMode debugMode = DebugMode::Collider;
+public:
+	void SetDebugging(DebugMode debugMode) { this->debugMode = debugMode; };
+	bool IsDebugging(DebugMode debugMode) { return (int)this->debugMode & (int)debugMode; };
+#endif
 };
 
 #define FRAMEWORK (Framework::GetInstance()) 

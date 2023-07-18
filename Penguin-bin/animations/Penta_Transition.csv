@@ -1,3 +1,10 @@
 StateName,EventName,IgnoreExitTime,ExitTime,TargetState,EnterTime
 Move,Jump,1,0,Jump,0
 Jump,Move,1,0,Move,0
+Move,Hit,1,0,Hit,0
+Jump,Hit,1,0,Hit,0
+Hit,HitEnd,1,0,Move,0
+Move,Crevasse,1,0,CrevasseIdle,0
+CrevasseIdle,Move,1,0,CrevasseMove,0
+CrevasseMove,Idle,1,0,CrevasseIdle,0
+CrevasseMove,Escape,1,0,Move,0

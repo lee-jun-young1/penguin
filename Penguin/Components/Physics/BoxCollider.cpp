@@ -2,6 +2,7 @@
 #include "BoxCollider.h"
 #include "CircleCollider.h"
 #include "GameObject.h"
+#include <Framework.h>
 
 BoxCollider::BoxCollider(GameObject& gameObject)
 	:Collider(gameObject, ColliderType::Box)
@@ -20,6 +21,10 @@ sf::Rect<float> BoxCollider::GetRect()
 
 bool BoxCollider::CheckCross(Collider* col)
 {
+	if (!isEnable || !col->IsEnable())
+	{
+		return false;
+	}
 	switch (col->GetColliderType())
 	{
 	case ColliderType::Box:
@@ -53,11 +58,43 @@ bool BoxCollider::CheckCross(Collider* col)
 	}
 }
 
+void BoxCollider::Init()
+{
+#ifdef _DEBUG
+	debugShape.setFillColor(sf::Color::Transparent);
+	debugShape.setOutlineColor(isTrigger ? sf::Color::Blue : sf::Color::Green);
+	debugShape.setOutlineThickness(1.0f);
+#endif
+}
+
 void BoxCollider::Update(float deltaTime)
 {
+	if (!isEnable)
+	{
+		return;
+	}
 	rect.left = gameObject.GetPosition().x + offset.x;
 	rect.top = gameObject.GetPosition().y + offset.y;
 	Collider::Update(deltaTime);
+#ifdef _DEBUG
+	debugShape.setPosition({ rect.left, rect.top });
+	debugShape.setSize({ rect.width, rect.height });
+#endif
+}
+
+void BoxCollider::Draw(sf::RenderWindow& window)
+{
+	Collider::Draw(window);
+}
+
+void BoxCollider::OnGUI(sf::RenderWindow& window)
+{
+#ifdef _DEBUG
+	if (FRAMEWORK.IsDebugging(Framework::DebugMode::Collider))
+	{
+		window.draw(debugShape);
+	}
+#endif
 }
 
 sf::Vector2f BoxCollider::GetCenter()
@@ -74,3 +111,39 @@ float BoxCollider::GetHeight()
 {
 	return rect.height;
 }
+
+#ifdef _DEBUG
+void BoxCollider::OnCollisionEnter(Collider* col)
+{
+	Collider::OnCollisionEnter(col);
+	debugShape.setOutlineColor(sf::Color::Red);
+}
+
+void BoxCollider::OnCollisionStay(Collider* col)
+{
+	Collider::OnCollisionStay(col);
+}
+
+void BoxCollider::OnCollisionExit(Collider* col)
+{
+	Collider::OnCollisionExit(col);
+	debugShape.setOutlineColor(sf::Color::Green);
+}
+
+void BoxCollider::OnTriggerEnter(Collider* col)
+{
+	Collider::OnTriggerEnter(col);
+	debugShape.setOutlineColor(sf::Color::Red);
+}
+
+void BoxCollider::OnTriggerStay(Collider* col)
+{
+	Collider::OnTriggerStay(col);
+}
+
+void BoxCollider::OnTriggerExit(Collider* col)
+{
+	Collider::OnTriggerExit(col);
+	debugShape.setOutlineColor(sf::Color::Blue);
+}
+#endif

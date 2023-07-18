@@ -63,6 +63,14 @@ void GameObject::Draw(sf::RenderWindow& window)
 	}
 }
 
+void GameObject::OnGUI(sf::RenderWindow& window)
+{
+	for (auto component : components)
+	{
+		component->OnGUI(window);
+	}
+}
+
 GameObject::GameObject(const std::string& name)
 	:name(name)
 {

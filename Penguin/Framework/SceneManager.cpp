@@ -55,6 +55,11 @@ void SceneManager::Draw(sf::RenderWindow& window)
 	scenes[(int)currentSceneId]->Draw(window);
 }
 
+void SceneManager::OnGUI(sf::RenderWindow& window)
+{
+	scenes[(int)currentSceneId]->OnGUI(window);
+}
+
 Scene* SceneManager::GetCurrentScene() const
 {
 	return currentScene;

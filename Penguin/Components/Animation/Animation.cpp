@@ -23,7 +23,7 @@ void Animation::SetClip(AnimationClip* newClip)
 
 void Animation::Update(float dt)
 {
-	if (!isPlaying)
+	if (!isEnable || !isPlaying)
 		return;
 
 	accumTime += dt * speed;
@@ -66,6 +66,10 @@ void Animation::Seek(int frame)
 {
 	currentFrame = frame;
 	SetFrame(clip->frames[currentFrame]);
+	if (clip->frames[currentFrame].action != nullptr)
+	{
+		clip->frames[currentFrame].action();
+	}
 }
 
 float Animation::GetClipDuration()

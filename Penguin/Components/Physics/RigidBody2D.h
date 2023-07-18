@@ -5,9 +5,11 @@ class RigidBody2D : public Component
 {
 protected:
 	bool useGravity;
-	bool isCollided;
+	bool isVerticalCollided;
 	sf::Vector2f velocity;
 public:
+	virtual bool IsEnable();
+	virtual void SetEnable(bool isEnable);
 	RigidBody2D(GameObject& gameObject);
 	// Component을(를) 통해 상속됨
 

@@ -7,6 +7,16 @@ bool Component::IsUnique()
 	return isUnique;
 }
 
+bool Component::IsEnable()
+{
+	return isEnable;
+}
+
+void Component::SetEnable(bool isEnable)
+{
+	this->isEnable = isEnable;
+}
+
 ComponentType Component::GetComponentType()
 {
 	return componentType;

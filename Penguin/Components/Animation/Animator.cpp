@@ -83,7 +83,7 @@ void Animator::SetState(std::string stateID)
 void Animator::Update(float dt)
 {
 	Animation::Update(dt);
-	if (!isPlaying || accumTime < clipFrameTime)
+	if (!isEnable || !isPlaying || accumTime < clipFrameTime)
 		return;
 
 

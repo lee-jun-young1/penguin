@@ -16,7 +16,7 @@ Framework::Framework(int width, int height, const std::string& title)
 void Framework::Init(int width, int height, const std::string& title)
 {
     window.create(sf::VideoMode(width, height), title);
-    window.setSize({ (unsigned int)width * 3, (unsigned int)height * 3 });
+    window.setSize({ (unsigned int)width * 2, (unsigned int)height * 2 });
 
     DATATABLE_MANAGER.LoadAll();
     RESOURCE_MANAGER.Init();
@@ -41,6 +41,13 @@ void Framework::Draw()
     SCENE_MANAGER.Draw(window);
     //cursor->Draw(window);
 }
+
+void Framework::OnGUI()
+{
+    SCENE_MANAGER.OnGUI(window);
+    //cursor->Draw(window);
+}
+
 
 void Framework::Run()
 {
@@ -99,6 +106,12 @@ void Framework::Run()
         if (window.isOpen())
         {
             //SystemEvent
+#ifdef _DEBUG
+            if (INPUT.GetKeyDown(sf::Keyboard::F1))
+            {
+                SetDebugging(debugMode == Framework::DebugMode::Collider ? Framework::DebugMode::None : Framework::DebugMode::Collider);
+            }
+#endif
             if (INPUT.GetKeyDown(sf::Keyboard::Tilde)) 
             {
                 fpsViewer.SetActive(!fpsViewer.IsActive());
@@ -123,6 +136,7 @@ void Framework::Run()
             window.clear();
 
             Draw();
+            OnGUI();
             if (fpsViewer.IsActive())
             {
                 fpsViewer.Draw(window);

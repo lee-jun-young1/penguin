@@ -2,8 +2,18 @@
 #include "RigidBody2D.h"
 #include "Framework.h"
 
+bool RigidBody2D::IsEnable()
+{
+	return true;
+}
+
+void RigidBody2D::SetEnable(bool isEnable)
+{
+	std::cout << "Rigidbody can not disable" << std::endl;
+}
+
 RigidBody2D::RigidBody2D(GameObject& gameObject)
-	:useGravity(true), Component(gameObject, ComponentType::RigidBody, true), isCollided(false)
+	:useGravity(true), Component(gameObject, ComponentType::RigidBody, true), isVerticalCollided(false)
 {
 }
 
@@ -34,7 +44,7 @@ void RigidBody2D::Init()
 void RigidBody2D::Update(float deltaTime)
 {
 	sf::Vector2f position = gameObject.GetPosition();
-	if (useGravity && !isCollided)
+	if (useGravity && !isVerticalCollided)
 	{
 		velocity += sf::Vector2f(0.0f, FRAMEWORK.GetGravity() * FRAMEWORK.GetDPM() * deltaTime);
 	}
@@ -61,8 +71,6 @@ void RigidBody2D::Release()
 /// </param>
 void RigidBody2D::OnCollisionEnter(Collider* thisCol, Collider* diffCol)
 {
-	isCollided = true;
-
 	//sf::Rect<float> border = sf::Rect<float>(gameObject.GetPosition().x + GetWidth() * 0.5f, gameObject.GetPosition().y + GetHeight() * 0.5f,
 	//	(GetWidth() + col->GetWidth()) * 0.5f, (GetHeight() + col->GetHeight()) * 0.5f);
 
@@ -80,12 +88,14 @@ void RigidBody2D::OnCollisionEnter(Collider* thisCol, Collider* diffCol)
 	}
 	else if (normal.y > 0.0f && velocity.y < 0.0f)
 	{
+		isVerticalCollided = true;
 		velocity.y = 0.0f;
 		//cout << (normal.y > 0.0f ? rect.top + rect.height : rect.top - rect.height) << endl;
 		gameObject.SetPosition(gameObject.GetPosition().x, diffCol->GetCenter().y + (diffCol->GetHeight()) - 0.001f - thisCol->GetOffset().y);
 	}
 	else if (normal.y < 0.0f && velocity.y > 0.0f)
 	{
+		isVerticalCollided = true;
 		velocity.y = 0.0f;
 		//cout << (normal.y > 0.0f ? rect.top + rect.height : rect.top - rect.height) << endl;
 		gameObject.SetPosition(gameObject.GetPosition().x, diffCol->GetCenter().y - (diffCol->GetHeight() * 0.5f) - thisCol->GetHeight() + 0.001f - thisCol->GetOffset().y);
@@ -95,7 +105,6 @@ void RigidBody2D::OnCollisionEnter(Collider* thisCol, Collider* diffCol)
 
 void RigidBody2D::OnCollisionStay(Collider* thisCol, Collider* diffCol)
 {
-	isCollided = true;
 
 	sf::Vector2f normal = thisCol->GetNormal(diffCol);
 
@@ -111,12 +120,14 @@ void RigidBody2D::OnCollisionStay(Collider* thisCol, Collider* diffCol)
 	}
 	else if (normal.y > 0.0f && velocity.y < 0.0f)
 	{
+		isVerticalCollided = true;
 		velocity.y = 0.0f;
 		//cout << (normal.y > 0.0f ? rect.top + rect.height : rect.top - rect.height) << endl;
 		gameObject.SetPosition(gameObject.GetPosition().x, diffCol->GetCenter().y + (diffCol->GetHeight() * 0.5f) - 0.001f - thisCol->GetOffset().y);
 	}
 	else if (normal.y < 0.0f && velocity.y > 0.0f)
 	{
+		isVerticalCollided = true;
 		velocity.y = 0.0f;
 		//cout << (normal.y > 0.0f ? rect.top + rect.height : rect.top - rect.height) << endl;
 		gameObject.SetPosition(gameObject.GetPosition().x, diffCol->GetCenter().y - (diffCol->GetHeight() * 0.5f) - thisCol->GetHeight() + 0.001f - thisCol->GetOffset().y);
@@ -125,16 +136,10 @@ void RigidBody2D::OnCollisionStay(Collider* thisCol, Collider* diffCol)
 
 void RigidBody2D::OnCollisionExit(sf::Vector2f normal)
 {
-	isCollided = false;
-
-	//if (normal.x != 0.0f)
-	//{
-	//	velocity.x = 0.0f;
-	//}
-	//else if (normal.y != 0.0f)
-	//{
-	//	velocity.y = 0.0f;
-	//}
+	if (normal.y != 0.0f)
+	{
+		isVerticalCollided = false;
+	}
 }
 
 void RigidBody2D::OnTriggerEnter()
@@ -147,5 +152,8 @@ void RigidBody2D::OnTriggerStay()
 
 void RigidBody2D::OnTriggerExit(sf::Vector2f normal)
 {
-	isCollided = false;
+	if (normal.y != 0.0f)
+	{
+		isVerticalCollided = false;
+	}
 }

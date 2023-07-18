@@ -15,13 +15,13 @@ protected:
 
 	sf::Vector2f offset;
 
-	void OnCollisionEnter(Collider* col);
-	void OnCollisionStay(Collider* col);
-	void OnCollisionExit(Collider* col);
+	virtual void OnCollisionEnter(Collider* col);
+	virtual void OnCollisionStay(Collider* col);
+	virtual void OnCollisionExit(Collider* col);
 
-	void OnTriggerEnter();
-	void OnTriggerStay();
-	void OnTriggerExit(Collider* col);
+	virtual void OnTriggerEnter(Collider* col);
+	virtual void OnTriggerStay(Collider* col);
+	virtual void OnTriggerExit(Collider* col);
 public:
 	Collider(GameObject& gameObject, ColliderType type);
 	virtual ~Collider();

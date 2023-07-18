@@ -23,6 +23,7 @@ public:
 
 	void Update(float deltaTime);
 	void Draw(sf::RenderWindow& window);
+	void OnGUI(sf::RenderWindow& window);
 
 	Scene* GetCurrentScene() const;
 };

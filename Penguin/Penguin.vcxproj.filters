@@ -51,7 +51,7 @@
     <ClCompile Include="Components\Physics\RigidBody2D.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Components\Physics\Component.cpp">
+    <ClCompile Include="Components\Component.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Components\Physics\Collider.cpp">
@@ -135,6 +135,9 @@
     <ClCompile Include="Penguin\GameObjects\Crevasse.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Penguin\GameObjects\ObstaclePools.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -179,7 +182,7 @@
     <ClInclude Include="Components\Physics\RigidBody2D.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Components\Physics\Component.h">
+    <ClInclude Include="Components\Component.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Components\Physics\Collider.h">
@@ -270,6 +273,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Penguin\GameObjects\Crevasse.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Penguin\GameObjects\ObstaclePools.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

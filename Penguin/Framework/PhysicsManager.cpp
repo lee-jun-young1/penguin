@@ -8,7 +8,18 @@ PhysicsManager::PhysicsManager()
 		layerCollide.push_back(0);
 		colliders.push_back(std::list<Collider*>());
 	}
-	layerCollide[0] = 1 << 0;
+	layerCollide[1] += 1 << 3;
+	layerCollide[1] += 1 << 4;
+	layerCollide[1] += 1 << 5;
+	layerCollide[2] += 1 << 3;
+	layerCollide[3] += 1 << 1;
+	layerCollide[3] += 1 << 2;
+	layerCollide[3] += 1 << 4;
+	layerCollide[3] += 1 << 5;
+	layerCollide[4] += 1 << 1;
+	layerCollide[4] += 1 << 3;
+	layerCollide[5] += 1 << 1;
+	layerCollide[5] += 1 << 3;
 }
 
 std::list<Collider*> PhysicsManager::GetColliders(const int& physicsLayer)

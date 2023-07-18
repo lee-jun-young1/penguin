@@ -185,3 +185,35 @@ void Scene::Draw(sf::RenderWindow& window)
 		}
 	}
 }
+
+void Scene::OnGUI(sf::RenderWindow& window)
+{
+	window.setView(worldView);
+
+	for (auto go : gameObjects)
+	{
+		if (go->sortLayer >= UILayer)
+		{
+			continue;
+		}
+		if (go->IsActive())
+		{
+			go->OnGUI(window);
+		}
+	}
+
+
+	window.setView(uiView);
+
+	for (auto go : gameObjects)
+	{
+		if (go->sortLayer < UILayer)
+		{
+			continue;
+		}
+		if (go->IsActive())
+		{
+			go->OnGUI(window);
+		}
+	}
+}

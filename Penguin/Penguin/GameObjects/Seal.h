@@ -1,11 +1,13 @@
 #pragma once
 #include "SpriteGO.h"
 #include <Animator.h>
+#include <BoxCollider.h>
 class Seal : public SpriteGO
 {
 protected:
 	float time = 0;
 	Animator* animator = nullptr;
+	BoxCollider* collider = nullptr;
 public:
 	Seal();
 	// GameObject을(를) 통해 상속됨

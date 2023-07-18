@@ -1,9 +1,11 @@
 "RESOURCE_Types(0. Texture, 1. Font, 2.SoundClip, 3. AnimationClip)",RESOURCE_PATH
 0,graphics/Penta.png
-2,sound/sfx/6_Jump.wav
 0,graphics/tempBG.png
 0,graphics/SliceSpriteTest.png
 0,graphics/IceHole.png
 2,sound/bg/2_MainBgm.ogg
 0,graphics/Crevasse.png
 0,graphics/Seal.png
+2,sound/sfx/2_Collided_High.wav
+2,sound/sfx/3_Collided_Low.wav
+2,sound/sfx/6_Jump.wav

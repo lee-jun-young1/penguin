@@ -38,6 +38,7 @@ public:
 
 	virtual void Update(float dt);
 	virtual void Draw(sf::RenderWindow& window);
+	virtual void OnGUI(sf::RenderWindow& window);
 
 	GameObject(const std::string& name = "");
 	virtual ~GameObject();

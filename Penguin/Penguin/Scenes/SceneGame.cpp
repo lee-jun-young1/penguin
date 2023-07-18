@@ -38,6 +38,7 @@ void SceneGame::Enter()
 	Scene::Enter();
 	Reset();
 
+
 	//test->SetTexture(*RESOURCE_MANAGER.GetTexture("graphics/SliceSpriteTest.png"), { 10, 6, 20, 2 }, { 0, 0, 40, 13 });
 }
 
@@ -49,6 +50,7 @@ void SceneGame::Reset()
 	}
 	AudioSource* bgm = (AudioSource*)FindGameObject("Background")->GetComponent(ComponentType::Audio);
 	bgm->SetClip(RESOURCE_MANAGER.GetSoundBuffer("sound/bg/2_MainBgm.ogg"));
+	bgm->SetLoop(true);
 	bgm->Play();
 }
 
@@ -73,32 +75,58 @@ void SceneGame::Init()
 	//st->SetText("ANTARCTIC ADVENTURE");
 
 	Penta* player = (Penta*)AddGameObject(new Penta("graphics/Penta.png", "Player"));
+	player->sortLayer = 2;
+	player->physicsLayer = (int)PhysicsLayer::Player;
 	Animator* animator = new Animator(*player);
 	player->AddComponent(animator);
 	player->SetAnimator(animator);
-	player->sortLayer = 2;
 	RigidBody2D* playerRig = new RigidBody2D(*player);
+	player->SetRigidBody(playerRig);
 	player->AddComponent(playerRig);
 	BoxCollider* playerCol = new BoxCollider(*player);
 	playerCol->SetRigidbody(playerRig);
 	player->AddComponent(playerCol);
 	player->SetPosition(100.0f, 100.0f);
 
+
+
 	RectangleShapeGO* ground = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
+	ground->physicsLayer = (int)PhysicsLayer::Ground;
 	BoxCollider* boxCol = new BoxCollider(*ground);
 	ground->SetSize({ FRAMEWORK.GetWindowSize().x, 100.0f });
 	ground->SetPosition({ 0.0f, 165.0f });
 	boxCol->SetRect({ 0.0f, 165.0f, FRAMEWORK.GetWindowSize().x, 100.0f });
 	ground->AddComponent(boxCol);
 
+
+
+	GameObject* wall = (GameObject*)AddGameObject(new GameObject("Wall"));
+	wall->physicsLayer = (int)PhysicsLayer::Wall;
+	wall->SetPosition({ 0.0f, 0.0f });
+
+	BoxCollider* leftWallCol = new BoxCollider(*wall);
+	leftWallCol->SetRect({ 0.0f, 0.0f, 10.0f, FRAMEWORK.GetWindowSize().y });
+	wall->AddComponent(leftWallCol);
+
+	BoxCollider* rightWallCol = new BoxCollider(*wall);
+	rightWallCol->SetRect({ 0.0f, 0.0f,  10.0f, FRAMEWORK.GetWindowSize().y });
+	rightWallCol->SetOffset({ FRAMEWORK.GetWindowSize().x - 10.0f, 0.0f });
+	sf::Vector2f offset = rightWallCol->GetOffset();
+	wall->AddComponent(rightWallCol);
+
+
 	Seal* testSeal = (Seal*)AddGameObject(new Seal());
+	testSeal->physicsLayer = 5;
 	testSeal->sortOrder = 2;
 	Animator* sealAnimator = new Animator(*testSeal);
 	testSeal->AddComponent(sealAnimator);
 	testSeal->SetAnimator(sealAnimator);
+
 	IceHole* testIceHole = (IceHole*)AddGameObject(new IceHole());
 	testIceHole->SetSeal(testSeal);
+
 	Crevasse* testCrevasse = (Crevasse*)AddGameObject(new Crevasse());
+	testCrevasse->physicsLayer = 5;
 	
 	for (auto go : gameObjects)
 	{

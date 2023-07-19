@@ -5,10 +5,16 @@
 #include <Utils.h>
 #include <SceneGame.h>
 #include <SceneManager.h>
+#include "ObstacleManager.h"
 
 Crevasse::Crevasse(const std::string& textureID, sf::Rect<float> centerRect, sf::Rect<float> size)
 	:SlicedSpriteGO(textureID, centerRect, size)
 {
+}
+
+void Crevasse::SetManager(ObstacleManager* manager)
+{
+	this->manager = manager;
 }
 
 void Crevasse::Init()
@@ -17,6 +23,7 @@ void Crevasse::Init()
 
 	center = new GameObject("CrevasseCenter");
 	center->physicsLayer = 5;
+	center->SetParent(this);
 	centerCol = new BoxCollider(*center);
 	centerCol->SetTrigger(true);
 	centerCol->SetRect({ 20.0f, 0.0f, 40.0f, 8.0f });
@@ -24,6 +31,7 @@ void Crevasse::Init()
 	center->AddComponent(centerCol);
 
 	side = new GameObject("CrevasseSide");
+	side->SetParent(this);
 	side->physicsLayer = 5;
 	leftCol = new BoxCollider(*side);
 	leftCol->SetTrigger(true);
@@ -46,11 +54,13 @@ void Crevasse::Release()
 void Crevasse::Reset()
 {
 	SlicedSpriteGO::Reset();
-	size = { 60.0f, 0.0f };
+	size = sizeMin;
 	SetSize(size);
 	SetOrigin(Origins::BC);
 	SetPosition({ FRAMEWORK.GetWindowSize().x * 0.6f, 60.0f });
 	time = 0.0f;
+	center->SetActive(false);
+	side->SetActive(false);
 }
 
 void Crevasse::SetDirection(sf::Vector2f startPos, sf::Vector2f endPos)
@@ -61,14 +71,13 @@ void Crevasse::SetDirection(sf::Vector2f startPos, sf::Vector2f endPos)
 
 void Crevasse::Update(float dt)
 {
-	time += dt * speed;
+	time += dt * manager->GetSpeed();
 
-	size.x += dt * 5.0f;
-	size.y += dt;
+	size = Utils::Lerp(sizeMin, sizeMax, time, false);
 	SetSize(size);
 	SetPosition(Utils::Lerp(startPos, endPos, time, false));
 	
-	if (time > 0.0f)
+	if (time > 1.0f)
 	{
 		center->SetPosition(position);
 		side->SetPosition(position);
@@ -114,8 +123,8 @@ void Crevasse::SetSize(sf::Vector2f size)
 {
 	SlicedSpriteGO::SetSize(size);
 	SetOrigin(Origins::BC);
-	centerCol->SetRect({ position.x, position.y, size.x * 0.5f, size.y });
-	centerCol->SetOffset({ size.x * -0.25f, -size.y });
+	centerCol->SetRect({ position.x, position.y, size.x * 0.4f, size.y });
+	centerCol->SetOffset({ size.x * -0.2f, -size.y });
 
 	leftCol->SetRect({ position.x, position.y, size.x * 0.15f, size.y });
 	leftCol->SetOffset({ size.x * -0.5f, -size.y });

@@ -1,9 +1,15 @@
 #include "stdafx.h"
 #include "Seal.h"
+#include "ObstacleManager.h"
 
 Seal::Seal()
 	:SpriteGO("graphics/Seal.png", "Seal")
 {
+}
+
+void Seal::SetManager(ObstacleManager* manager)
+{
+	this->manager = manager;
 }
 
 void Seal::Init()
@@ -50,14 +56,16 @@ void Seal::Reset()
 void Seal::Update(float dt)
 {
 	SpriteGO::Update(dt);
-	time += dt;
-	int intTime = time;
-	if (intTime >= 2)
+	time += dt * manager->GetSpeed();
+	if (time >= 1.0f)
 	{
-		animator->SetEvent("Pop");
 		collider->SetEnable(true);
 	}
-	else if (intTime >= 1)
+	else if (time >= 0.8f)
+	{
+		animator->SetEvent("Pop");
+	}
+	else if (time >= 0.4f)
 	{
 		animator->SetEvent("Ready");
 	}

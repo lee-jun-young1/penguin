@@ -78,13 +78,19 @@ void Framework::Run()
     float fpsTime = 0.0f;
     int fps = 0;
 
+    sf::Vector2i prevWindowPosition;
 
     while (window.isOpen())
     {
         sf::Time deltaTime = clock.restart();
         float dt = deltaTime.asSeconds();
+        if (prevWindowPosition != window.getPosition())
+        {
+            dt = 0.0f;
+        }
 
         INPUT.Update(dt);
+        prevWindowPosition = window.getPosition();
 
         sf::Event event;
         while (window.pollEvent(event))

@@ -3,10 +3,18 @@
 #include "Animator.h"
 #include <AudioSource.h>
 
+enum class State
+{
+	Move,
+	Jump,
+	InHole,
+	Hit,
+};
+
 class Penta : public SpriteGO
 {
 protected:
-	bool isJump = false;
+	State state = State::Move;
 	Animator* animator = nullptr;
 	sf::Vector2f direction;
 	float speed = 50.0f; 
@@ -17,6 +25,8 @@ protected:
 	sf::SoundBuffer* HitHighSound;
 	sf::SoundBuffer* HitLowSound;
 	RigidBody2D* rigidBody;
+
+	GameObject* crevasse;
 
 	std::function<void(float)> stateUpdate;
 public:

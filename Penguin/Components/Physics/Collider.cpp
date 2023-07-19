@@ -81,7 +81,6 @@ sf::Vector2f Collider::GetOffset()
 
 void Collider::OnCollisionEnter(Collider* col)
 {
-	cout << "OnCollisionEnter!!" << endl;
 	if (!isTrigger && !col->isTrigger && rigidbody != nullptr)
 	{
 		sf::Vector2f normal = GetNormal(col);
@@ -122,7 +121,6 @@ void Collider::OnCollisionStay(Collider* col)
 
 void Collider::OnCollisionExit(Collider* col)
 {
-	std::cout << "OnCollisionExit" << std::endl;
 	//sf::Vector2f thisVelocity = col->GetRigidBody()->GetVelocity();
 	//sf::Vector2f colVelocity = col->GetRigidBody()->GetVelocity();
 
@@ -170,6 +168,10 @@ void Collider::Update(float deltaTime)
 		{
 			break;
 		}
+		if (!(*curIt)->IsEnable())
+		{
+			continue;
+		}
 		for (auto it = prevCollideList.begin(); it != prevCollideList.end(); it++)
 		{
 			if (it == prevCollideList.end())
@@ -195,16 +197,10 @@ void Collider::Update(float deltaTime)
 		{
 			if (isTrigger) 
 			{
-				cout << "TriggerEnter" << endl;
-				cout << GetGameObject().GetName() << endl;
-				cout << (*curIt)->GetGameObject().GetName() << endl;
 				OnTriggerEnter(*curIt);
 			}
 			else
 			{
-				cout << "Enter" << endl;
-				cout << GetGameObject().GetName() << endl;
-				cout << (*curIt)->GetGameObject().GetName() << endl;
 				OnCollisionEnter(*curIt);
 			}
 		}

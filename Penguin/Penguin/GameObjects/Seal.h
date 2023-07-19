@@ -2,14 +2,20 @@
 #include "SpriteGO.h"
 #include <Animator.h>
 #include <BoxCollider.h>
+
+class ObstacleManager;
+
 class Seal : public SpriteGO
 {
 protected:
+	ObstacleManager* manager;
+
 	float time = 0;
 	Animator* animator = nullptr;
 	BoxCollider* collider = nullptr;
 public:
 	Seal();
+	void SetManager(ObstacleManager* manager);
 	// GameObject을(를) 통해 상속됨
 	virtual void Init() override;
 	virtual void Release() override;

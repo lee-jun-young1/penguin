@@ -6,10 +6,16 @@
 #include <SceneManager.h>
 #include <SceneGame.h>
 #include <Utils.h>
+#include "ObstacleManager.h"
 
 IceHole::IceHole(const std::string& textureID, sf::Rect<float> centerRect, sf::Rect<float> size)
 	:SlicedSpriteGO(textureID, centerRect, size, "IceHole")
 {
+}
+
+void IceHole::SetManager(ObstacleManager* manager)
+{
+	this->manager = manager;
 }
 
 void IceHole::OnTriggerEnter(Collider* col)
@@ -48,7 +54,7 @@ void IceHole::Init()
 void IceHole::Reset()
 {
 	SlicedSpriteGO::Reset();
-	size = { 27.0f, 0.0f };
+	size = sizeMin;
 	SetSize(size);
 	SetPosition({ FRAMEWORK.GetWindowSize().x * 0.4f, 60.0f });
 	collider->SetEnable(false);
@@ -57,20 +63,20 @@ void IceHole::Reset()
 
 void IceHole::Update(float dt)
 {
-	time += dt * speed;
+	time += dt * manager->GetSpeed();
 
-	SlicedSpriteGO::Update(dt);
-	size.x += dt;
-	size.y += dt;
+	size = Utils::Lerp(sizeMin, sizeMax, time, false);
 	SetSize(size);
 	SetPosition(Utils::Lerp(startPos, endPos, time, false));
 	if (position.y > 160.0f)
 	{
 		collider->SetEnable(true);
 	}
+	SlicedSpriteGO::Update(dt);
 	if (seal != nullptr)
 	{
-		seal->SetPosition({ position.x + size.x * 0.5f, position.y + size.y * 0.5f});
+		//seal->SetPosition({position.x + size.x * 0.5f,  position.y + size.y * 0.5f});
+		seal->SetPosition({ position.x,  position.y - size.y * 0.5f });
 	}
 }
 
@@ -85,4 +91,9 @@ void IceHole::SetSize(sf::Vector2f size)
 void IceHole::SetSeal(Seal* seal)
 {
 	this->seal = seal;
+}
+
+Seal* IceHole::GetSeal()
+{
+	return seal;
 }

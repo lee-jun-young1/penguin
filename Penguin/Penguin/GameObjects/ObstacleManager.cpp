@@ -1,9 +1,21 @@
 #include "stdafx.h"
 #include "ObstacleManager.h"
 #include <SceneManager.h>
-
+#include "InputManager.h"
 void ObstacleManager::Init()
 {
+	crevassePool.OnCreate = [this](Crevasse* crevasse) { crevasse->SetManager(this); };
+	iceHolePool.OnCreate = [this](IceHole* iceHole) 
+	{
+		iceHole->SetManager(this);
+		if (Utils::RandomRange(0, 2) == 1)
+		{
+			Seal* seal = new Seal();
+			seal->Init();
+			iceHole->SetSeal(seal);
+			seal->SetManager(this);
+		}
+	};
 	crevassePool.Init(20);
 	iceHolePool.Init(20);
 }
@@ -20,7 +32,7 @@ void ObstacleManager::Reset()
 
 void ObstacleManager::Update(float dt)
 {
-	time += dt;
+	time += dt * GetSpeed() * 5.0f;
 	if (time > cycle)
 	{
 		time -= cycle;
@@ -42,6 +54,12 @@ void ObstacleManager::Update(float dt)
 			IceHole* iceHole = &GetIceHole();
 			iceHole->SetDirection({ Utils::RandomRange(startXRange.x, startXRange.y), startY }, { Utils::RandomRange(endXRange.x, endXRange.y), endY });
 			SCENE_MANAGER.GetCurrentScene()->AddGameObject(iceHole );
+			Seal* seal = iceHole->GetSeal();
+			if (seal != nullptr)
+			{
+				SCENE_MANAGER.GetCurrentScene()->AddGameObject(seal);
+				seal->Reset();
+			}
 		}
 			break;
 		}
@@ -61,6 +79,7 @@ void ObstacleManager::Update(float dt)
 			iceHolePool.Return(iceHole);
 		}
 	}
+
 }
 
 void ObstacleManager::Draw(sf::RenderWindow& window)
@@ -78,6 +97,7 @@ Crevasse& ObstacleManager::GetCrevasse()
 
 void ObstacleManager::ReturnCrevasse(Crevasse* crevasse)
 {
+	SCENE_MANAGER.GetCurrentScene()->RemoveGameObject(crevasse);
 	crevassePool.Return(crevasse);
 }
 
@@ -88,6 +108,11 @@ IceHole& ObstacleManager::GetIceHole()
 
 void ObstacleManager::ReturnIceHole(IceHole* iceHole)
 {
+	if (iceHole->GetSeal() != nullptr)
+	{
+		SCENE_MANAGER.GetCurrentScene()->RemoveGameObject(iceHole->GetSeal());
+	}
+	SCENE_MANAGER.GetCurrentScene()->RemoveGameObject(iceHole);
 	iceHolePool.Return(iceHole);
 }
 

@@ -9,7 +9,7 @@ bool Component::IsUnique()
 
 bool Component::IsEnable()
 {
-	return isEnable;
+	return isEnable && gameObject.IsActive();
 }
 
 void Component::SetEnable(bool isEnable)

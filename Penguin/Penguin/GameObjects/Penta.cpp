@@ -6,6 +6,8 @@
 #include <BoxCollider.h>
 #include <Utils.h>
 #include "AnimationClip.h"
+#include <SceneGame.h>
+#include <SceneManager.h>
 
 void Penta::SetAnimator(Animator* animator)
 {
@@ -36,9 +38,10 @@ void Penta::Init()
 void Penta::Reset()
 {
 	animator->SetState("Move");
+	state = State::Move;
 	animator->Play();
 	SetOrigin(origin);
-	SetPosition(FRAMEWORK.GetWindowSize().x * 0.5f, 150.0f);
+	SetPosition(FRAMEWORK.GetWindowSize().x * 0.5f, 165.0f);
 	spriteDirection = { 1.0f, 0.0f };
 	direction.y = 1.0f;
 	jumpSound = RESOURCE_MANAGER.GetSoundBuffer("sound/sfx/6_Jump.wav");
@@ -51,7 +54,7 @@ void Penta::Reset()
 	hitClip.frames[0].action =
 		[this]()
 	{
-		if (!isJump)
+		if (state == State::Move)
 		{
 			rigidBody->AddForce({ 0.0f, -40.0f });
 		}
@@ -78,15 +81,39 @@ void Penta::Reset()
 		animator->SetEvent("HitEnd");
 		SetFlipX(false);
 		stateUpdate = std::bind(&Penta::UpdateMove, this, std::placeholders::_1);
+		state = State::Move;
 	};
 
 	AnimationClip& CrevasseIdle = animator->GetState("CrevasseIdle")->clip;
+	CrevasseIdle.frames[0].action =
+		[this]()
+	{
+		SetOrigin(GetSize().x * 0.5f, GetSize().y * 0.75f);
+	};
 	CrevasseIdle.frames[4].action =
 		[this]()
 	{
 		animator->SetEvent("Move");
 	};
 	AnimationClip& CrevasseMove = animator->GetState("CrevasseMove")->clip;
+	CrevasseMove.frames[0].action =
+		[this]()
+	{
+		SetOrigin(Origins::BC);
+	};
+	for (int i = 1; i < CrevasseMove.frames.size() - 1; i += 2)
+	{
+		CrevasseMove.frames[i].action =
+			[this]()
+		{
+			SetOrigin(GetSize().x * 0.5f, GetSize().y * 0.9f);
+		};
+		CrevasseMove.frames[i + 1].action =
+			[this]()
+		{
+			SetOrigin(Origins::BC);
+		};
+	}
 	CrevasseMove.frames[11].action =
 		[this]()
 	{
@@ -117,22 +144,42 @@ void Penta::UpdateHit(float deltaTime)
 }
 void Penta::UpdateCrevasse(float deltaTime)
 {
+	SetPosition(position.x, crevasse->GetPosition().y);
 	if (INPUT.GetKeyDown(sf::Keyboard::Space) && animator->GetClipName() == "CrevasseMove")
 	{
 		animator->SetEvent("Escape");
+		state = State::Move;
+		SetPosition(position.x, 165.0f);
+		SetOrigin(Origins::BC);
 		stateUpdate = std::bind(&Penta::UpdateMove, this, std::placeholders::_1);
+
+		Scene* scene = SCENE_MANAGER.GetCurrentScene();
+		SceneGame* gameScene = dynamic_cast<SceneGame*>(scene);
+		gameScene->GetObstacleManager()->SetSpeedLevel(1);
 	}
 }
 void Penta::UpdateMove(float deltaTime)
 {
-	if (!isJump && INPUT.GetKeyDown(sf::Keyboard::Space))
+	if (INPUT.GetKeyDown(sf::Keyboard::Up))
+	{
+		Scene* scene = SCENE_MANAGER.GetCurrentScene();
+		SceneGame* gameScene = dynamic_cast<SceneGame*>(scene);
+		gameScene->GetObstacleManager()->IncreaseSpeedLevel();
+	}
+	if (INPUT.GetKeyDown(sf::Keyboard::Down))
+	{
+		Scene* scene = SCENE_MANAGER.GetCurrentScene();
+		SceneGame* gameScene = dynamic_cast<SceneGame*>(scene);
+		gameScene->GetObstacleManager()->DecreaseSpeedLevel();
+	}
+	if (state == State::Move && INPUT.GetKeyDown(sf::Keyboard::Space))
 	{
 		//Jump
 		rigidBody->AddForce({ 0.0f, -100.0f });
 		animator->SetEvent("Jump");
 		audio->SetClip(jumpSound);
-		audio->Play();
-		isJump = true;
+		audio->Play(); 
+		state = State::Jump;
 	}
 	Vector2f axis = { INPUT.GetAxis(Axis::Horizontal), 0.0f };
 
@@ -157,37 +204,46 @@ void Penta::Draw(sf::RenderWindow& window)
 
 void Penta::OnCollisionEnter(Collider* col)
 {
-	if (col->GetGameObject().GetName() == "Seal")
+	if (state == State::Move || state == State::Jump || state == State::Hit)
 	{
-		col->GetGameObject().GetName();
+		if (col->GetGameObject().GetName() == "Seal" || (col->GetGameObject().GetName() == "IceHole" || col->GetGameObject().GetName() == "CrevasseSide" && rigidBody->GetVelocity().y >= 0.0f))
+		{
+			animator->SetEvent("Hit");
+			state = State::Hit;
+			if (position.x < col->GetGameObject().GetPosition().x)
+			{
+				direction.x = -1.0f;
+				SetFlipX(false);
+			}
+			else
+			{
+				direction.x = 1.0f;
+				SetFlipX(true);
+			}
+			stateUpdate = std::bind(&Penta::UpdateHit, this, std::placeholders::_1);
+			Scene* scene = SCENE_MANAGER.GetCurrentScene();
+			SceneGame* gameScene = dynamic_cast<SceneGame*>(scene);
+			gameScene->GetObstacleManager()->SetSpeedLevel(1);
+		}
+		else if (col->GetGameObject().GetName() == "CrevasseCenter" && rigidBody->GetVelocity().y >= 0.0f)
+		{
+			animator->SetEvent("Crevasse");
+			crevasse = col->GetGameObject().GetParent();
+			state = State::InHole;
+			rigidBody->SetVelocity({ 0.0f, 0.0f });
+			direction.x = 0.0f;
+			stateUpdate = std::bind(&Penta::UpdateCrevasse, this, std::placeholders::_1);
+
+			Scene* scene = SCENE_MANAGER.GetCurrentScene();
+			SceneGame* gameScene = dynamic_cast<SceneGame*>(scene);
+			gameScene->GetObstacleManager()->SetSpeedLevel(0); 
+		}
 	}
-	if (col->GetGameObject().GetName() == "Ground")
+	if (state == State::Jump && col->GetGameObject().GetName() == "Ground")
 	{
-		isJump = false;
+		state = State::Move;
 		animator->SetEvent("Move");
 	}
 
-	if ((animator->GetClipName() != "CrevasseIdle" && animator->GetClipName() != "CrevasseMove")&& (col->GetGameObject().GetName() == "IceHole" || col->GetGameObject().GetName() == "Seal" || col->GetGameObject().GetName() == "CrevasseSide"))
-	{
-		animator->SetEvent("Hit");
-		if (position.x < col->GetGameObject().GetPosition().x)
-		{
-			direction.x = -1.0f;
-			SetFlipX(false);
-		}
-		else
-		{
-			direction.x = 1.0f;
-			SetFlipX(true);
-		}
-		stateUpdate = std::bind(&Penta::UpdateHit, this, std::placeholders::_1);
-
-	}
-	if (col->GetGameObject().GetName() == "CrevasseCenter")
-	{
-		animator->SetEvent("Crevasse");
-		rigidBody->SetVelocity({ 0.0f, 0.0f });
-		direction.x = 0.0f;
-		stateUpdate = std::bind(&Penta::UpdateCrevasse, this, std::placeholders::_1);
-	}
+	
 }

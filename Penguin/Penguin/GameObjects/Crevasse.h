@@ -1,9 +1,15 @@
 #pragma once
 #include "SlicedSpriteGO.h"
 #include "BoxCollider.h"
+class ObstacleManager;
+
 class Crevasse : public SlicedSpriteGO
 {
 protected:
+	ObstacleManager* manager;
+
+	const sf::Vector2f sizeMin = { 60.0f, 0.0f };
+	const sf::Vector2f sizeMax = { 160.0f, 16.0f };
 	sf::Vector2f size;
 	GameObject* center;
 	GameObject* side; 
@@ -17,7 +23,8 @@ protected:
 	float speed = 0.2f;
 	float time = 0.0f;
 public:
-	Crevasse(const std::string& textureID = "graphics/Crevasse.png", sf::Rect<float> centerRect = { 23, 4, 81, 0 }, sf::Rect<float> size = { 0, 0, 100, 8 });
+	Crevasse(const std::string& textureID = "graphics/Crevasse.png", sf::Rect<float> centerRect = { 32, 2, 96, 13 }, sf::Rect<float> size = { 0, 0, 160, 16 });
+	void SetManager(ObstacleManager* manager);
 	// GameObject을(를) 통해 상속됨
 	virtual void Init() override;
 	virtual void Release() override;

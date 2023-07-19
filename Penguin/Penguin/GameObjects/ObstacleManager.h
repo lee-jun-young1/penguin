@@ -14,14 +14,14 @@ private:
 	float cycle = 1.0f;
 	float time = 0.0f;
 
-	float speed = 0.2f;
-	int speedLevelMax = 5;
+	float speed = 0.1f;
+	int speedLevelMax = 10;
 	int speedLevel = 1;
 
 	sf::Vector2f startXRange = { FRAMEWORK.GetWindowSize().x * 0.4f, FRAMEWORK.GetWindowSize().x * 0.6f };
 	float startY = 60.0f;
 	sf::Vector2f endXRange = { FRAMEWORK.GetWindowSize().x * 0.2f, FRAMEWORK.GetWindowSize().x * 0.8f };
-	float endY = 180.0f;
+	float endY = 165.0f;
 public:
 
 	virtual void Init() override;
@@ -41,6 +41,8 @@ public:
 	void ReturnAll();
 
 	float GetSpeed() { return speed * speedLevel; };
-	void SetSpeedLevel(int i) { speedLevel = Utils::Clamp(speedLevel, 0, speedLevelMax); };
+	void IncreaseSpeedLevel() { speedLevel = Utils::Clamp(speedLevel + 1, 0, speedLevelMax); };
+	void DecreaseSpeedLevel() { speedLevel = Utils::Clamp(speedLevel - 1, 0, speedLevelMax); };
+	void SetSpeedLevel(int i) { speedLevel = Utils::Clamp(i, 0, speedLevelMax); };
 };
 

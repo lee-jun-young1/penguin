@@ -69,6 +69,11 @@ void VertexArrayGO::SetOrigin(float originX, float originY)
 	}
 }
 
+void VertexArrayGO::DrawRenderTexture(sf::RenderTexture& renderTexture)
+{
+	renderTexture.draw(vertexArray, texture);
+}
+
 
 void VertexArrayGO::Init()
 {

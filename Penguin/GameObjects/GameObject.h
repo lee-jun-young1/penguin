@@ -12,6 +12,7 @@ protected:
 	bool isActive = true;//true : Run Update(), Draw()
 	Origins origin;
 	list<Component*> components;
+	GameObject* parent;
 public:
 	int sortLayer = 0;
 	int sortOrder = 0;
@@ -19,6 +20,9 @@ public:
 
 	bool IsActive() const;
 	void SetActive(bool active);
+
+	void SetParent(GameObject* parent) { this->parent = parent; }
+	GameObject* GetParent() { return parent; }
 
 	string GetName();
 	virtual void SetName(const std::string& name);

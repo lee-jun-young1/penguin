@@ -74,6 +74,7 @@ void Framework::Run()
     fpsViewer.SetOrigin(Origins::TL);
     fpsViewer.SetPosition(0.0f, 0.0f);
     fpsViewer.SetActive(false);
+    fpsViewer.SetFillColor(sf::Color::Green);
 
     float fpsTime = 0.0f;
     int fps = 0;

@@ -69,10 +69,6 @@ void SceneGame::Init()
 	AudioSource* bgm = new AudioSource(*bg);
 	bg->AddComponent(bgm);
 
-	//SpriteFont* font = new SpriteFont("fonts/SpriteFont_Data.csv");
-	//SpriteTextGO* st = (SpriteTextGO*)AddGameObject(new SpriteTextGO());
-	//st->SetFont(font);
-	//st->SetText("ANTARCTIC ADVENTURE");
 
 	Penta* player = (Penta*)AddGameObject(new Penta("graphics/Penta.png", "Player"));
 	player->sortLayer = 2;
@@ -93,7 +89,7 @@ void SceneGame::Init()
 	RectangleShapeGO* ground = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
 	ground->physicsLayer = (int)PhysicsLayer::Ground;
 	BoxCollider* boxCol = new BoxCollider(*ground);
-	ground->SetSize({ FRAMEWORK.GetWindowSize().x, 100.0f });
+	ground->SetSize({ FRAMEWORK.GetWindowSize().x, 40.0f });
 	ground->SetPosition({ 0.0f, 165.0f });
 	boxCol->SetRect({ 0.0f, 165.0f, FRAMEWORK.GetWindowSize().x, 100.0f });
 	ground->AddComponent(boxCol);
@@ -116,7 +112,18 @@ void SceneGame::Init()
 
 
 	obstacleManager = (ObstacleManager*)AddGameObject(new ObstacleManager());
-	
+
+	SpriteFont* font = new SpriteFont("fonts/SpriteFont_Data.csv");
+	SpriteTextGO* speedText = (SpriteTextGO*)AddGameObject(new SpriteTextGO("SpeedText"));
+	speedText->SetFont(font);
+	speedText->SetText("SPEED");
+	speedText->SetPosition(FRAMEWORK.GetWindowSize().x - 80.0f, -20.0f);
+
+	SpriteTextGO* st = (SpriteTextGO*)AddGameObject(new SpriteTextGO());
+	st->SetFont(font);
+	st->SetText("ANTARCTIC ADVENTURE DEMO");
+	st->SetPosition(15.0f, -45.0f);
+
 	for (auto go : gameObjects)
 	{
 		go->Init();

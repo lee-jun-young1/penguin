@@ -181,7 +181,7 @@ void Penta::UpdateMove(float deltaTime)
 		audio->Play(); 
 		state = State::Jump;
 	}
-	Vector2f axis = { INPUT.GetAxis(Axis::Horizontal), 0.0f };
+	Vector2f axis = { INPUT.GetAxisRaw(Axis::Horizontal), 0.0f };
 
 	if (Utils::SqrMagnitude(axis) != 0.0f)
 	{

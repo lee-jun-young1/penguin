@@ -14,8 +14,9 @@ private:
 	float cycle = 1.0f;
 	float time = 0.0f;
 
-	float speed = 0.1f;
-	int speedLevelMax = 10;
+	const float defaultSpeed = 0.3f;
+	float speed = 0.05f;
+	const int speedLevelMax = 12;
 	int speedLevel = 1;
 
 	sf::Vector2f startXRange = { FRAMEWORK.GetWindowSize().x * 0.4f, FRAMEWORK.GetWindowSize().x * 0.6f };
@@ -40,9 +41,9 @@ public:
 
 	void ReturnAll();
 
-	float GetSpeed() { return speed * speedLevel; };
-	void IncreaseSpeedLevel() { speedLevel = Utils::Clamp(speedLevel + 1, 0, speedLevelMax); };
-	void DecreaseSpeedLevel() { speedLevel = Utils::Clamp(speedLevel - 1, 0, speedLevelMax); };
-	void SetSpeedLevel(int i) { speedLevel = Utils::Clamp(i, 0, speedLevelMax); };
+	float GetSpeed() { return speedLevel == 0 ? 0.0f : defaultSpeed + (speed * speedLevel); };
+	void IncreaseSpeedLevel();
+	void DecreaseSpeedLevel();
+	void SetSpeedLevel(int i);
 };
 

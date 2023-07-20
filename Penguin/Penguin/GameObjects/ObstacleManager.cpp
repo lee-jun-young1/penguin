@@ -2,6 +2,8 @@
 #include "ObstacleManager.h"
 #include <SceneManager.h>
 #include "InputManager.h"
+#include <SpriteTextGO.h>
+#include <sstream>
 void ObstacleManager::Init()
 {
 	crevassePool.OnCreate = [this](Crevasse* crevasse) { crevasse->SetManager(this); };
@@ -28,15 +30,16 @@ void ObstacleManager::Release()
 
 void ObstacleManager::Reset()
 {
+	SetSpeedLevel(4);
 }
 
 void ObstacleManager::Update(float dt)
 {
-	time += dt * GetSpeed() * 5.0f;
+	time += dt * GetSpeed() * 2.0f;
 	if (time > cycle)
 	{
 		time -= cycle;
-		int random = Utils::RandomRange(0, 3);
+		int random = Utils::RandomRange(0, 4);
 		switch (random)
 		{
 		case 0:
@@ -119,4 +122,31 @@ void ObstacleManager::ReturnIceHole(IceHole* iceHole)
 void ObstacleManager::ReturnAll()
 {
 
+}
+
+void ObstacleManager::IncreaseSpeedLevel()
+{
+	speedLevel = Utils::Clamp(++speedLevel, 0, speedLevelMax);
+	SpriteTextGO* speedText = (SpriteTextGO*)SCENE_MANAGER.GetCurrentScene()->FindGameObject("SpeedText");
+	stringstream ss;
+	ss << "SPEED " << speedLevel;
+	speedText->SetText(ss.str());
+}
+
+void ObstacleManager::DecreaseSpeedLevel()
+{
+	speedLevel = Utils::Clamp(--speedLevel, 1, speedLevelMax);
+	SpriteTextGO* speedText = (SpriteTextGO*)SCENE_MANAGER.GetCurrentScene()->FindGameObject("SpeedText");
+	stringstream ss;
+	ss << "SPEED " << speedLevel;
+	speedText->SetText(ss.str());
+}
+
+void ObstacleManager::SetSpeedLevel(int i)
+{
+	speedLevel = Utils::Clamp(i, 0, speedLevelMax);
+	SpriteTextGO* speedText = (SpriteTextGO*)SCENE_MANAGER.GetCurrentScene()->FindGameObject("SpeedText");
+	stringstream ss;
+	ss << "SPEED " << speedLevel;
+	speedText->SetText(ss.str());
 }

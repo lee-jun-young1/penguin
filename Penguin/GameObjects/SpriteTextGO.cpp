@@ -36,6 +36,8 @@ void SpriteTextGO::SetText(std::string text)
 		}
 		offset.x += (float)data.rect.width;
 	}
+
+	SetPosition(position);
 }
 
 void SpriteTextGO::SetFont(SpriteFont* font)

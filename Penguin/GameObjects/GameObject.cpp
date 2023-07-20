@@ -8,7 +8,15 @@ bool GameObject::IsActive() const
 
 void GameObject::SetActive(bool active)
 {
+	if (isActive == active)
+	{
+		return;
+	}
 	isActive = active;
+	for (auto component : components)
+	{
+		active ? component->OnGameObjectEnable() : component->OnGameObjectDisable();
+	}
 }
 
 string GameObject::GetName()

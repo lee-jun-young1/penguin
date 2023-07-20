@@ -61,3 +61,11 @@ void AudioSource::OnAudioGroupVolumeChange()
 {
 	soundStream.setVolume(volume * audioGroup->GetVolume() * 0.01f);
 }
+
+void AudioSource::OnGameObjectEnable()
+{
+}
+
+void AudioSource::OnGameObjectDisable()
+{
+}

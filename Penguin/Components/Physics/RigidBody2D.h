@@ -30,4 +30,8 @@ public:
 	void OnTriggerEnter();
 	void OnTriggerStay();
 	void OnTriggerExit(sf::Vector2f normal);
+
+	// Component을(를) 통해 상속됨
+	virtual void OnGameObjectEnable() override;
+	virtual void OnGameObjectDisable() override;
 };

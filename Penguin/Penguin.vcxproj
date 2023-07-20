@@ -228,6 +228,7 @@
     <ClInclude Include="Components\Physics\BoxCollider.h" />
     <ClInclude Include="Components\Physics\Collider.h" />
     <ClInclude Include="Components\Component.h" />
+    <ClInclude Include="Penguin\GameObjects\CrevasseCenter.h" />
     <ClInclude Include="Penguin\GameObjects\ObstacleManager.h" />
     <ClInclude Include="Penguin\GameObjects\Crevasse.h" />
     <ClInclude Include="DataTables\DataTable.h" />

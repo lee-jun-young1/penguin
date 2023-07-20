@@ -129,3 +129,11 @@ void Animator::LoadFromFile(std::string path)
 		AddTransition(clipKeys[i], transitionKeys[i], { (bool)notAllowQuitTime[i], quitTime[i], GetState(enterAnimationState[i]), enterTime[i]});
 	}
 }
+
+void Animator::OnGameObjectEnable()
+{
+}
+
+void Animator::OnGameObjectDisable()
+{
+}

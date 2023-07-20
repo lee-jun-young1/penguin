@@ -28,4 +28,8 @@ public:
 	void SetLoop(bool isLoop);
 
 	void OnAudioGroupVolumeChange();
+
+	// Component을(를) 통해 상속됨
+	virtual void OnGameObjectEnable() override;
+	virtual void OnGameObjectDisable() override;
 };

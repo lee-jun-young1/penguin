@@ -1,6 +1,7 @@
 #pragma once
 #include "SlicedSpriteGO.h"
 #include "BoxCollider.h"
+#include "CrevasseCenter.h"
 class ObstacleManager;
 
 class Crevasse : public SlicedSpriteGO
@@ -11,7 +12,7 @@ protected:
 	const sf::Vector2f sizeMin = { 60.0f, 0.0f };
 	const sf::Vector2f sizeMax = { 160.0f, 16.0f };
 	sf::Vector2f size;
-	GameObject* center;
+	CrevasseCenter* center;
 	GameObject* side; 
 
 	BoxCollider* centerCol;

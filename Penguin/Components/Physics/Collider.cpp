@@ -136,10 +136,12 @@ void Collider::OnCollisionExit(Collider* col)
 
 void Collider::OnTriggerEnter(Collider* col)
 {
+	gameObject.OnTriggerEnter(col);
 }
 
 void Collider::OnTriggerStay(Collider* col)
 {
+	gameObject.OnTriggerStay(col);
 }
 
 void Collider::OnTriggerExit(Collider* col)
@@ -149,6 +151,7 @@ void Collider::OnTriggerExit(Collider* col)
 		sf::Vector2f normal = GetNormal(col);
 		rigidbody->OnTriggerExit(normal);
 	}
+	gameObject.OnTriggerExit(col);
 }
 
 void Collider::Init()
@@ -249,4 +252,30 @@ bool Collider::CheckAllCollide(list<Collider*>& colliderList)
 	}
 
 	return colliderList.size() > 0;
+}
+
+void Collider::SetEnable(bool isEnable)
+{
+	Component::SetEnable(isEnable);
+	bool preEnable = this->isEnable;
+	if (gameObject.IsActive() && preEnable != isEnable)
+	{
+		isEnable ? Physics.AddColliders(this, gameObject.physicsLayer) : Physics.RemoveColliders(this, gameObject.physicsLayer);
+	}
+}
+
+void Collider::OnGameObjectEnable()
+{
+	if (isEnable)
+	{
+		Physics.AddColliders(this, gameObject.physicsLayer);
+	}
+}
+
+void Collider::OnGameObjectDisable()
+{
+	if (isEnable)
+	{
+		Physics.RemoveColliders(this, gameObject.physicsLayer);
+	}
 }

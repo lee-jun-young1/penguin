@@ -157,3 +157,11 @@ void RigidBody2D::OnTriggerExit(sf::Vector2f normal)
 		isVerticalCollided = false;
 	}
 }
+
+void RigidBody2D::OnGameObjectEnable()
+{
+}
+
+void RigidBody2D::OnGameObjectDisable()
+{
+}

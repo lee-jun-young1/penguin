@@ -95,6 +95,7 @@ void ObstacleManager::OnGUI(sf::RenderWindow& window)
 
 Crevasse& ObstacleManager::GetCrevasse()
 {
+	cout << "crevassePool get :: " << crevassePool.GetUseList().size() + 1 << endl;
 	return *crevassePool.Get();
 }
 
@@ -102,10 +103,12 @@ void ObstacleManager::ReturnCrevasse(Crevasse* crevasse)
 {
 	SCENE_MANAGER.GetCurrentScene()->RemoveGameObject(crevasse);
 	crevassePool.Return(crevasse);
+	cout << "crevassePool return :: " << crevassePool.GetUseList().size() << endl;
 }
 
 IceHole& ObstacleManager::GetIceHole()
 {
+	cout << "iceHolePool get :: " << iceHolePool.GetUseList().size() + 1 << endl;
 	return *iceHolePool.Get();
 }
 
@@ -117,6 +120,8 @@ void ObstacleManager::ReturnIceHole(IceHole* iceHole)
 	}
 	SCENE_MANAGER.GetCurrentScene()->RemoveGameObject(iceHole);
 	iceHolePool.Return(iceHole);
+
+	cout << "iceHolePool return :: " << iceHolePool.GetUseList().size() << endl;
 }
 
 void ObstacleManager::ReturnAll()

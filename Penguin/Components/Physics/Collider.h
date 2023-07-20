@@ -44,11 +44,15 @@ public:
 
 	sf::Vector2f GetOffset();
 
-	// Collider을(를) 통해 상속됨
+	bool CheckAllCollide(std::list<Collider*>& colliderList);
+
+	// Component을(를) 통해 상속됨
 	virtual void Init() override;
 	virtual void Update(float deltaTime) override;
 	virtual void Draw(sf::RenderWindow& window) override;
 	virtual void Release() override;
 
-	bool CheckAllCollide(std::list<Collider*>& colliderList);
+	virtual void SetEnable(bool isEnable) override;
+	virtual void OnGameObjectEnable() override;
+	virtual void OnGameObjectDisable() override;
 };

@@ -23,5 +23,8 @@ public:
 	virtual void Draw(sf::RenderWindow& window) = 0;
 	virtual void Release() = 0;
 	virtual void OnGUI(sf::RenderWindow& window) {};
+
+	virtual void OnGameObjectEnable() = 0;
+	virtual void OnGameObjectDisable() = 0;
 };
 

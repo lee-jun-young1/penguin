@@ -19,7 +19,6 @@ struct Transition
 	int enterTime;
 };
 
-//FSM
 class Animator : public Animation
 {
 protected:
@@ -41,5 +40,9 @@ public:
 	virtual void Update(float dt) override;
 
 	void LoadFromFile(std::string path);
+
+	// Animation을(를) 통해 상속됨
+	virtual void OnGameObjectEnable() override;
+	virtual void OnGameObjectDisable() override;
 };
 

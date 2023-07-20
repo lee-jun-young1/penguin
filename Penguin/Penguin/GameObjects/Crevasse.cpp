@@ -21,7 +21,7 @@ void Crevasse::Init()
 {
 	physicsLayer = 5;
 
-	center = new GameObject("CrevasseCenter");
+	center = new CrevasseCenter("CrevasseCenter");
 	center->physicsLayer = 5;
 	center->SetParent(this);
 	centerCol = new BoxCollider(*center);

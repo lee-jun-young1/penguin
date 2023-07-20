@@ -30,7 +30,7 @@ void IceHole::OnTriggerExit(Collider* col)
 {
 	if (col->GetGameObject().GetName() == "Ground")
 	{
-		Scene* scene = SCENE_MANAGER.GetCurrentScene();
+ 		Scene* scene = SCENE_MANAGER.GetCurrentScene();
 		SceneGame* gameScene = dynamic_cast<SceneGame*>(scene);
 		gameScene->GetObstacleManager()->ReturnIceHole(this);
 	}
@@ -77,6 +77,13 @@ void IceHole::Update(float dt)
 	{
 		//seal->SetPosition({position.x + size.x * 0.5f,  position.y + size.y * 0.5f});
 		seal->SetPosition({ position.x,  position.y - size.y * 0.5f });
+	}
+
+	if (FRAMEWORK.GetWindowSize().x + size.y < position.y)
+	{
+		Scene* scene = SCENE_MANAGER.GetCurrentScene();
+		SceneGame* gameScene = dynamic_cast<SceneGame*>(scene);
+		gameScene->GetObstacleManager()->ReturnIceHole(this);
 	}
 }
 

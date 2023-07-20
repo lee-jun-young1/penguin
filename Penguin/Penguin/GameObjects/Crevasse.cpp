@@ -5,14 +5,14 @@
 #include <Utils.h>
 #include <SceneGame.h>
 #include <SceneManager.h>
-#include "ObstacleManager.h"
+#include "StageManager.h"
 
 Crevasse::Crevasse(const std::string& textureID, sf::Rect<float> centerRect, sf::Rect<float> size)
 	:SlicedSpriteGO(textureID, centerRect, size)
 {
 }
 
-void Crevasse::SetManager(ObstacleManager* manager)
+void Crevasse::SetManager(StageManager* manager)
 {
 	this->manager = manager;
 }
@@ -115,7 +115,7 @@ void Crevasse::OnTriggerExit(Collider* col)
 	{
 		Scene* scene = SCENE_MANAGER.GetCurrentScene();
 		SceneGame* gameScene = dynamic_cast<SceneGame*>(scene);
-		gameScene->GetObstacleManager()->ReturnCrevasse(this);
+		gameScene->GetStageManager()->ReturnCrevasse(this);
 	}
 }
 

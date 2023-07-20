@@ -135,7 +135,7 @@
     <ClCompile Include="Penguin\GameObjects\Crevasse.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Penguin\GameObjects\ObstacleManager.cpp">
+    <ClCompile Include="Penguin\GameObjects\StageManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -275,7 +275,7 @@
     <ClInclude Include="Penguin\GameObjects\Crevasse.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Penguin\GameObjects\ObstacleManager.h">
+    <ClInclude Include="Penguin\GameObjects\StageManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Penguin\GameObjects\CrevasseCenter.h">

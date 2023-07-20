@@ -111,7 +111,7 @@ void SceneGame::Init()
 	wall->AddComponent(rightWallCol);
 
 
-	obstacleManager = (ObstacleManager*)AddGameObject(new ObstacleManager());
+	stageManager = (StageManager*)AddGameObject(new StageManager());
 
 	SpriteFont* font = new SpriteFont("fonts/SpriteFont_Data.csv");
 	SpriteTextGO* speedText = (SpriteTextGO*)AddGameObject(new SpriteTextGO("SpeedText"));
@@ -150,7 +150,7 @@ void SceneGame::Draw(sf::RenderWindow& window)
 	Scene::Draw(window);
 }
 
-ObstacleManager* SceneGame::GetObstacleManager()
+StageManager* SceneGame::GetStageManager()
 {
-	return obstacleManager;
+	return stageManager;
 }

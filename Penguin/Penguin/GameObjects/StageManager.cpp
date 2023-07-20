@@ -1,10 +1,10 @@
 #include "stdafx.h"
-#include "ObstacleManager.h"
+#include "StageManager.h"
 #include <SceneManager.h>
 #include "InputManager.h"
 #include <SpriteTextGO.h>
 #include <sstream>
-void ObstacleManager::Init()
+void StageManager::Init()
 {
 	crevassePool.OnCreate = [this](Crevasse* crevasse) { crevasse->SetManager(this); };
 	iceHolePool.OnCreate = [this](IceHole* iceHole) 
@@ -22,20 +22,20 @@ void ObstacleManager::Init()
 	iceHolePool.Init(20);
 }
 
-void ObstacleManager::Release()
+void StageManager::Release()
 {
 	crevassePool.Release();
 	iceHolePool.Release();
 }
 
-void ObstacleManager::Reset()
+void StageManager::Reset()
 {
 	SetSpeedLevel(4);
 }
 
-void ObstacleManager::Update(float dt)
+void StageManager::Update(float dt)
 {
-	time += dt * GetSpeed() * 2.0f;
+	time += dt * GetSpeed();
 	if (time > cycle)
 	{
 		time -= cycle;
@@ -85,34 +85,34 @@ void ObstacleManager::Update(float dt)
 
 }
 
-void ObstacleManager::Draw(sf::RenderWindow& window)
+void StageManager::Draw(sf::RenderWindow& window)
 {
 }
 
-void ObstacleManager::OnGUI(sf::RenderWindow& window)
+void StageManager::OnGUI(sf::RenderWindow& window)
 {
 }
 
-Crevasse& ObstacleManager::GetCrevasse()
+Crevasse& StageManager::GetCrevasse()
 {
 	cout << "crevassePool get :: " << crevassePool.GetUseList().size() + 1 << endl;
 	return *crevassePool.Get();
 }
 
-void ObstacleManager::ReturnCrevasse(Crevasse* crevasse)
+void StageManager::ReturnCrevasse(Crevasse* crevasse)
 {
 	SCENE_MANAGER.GetCurrentScene()->RemoveGameObject(crevasse);
 	crevassePool.Return(crevasse);
 	cout << "crevassePool return :: " << crevassePool.GetUseList().size() << endl;
 }
 
-IceHole& ObstacleManager::GetIceHole()
+IceHole& StageManager::GetIceHole()
 {
 	cout << "iceHolePool get :: " << iceHolePool.GetUseList().size() + 1 << endl;
 	return *iceHolePool.Get();
 }
 
-void ObstacleManager::ReturnIceHole(IceHole* iceHole)
+void StageManager::ReturnIceHole(IceHole* iceHole)
 {
 	if (iceHole->GetSeal() != nullptr)
 	{
@@ -124,12 +124,12 @@ void ObstacleManager::ReturnIceHole(IceHole* iceHole)
 	cout << "iceHolePool return :: " << iceHolePool.GetUseList().size() << endl;
 }
 
-void ObstacleManager::ReturnAll()
+void StageManager::ReturnAll()
 {
 
 }
 
-void ObstacleManager::IncreaseSpeedLevel()
+void StageManager::IncreaseSpeedLevel()
 {
 	speedLevel = Utils::Clamp(++speedLevel, 0, speedLevelMax);
 	SpriteTextGO* speedText = (SpriteTextGO*)SCENE_MANAGER.GetCurrentScene()->FindGameObject("SpeedText");
@@ -138,7 +138,7 @@ void ObstacleManager::IncreaseSpeedLevel()
 	speedText->SetText(ss.str());
 }
 
-void ObstacleManager::DecreaseSpeedLevel()
+void StageManager::DecreaseSpeedLevel()
 {
 	speedLevel = Utils::Clamp(--speedLevel, 1, speedLevelMax);
 	SpriteTextGO* speedText = (SpriteTextGO*)SCENE_MANAGER.GetCurrentScene()->FindGameObject("SpeedText");
@@ -147,7 +147,7 @@ void ObstacleManager::DecreaseSpeedLevel()
 	speedText->SetText(ss.str());
 }
 
-void ObstacleManager::SetSpeedLevel(int i)
+void StageManager::SetSpeedLevel(int i)
 {
 	speedLevel = Utils::Clamp(i, 0, speedLevelMax);
 	SpriteTextGO* speedText = (SpriteTextGO*)SCENE_MANAGER.GetCurrentScene()->FindGameObject("SpeedText");

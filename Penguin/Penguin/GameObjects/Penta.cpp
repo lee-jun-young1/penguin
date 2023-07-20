@@ -155,7 +155,7 @@ void Penta::UpdateCrevasse(float deltaTime)
 
 		Scene* scene = SCENE_MANAGER.GetCurrentScene();
 		SceneGame* gameScene = dynamic_cast<SceneGame*>(scene);
-		gameScene->GetObstacleManager()->SetSpeedLevel(1);
+		gameScene->GetStageManager()->SetSpeedLevel(1);
 	}
 }
 void Penta::UpdateMove(float deltaTime)
@@ -164,13 +164,13 @@ void Penta::UpdateMove(float deltaTime)
 	{
 		Scene* scene = SCENE_MANAGER.GetCurrentScene();
 		SceneGame* gameScene = dynamic_cast<SceneGame*>(scene);
-		gameScene->GetObstacleManager()->IncreaseSpeedLevel();
+		gameScene->GetStageManager()->IncreaseSpeedLevel();
 	}
 	if (INPUT.GetKeyDown(sf::Keyboard::Down))
 	{
 		Scene* scene = SCENE_MANAGER.GetCurrentScene();
 		SceneGame* gameScene = dynamic_cast<SceneGame*>(scene);
-		gameScene->GetObstacleManager()->DecreaseSpeedLevel();
+		gameScene->GetStageManager()->DecreaseSpeedLevel();
 	}
 	if (state == State::Move && INPUT.GetKeyDown(sf::Keyboard::Space))
 	{
@@ -223,7 +223,7 @@ void Penta::OnCollisionEnter(Collider* col)
 			stateUpdate = std::bind(&Penta::UpdateHit, this, std::placeholders::_1);
 			Scene* scene = SCENE_MANAGER.GetCurrentScene();
 			SceneGame* gameScene = dynamic_cast<SceneGame*>(scene);
-			gameScene->GetObstacleManager()->SetSpeedLevel(1);
+			gameScene->GetStageManager()->SetSpeedLevel(1);
 		}
 		else if (col->GetGameObject().GetName() == "CrevasseCenter" && rigidBody->GetVelocity().y >= 0.0f)
 		{
@@ -236,7 +236,7 @@ void Penta::OnCollisionEnter(Collider* col)
 
 			Scene* scene = SCENE_MANAGER.GetCurrentScene();
 			SceneGame* gameScene = dynamic_cast<SceneGame*>(scene);
-			gameScene->GetObstacleManager()->SetSpeedLevel(0); 
+			gameScene->GetStageManager()->SetSpeedLevel(0); 
 		}
 	}
 	if (state == State::Jump && col->GetGameObject().GetName() == "Ground")

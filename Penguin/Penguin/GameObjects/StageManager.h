@@ -5,20 +5,23 @@
 #include <IceHole.h>
 #include <Utils.h>
 #include <Framework.h>
-class ObstacleManager : public GameObject
+class StageManager : public GameObject
 {
 private:
 	ObjectPool<Crevasse> crevassePool;
 	ObjectPool<IceHole> iceHolePool;
+	//ObjectPool<Item> itemPool;
 
-	float cycle = 1.0f;
+	float cycle = 0.5f;
 	float time = 0.0f;
 
 	const float defaultSpeed = 0.3f;
 	float speed = 0.05f;
+
 	const int speedLevelMax = 12;
 	int speedLevel = 1;
 
+	//TODO ReadFile
 	sf::Vector2f startXRange = { FRAMEWORK.GetWindowSize().x * 0.4f, FRAMEWORK.GetWindowSize().x * 0.6f };
 	float startY = 60.0f;
 	sf::Vector2f endXRange = { FRAMEWORK.GetWindowSize().x * 0.2f, FRAMEWORK.GetWindowSize().x * 0.8f };

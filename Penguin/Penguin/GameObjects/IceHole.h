@@ -2,12 +2,12 @@
 #include "SlicedSpriteGO.h"
 #include <Seal.h>
 #include "BoxCollider.h"
-class ObstacleManager;
+class StageManager;
 
 class IceHole : public SlicedSpriteGO
 {
 protected:
-	ObstacleManager* manager;
+	StageManager* manager;
 
 	const sf::Vector2f sizeMin = { 27.0f, 0.0f };
 	const sf::Vector2f sizeMax = { 40.0f, 14.0f };
@@ -22,7 +22,7 @@ protected:
 	float time = 0.0f;
 public:
 	IceHole(const std::string& textureID = "graphics/IceHole.png", sf::Rect<float> centerRect = { 10, 6, 20, 2 }, sf::Rect<float> size = { 0, 0, 40, 13 });
-	void SetManager(ObstacleManager* manager);
+	void SetManager(StageManager* manager);
 	virtual void OnTriggerEnter(Collider* col) override;
 	virtual void OnTriggerStay(Collider* col) override;
 	virtual void OnTriggerExit(Collider* col) override;

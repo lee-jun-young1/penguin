@@ -1,13 +1,13 @@
 #include "stdafx.h"
 #include "Seal.h"
-#include "ObstacleManager.h"
+#include "StageManager.h"
 
 Seal::Seal()
 	:SpriteGO("graphics/Seal.png", "Seal")
 {
 }
 
-void Seal::SetManager(ObstacleManager* manager)
+void Seal::SetManager(StageManager* manager)
 {
 	this->manager = manager;
 }

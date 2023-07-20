@@ -6,14 +6,14 @@
 #include <SceneManager.h>
 #include <SceneGame.h>
 #include <Utils.h>
-#include "ObstacleManager.h"
+#include "StageManager.h"
 
 IceHole::IceHole(const std::string& textureID, sf::Rect<float> centerRect, sf::Rect<float> size)
 	:SlicedSpriteGO(textureID, centerRect, size, "IceHole")
 {
 }
 
-void IceHole::SetManager(ObstacleManager* manager)
+void IceHole::SetManager(StageManager* manager)
 {
 	this->manager = manager;
 }
@@ -32,7 +32,7 @@ void IceHole::OnTriggerExit(Collider* col)
 	{
  		Scene* scene = SCENE_MANAGER.GetCurrentScene();
 		SceneGame* gameScene = dynamic_cast<SceneGame*>(scene);
-		gameScene->GetObstacleManager()->ReturnIceHole(this);
+		gameScene->GetStageManager()->ReturnIceHole(this);
 	}
 }
 
@@ -83,7 +83,7 @@ void IceHole::Update(float dt)
 	{
 		Scene* scene = SCENE_MANAGER.GetCurrentScene();
 		SceneGame* gameScene = dynamic_cast<SceneGame*>(scene);
-		gameScene->GetObstacleManager()->ReturnIceHole(this);
+		gameScene->GetStageManager()->ReturnIceHole(this);
 	}
 }
 

@@ -70,14 +70,18 @@ void Framework::Run()
     sf::Font systemFont;
     systemFont.loadFromFile("fonts/NanumGothic.ttf");
     fpsViewer.SetFont(systemFont);
-    fpsViewer.SetCharacterSize(20);
+    fpsViewer.SetCharacterSize(10);
     fpsViewer.SetOrigin(Origins::TL);
     fpsViewer.SetPosition(0.0f, 0.0f);
     fpsViewer.SetActive(false);
     fpsViewer.SetFillColor(sf::Color::Green);
 
     float fpsTime = 0.0f;
+    int fpsMin = INT_MAX;
+    int fpsMax = INT_MIN;
     int fps = 0;
+    float allFpsTime = 0.0f;
+    int allFps = 0;
 
     sf::Vector2i prevWindowPosition;
 
@@ -119,18 +123,35 @@ void Framework::Run()
                 SetDebugging(debugMode == Framework::DebugMode::Collider ? Framework::DebugMode::None : Framework::DebugMode::Collider);
             }
 #endif
-            if (INPUT.GetKeyDown(sf::Keyboard::Tilde)) 
+            if (INPUT.GetKeyDown(sf::Keyboard::Tilde))
             {
                 fpsViewer.SetActive(!fpsViewer.IsActive());
+            }
+            if (INPUT.GetKeyDown(sf::Keyboard::F2))
+            {
+                fpsTime = 0.0f;
+                fpsMin = INT_MAX;
+                fpsMax = INT_MIN;
+                fps = 0;
+                allFpsTime = 0.0f;
+                allFps = 0;
             }
             if (fpsViewer.IsActive())
             {
                 fps++;
+                allFps++;
                 fpsTime += dt;
+                allFpsTime += dt;
                 if (fpsTime > 1.0f)
                 {
+                    fpsMin = min(fps, fpsMin);
+                    fpsMax = max(fps, fpsMax);
                     stringstream ss;
-                    ss << fps;
+                    ss << "Collect Time : " << allFpsTime << "s" << endl;
+                    ss << "FPS : " << fps << endl;
+                    ss << "AVG : " << allFps / allFpsTime << endl;
+                    ss << "MIN : " << fpsMin << endl;
+                    ss << "MAX : " << fpsMax << endl;
                     fpsViewer.SetString(ss.str());
 
                     fps = 0;

@@ -10,16 +10,24 @@ void StageManager::Init()
 	iceHolePool.OnCreate = [this](IceHole* iceHole) 
 	{
 		iceHole->SetManager(this);
-		if (Utils::RandomRange(0, 2) == 1)
+		int random = Utils::RandomRange(0, 4);
+		switch(random)
 		{
-			Seal* seal = new Seal();
-			seal->Init();
-			iceHole->SetSeal(seal);
-			seal->SetManager(this);
+		case 0:
+			{
+				Seal* seal = new Seal();
+				seal->Init();
+				iceHole->SetSeal(seal);
+				seal->SetManager(this);
+			}
+			break;
 		}
 	};
+	fishPool.OnCreate = [this](Fish* fish) { fish->SetManager(this); };
+	flagPool.OnCreate = [this](FlagItem* flag) { flag->SetManager(this); };
 	crevassePool.Init(20);
 	iceHolePool.Init(20);
+	fishPool.Init(20);
 }
 
 void StageManager::Release()
@@ -40,6 +48,7 @@ void StageManager::Update(float dt)
 	{
 		time -= cycle;
 		int random = Utils::RandomRange(0, 4);
+
 		switch (random)
 		{
 		case 0:
@@ -47,22 +56,32 @@ void StageManager::Update(float dt)
 		case 1:
 		{
 			Crevasse* crevasse = &GetCrevasse();
-			int t = Utils::RandomRange(0, 3);
-			crevasse->SetDirection({ Utils::RandomRange(startXRange.x, startXRange.y), startY }, { Utils::RandomRange(endXRange.x, endXRange.y), endY });
+			float t = Utils::RandomValue();
+			crevasse->SetDirection({ Utils::Lerp(startXRange.x, startXRange.y, t), startY }, { Utils::Lerp(endXRange.x, endXRange.y, t), endY });
 			SCENE_MANAGER.GetCurrentScene()->AddGameObject(crevasse);
 		}
 			break;
 		case 2:
 		{
 			IceHole* iceHole = &GetIceHole();
-			iceHole->SetDirection({ Utils::RandomRange(startXRange.x, startXRange.y), startY }, { Utils::RandomRange(endXRange.x, endXRange.y), endY });
+			float t = Utils::RandomValue();
+			iceHole->SetDirection({ Utils::Lerp(startXRange.x, startXRange.y, t), startY }, { Utils::Lerp(endXRange.x, endXRange.y, t), endY });
 			SCENE_MANAGER.GetCurrentScene()->AddGameObject(iceHole );
 			Seal* seal = iceHole->GetSeal();
+
 			if (seal != nullptr)
 			{
 				SCENE_MANAGER.GetCurrentScene()->AddGameObject(seal);
 				seal->Reset();
 			}
+		}
+			break;
+		case 3:
+		{
+			FlagItem* flag = &GetFlag();
+			float t = Utils::RandomValue();
+			flag->SetDirection({ Utils::Lerp(startXRange.x, startXRange.y, t), startY }, { Utils::Lerp(endXRange.x, endXRange.y, t), endY });
+			SCENE_MANAGER.GetCurrentScene()->AddGameObject(flag);
 		}
 			break;
 		}
@@ -106,9 +125,19 @@ void StageManager::ReturnCrevasse(Crevasse* crevasse)
 	cout << "crevassePool return :: " << crevassePool.GetUseList().size() << endl;
 }
 
+Fish& StageManager::GetFish()
+{
+ 	return *fishPool.Get();
+}
+
+void StageManager::ReturnFish(Fish* fish)
+{
+	SCENE_MANAGER.GetCurrentScene()->RemoveGameObject(fish);
+	fishPool.Return(fish);
+}
+
 IceHole& StageManager::GetIceHole()
 {
-	cout << "iceHolePool get :: " << iceHolePool.GetUseList().size() + 1 << endl;
 	return *iceHolePool.Get();
 }
 
@@ -120,8 +149,17 @@ void StageManager::ReturnIceHole(IceHole* iceHole)
 	}
 	SCENE_MANAGER.GetCurrentScene()->RemoveGameObject(iceHole);
 	iceHolePool.Return(iceHole);
+}
 
-	cout << "iceHolePool return :: " << iceHolePool.GetUseList().size() << endl;
+FlagItem& StageManager::GetFlag()
+{
+	return *flagPool.Get();
+}
+
+void StageManager::ReturnFlag(FlagItem* flag)
+{
+	SCENE_MANAGER.GetCurrentScene()->RemoveGameObject(flag);
+	flagPool.Return(flag);
 }
 
 void StageManager::ReturnAll()
@@ -154,4 +192,13 @@ void StageManager::SetSpeedLevel(int i)
 	stringstream ss;
 	ss << "SPEED " << speedLevel;
 	speedText->SetText(ss.str());
+}
+
+void StageManager::IncreaseScore(int score)
+{
+	this->score += score;
+	SpriteTextGO* scoreText = (SpriteTextGO*)SCENE_MANAGER.GetCurrentScene()->FindGameObject("ScoreText");
+	stringstream ss;
+	ss << "SCORE " << this->score;
+	scoreText->SetText(ss.str());
 }

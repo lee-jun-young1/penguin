@@ -1,5 +1,5 @@
 ID,FPS,LOOPTYPE,,
-Jump,5,1,,
+Jump,20,1,,
 ,,,,
 TextureID,Left,Top,Width,Height
 graphics/Penta.png,0,34,32,34

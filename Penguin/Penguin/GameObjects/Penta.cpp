@@ -81,7 +81,7 @@ void Penta::Reset()
 		animator->SetEvent("HitEnd");
 		SetFlipX(false);
 		stateUpdate = std::bind(&Penta::UpdateMove, this, std::placeholders::_1);
-		state = State::Move;
+		state = State::Move; 
 	};
 
 	AnimationClip& CrevasseIdle = animator->GetState("CrevasseIdle")->clip;
@@ -90,7 +90,7 @@ void Penta::Reset()
 	{
 		SetOrigin(GetSize().x * 0.5f, GetSize().y * 0.75f);
 	};
-	CrevasseIdle.frames[4].action =
+	CrevasseIdle.frames[2].action =
 		[this]()
 	{
 		animator->SetEvent("Move");

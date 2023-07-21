@@ -5,12 +5,15 @@
 #include <IceHole.h>
 #include <Utils.h>
 #include <Framework.h>
+#include "Fish.h"
+#include "FlagItem.h"
 class StageManager : public GameObject
 {
 private:
 	ObjectPool<Crevasse> crevassePool;
 	ObjectPool<IceHole> iceHolePool;
-	//ObjectPool<Item> itemPool;
+	ObjectPool<Fish> fishPool;
+	ObjectPool<FlagItem> flagPool;
 
 	float cycle = 0.5f;
 	float time = 0.0f;
@@ -26,6 +29,8 @@ private:
 	float startY = 60.0f;
 	sf::Vector2f endXRange = { FRAMEWORK.GetWindowSize().x * 0.2f, FRAMEWORK.GetWindowSize().x * 0.8f };
 	float endY = 165.0f;
+
+	int score = 0;
 public:
 
 	virtual void Init() override;
@@ -41,6 +46,11 @@ public:
 	void ReturnCrevasse(Crevasse* crevasse);
 	IceHole& GetIceHole();
 	void ReturnIceHole(IceHole* iceHole);
+	FlagItem& GetFlag();
+	void ReturnFlag(FlagItem* flag);
+
+	Fish& GetFish();
+	void ReturnFish(Fish* fish);
 
 	void ReturnAll();
 
@@ -48,5 +58,7 @@ public:
 	void IncreaseSpeedLevel();
 	void DecreaseSpeedLevel();
 	void SetSpeedLevel(int i);
+
+	void IncreaseScore(int score);
 };
 

@@ -138,6 +138,12 @@
     <ClCompile Include="Penguin\GameObjects\StageManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Penguin\GameObjects\Fish.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Penguin\GameObjects\FlagItem.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -279,6 +285,12 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Penguin\GameObjects\CrevasseCenter.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Penguin\GameObjects\Fish.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Penguin\GameObjects\FlagItem.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

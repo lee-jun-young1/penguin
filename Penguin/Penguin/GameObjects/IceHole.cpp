@@ -59,6 +59,7 @@ void IceHole::Reset()
 	SetPosition({ FRAMEWORK.GetWindowSize().x * 0.4f, 60.0f });
 	collider->SetEnable(false);
 	SetOrigin(Origins::BC);
+	isFishFired = false;
 }
 
 void IceHole::Update(float dt)
@@ -68,6 +69,21 @@ void IceHole::Update(float dt)
 	size = Utils::Lerp(sizeMin, sizeMax, time, false);
 	SetSize(size);
 	SetPosition(Utils::Lerp(startPos, endPos, time, false));
+	if (!isFishFired && seal == nullptr && position.y > 100.0f)
+	{
+		isFishFired = true;
+		//if (Utils::RandomRange(0, 2) == 1)
+		{
+			Fish& fish = manager->GetFish();
+			fish.sortLayer = 30;
+			fish.Reset();
+			fish.SetPosition(this->GetPosition());
+			fish.Fire();
+			fish.SetActive(true);
+			SCENE_MANAGER.GetCurrentScene()->AddGameObject(&fish);
+		}
+	}
+
 	if (position.y > 160.0f)
 	{
 		collider->SetEnable(true);

@@ -124,6 +124,12 @@ void SceneGame::Init()
 	st->SetText("ANTARCTIC ADVENTURE DEMO");
 	st->SetPosition(15.0f, -45.0f);
 
+
+	SpriteTextGO* scoreText = (SpriteTextGO*)AddGameObject(new SpriteTextGO("ScoreText"));
+	scoreText->SetFont(font);
+	scoreText->SetText("SCORE");
+	scoreText->SetPosition(80.0f, -20.0f);
+
 	for (auto go : gameObjects)
 	{
 		go->Init();
@@ -141,7 +147,6 @@ void SceneGame::Release()
 void SceneGame::Update(float deltaTime)
 {
 	Scene::Update(deltaTime);
-
 
 }
 

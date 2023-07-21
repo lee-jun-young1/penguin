@@ -65,7 +65,7 @@ void SpriteGO::Reset()
 	sf::Texture* tex = RESOURCE_MANAGER.GetTexture(textureID);
 	if (tex != nullptr)
 	{
-		sprite.setTexture(*tex);
+		SetTexture(*tex);
 		SetOrigin(origin);
 	}
 }

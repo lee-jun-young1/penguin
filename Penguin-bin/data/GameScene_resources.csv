@@ -10,3 +10,7 @@
 2,sound/sfx/3_Collided_Low.wav
 2,sound/sfx/6_Jump.wav
 0,fonts/SpriteFont.png
+0,graphics/Fish.png
+3,animations/Fish_Type1.csv
+3,animations/Fish_Type2.csv
+0,graphics/Flag.png

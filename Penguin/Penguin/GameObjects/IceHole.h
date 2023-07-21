@@ -7,6 +7,8 @@ class StageManager;
 class IceHole : public SlicedSpriteGO
 {
 protected:
+	bool isFishFired = false;
+
 	StageManager* manager;
 
 	const sf::Vector2f sizeMin = { 27.0f, 0.0f };
@@ -18,7 +20,6 @@ protected:
 	sf::Vector2f startPos;
 	sf::Vector2f endPos;
 
-	float speed = 0.2f;
 	float time = 0.0f;
 public:
 	IceHole(const std::string& textureID = "graphics/IceHole.png", sf::Rect<float> centerRect = { 10, 6, 20, 2 }, sf::Rect<float> size = { 0, 0, 40, 13 });

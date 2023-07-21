@@ -40,5 +40,8 @@ public:
 	virtual void Update(float dt) override;
 	virtual void Draw(sf::RenderWindow& window) override;
 	virtual void Release() override;
+
+	virtual void OnGameObjectEnable() override {};
+	virtual void OnGameObjectDisable() override {};
 };
 

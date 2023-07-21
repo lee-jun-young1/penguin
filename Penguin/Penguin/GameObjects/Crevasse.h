@@ -21,7 +21,7 @@ protected:
 
 	sf::Vector2f startPos;
 	sf::Vector2f endPos;
-	float speed = 0.2f;
+
 	float time = 0.0f;
 public:
 	Crevasse(const std::string& textureID = "graphics/Crevasse.png", sf::Rect<float> centerRect = { 32, 2, 96, 13 }, sf::Rect<float> size = { 0, 0, 160, 16 });

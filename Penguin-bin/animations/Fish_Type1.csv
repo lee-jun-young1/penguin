@@ -1,0 +1,8 @@
+ID,FPS,LOOPTYPE,,
+Type1,3,1,,
+,,,,
+TextureID,Left,Top,Width,Height
+graphics/Fish.png,0,0,14,12
+graphics/Fish.png,14,0,14,12
+graphics/Fish.png,28,0,14,12
+graphics/Fish.png,42,0,14,12

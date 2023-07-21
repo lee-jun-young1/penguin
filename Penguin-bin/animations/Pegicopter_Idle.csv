@@ -1,0 +1,5 @@
+ID,FPS,LOOPTYPE,,
+PegicopterIdle,1,1,,
+,,,,
+TextureID,Left,Top,Width,Height
+graphics/Pegicopter.png,0,0,16,10

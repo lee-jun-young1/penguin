@@ -6,6 +6,8 @@ class StageManager;
 class FlagItem : public SpriteGO
 {
 protected:
+    bool isSuperFlag = false;
+
     StageManager* manager;
 
     BoxCollider* collider;

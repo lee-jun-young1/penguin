@@ -84,6 +84,11 @@ void SceneGame::Init()
 	player->AddComponent(playerCol);
 	player->SetPosition(100.0f, 100.0f);
 
+	SpriteGO* pegicopter = (SpriteGO*)AddGameObject(new SpriteGO("graphics/Pegicopter.png", "Player"));
+	pegicopter->sortLayer = 3;
+	Animator* pegicopterAni = new Animator(*pegicopter);
+	pegicopter->AddComponent(pegicopterAni);
+	player->SetPegicopter(pegicopter, pegicopterAni);
 
 
 	RectangleShapeGO* ground = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));

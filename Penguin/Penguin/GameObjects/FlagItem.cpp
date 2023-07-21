@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "FlagItem.h"
 #include "StageManager.h"
+#include "Penta.h"
 
 void FlagItem::Init()
 {
@@ -15,6 +16,12 @@ void FlagItem::Reset()
 {
 	SpriteGO::Reset();
 	collider->SetEnable(false);
+	isSuperFlag = Utils::RandomValue() < 0.1f ? true : false;
+
+	if (!isSuperFlag)
+	{
+		sprite.setColor(sf::Color::Green);
+	}
 }
 
 void FlagItem::Update(float deltaTime)
@@ -30,6 +37,16 @@ void FlagItem::Update(float deltaTime)
 		collider->SetEnable(true);
 	}
 
+	if (isSuperFlag)
+	{
+		int t = time * 1000;
+		sf::Color color;
+		color.r = Utils::Lerp(0, 255, (t % 100) * 0.01f);
+		color.g = Utils::Lerp(0, 255, ((t + 33) % 100) * 0.01f);
+		color.b = Utils::Lerp(0, 255, ((t + 66) % 100) * 0.01f);
+		sprite.setColor(color);
+	}
+
 	SpriteGO::Update(deltaTime);
 }
 
@@ -39,6 +56,11 @@ void FlagItem::OnTriggerEnter(Collider* col)
 	{
 		manager->IncreaseScore(100);
 		manager->ReturnFlag(this);
+		//if (!isSuperFlag)
+		{
+			Penta& player = dynamic_cast<Penta&>(col->GetGameObject());
+			player.GetPegicopterItem();
+		}
 	}
 }
 

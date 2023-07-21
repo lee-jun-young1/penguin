@@ -21,9 +21,12 @@ void Penta::Init()
 	RESOURCE_MANAGER.Load(ResourceTypes::AnimationClip, "animations/Penta_Hit.csv");
 	RESOURCE_MANAGER.Load(ResourceTypes::AnimationClip, "animations/Penta_CrevasseIdle.csv");
 	RESOURCE_MANAGER.Load(ResourceTypes::AnimationClip, "animations/Penta_CrevasseMove.csv");
+	RESOURCE_MANAGER.Load(ResourceTypes::AnimationClip, "animations/Pegicopter_Idle.csv");
+	RESOURCE_MANAGER.Load(ResourceTypes::AnimationClip, "animations/Pegicopter_Use.csv");
 
 	//TODO : File Read To Add
 	animator->LoadFromFile("animations/Penta");
+	pegicopterAni->LoadFromFile("animations/Pegicopter");
 
 
 	audio = new AudioSource(*this);
@@ -37,6 +40,7 @@ void Penta::Init()
 
 void Penta::Reset()
 {
+	SpriteGO::Reset();
 	animator->SetState("Move");
 	state = State::Move;
 	animator->Play();
@@ -47,6 +51,11 @@ void Penta::Reset()
 	jumpSound = RESOURCE_MANAGER.GetSoundBuffer("sound/sfx/6_Jump.wav");
 	HitHighSound = RESOURCE_MANAGER.GetSoundBuffer("sound/sfx/2_Collided_High.wav");
 	HitLowSound = RESOURCE_MANAGER.GetSoundBuffer("sound/sfx/3_Collided_Low.wav");
+
+	pegicopterAni->SetState("Idle");
+	pegicopterAni->Play();
+
+	pegicopter->SetOrigin(pegicopter->sprite.getGlobalBounds().width * 0.5f, sprite.getGlobalBounds().height * 1.05f );
 
 #pragma region AnimationAction
 	AnimationClip& hitClip = animator->GetState("Hit")->clip;
@@ -130,12 +139,8 @@ void Penta::Update(float dt)
 	SpriteGO::Update(dt);
 
 
-	if (INPUT.GetKeyDown(sf::Keyboard::Num2))
-	{
-		animator->SetEvent("Hit");
-	}
-
 	stateUpdate(dt);
+	pegicopter->SetPosition(GetPosition());
 }
 
 void Penta::UpdateHit(float deltaTime)
@@ -160,6 +165,24 @@ void Penta::UpdateCrevasse(float deltaTime)
 }
 void Penta::UpdateMove(float deltaTime)
 {
+	if (state == State::Pegicopter && rigidBody->GetVelocity().y >= 0.0f)
+	{
+		pegicopterTime -= deltaTime;
+		if (pegicopterTime < 0.0f)
+		{
+			state = State::Jump;
+			rigidBody->SetGravity(true);
+			pegicopterAni->SetEvent("Idle");
+			pegicopter->SetActive(false);
+		}
+		else
+		{
+			rigidBody->SetGravity(false);
+			rigidBody->SetVelocity({ rigidBody->GetVelocity().x, 0.0f });
+		}
+		return;
+	}
+
 	if (INPUT.GetKeyDown(sf::Keyboard::Up))
 	{
 		Scene* scene = SCENE_MANAGER.GetCurrentScene();
@@ -172,20 +195,35 @@ void Penta::UpdateMove(float deltaTime)
 		SceneGame* gameScene = dynamic_cast<SceneGame*>(scene);
 		gameScene->GetStageManager()->DecreaseSpeedLevel();
 	}
-	if (state == State::Move && INPUT.GetKeyDown(sf::Keyboard::Space))
+	if (INPUT.GetKeyDown(sf::Keyboard::Space))
 	{
-		//Jump
-		rigidBody->AddForce({ 0.0f, -100.0f });
-		animator->SetEvent("Jump");
-		audio->SetClip(jumpSound);
-		audio->Play(); 
-		state = State::Jump;
+		if (state == State::Move) 
+		{
+			//Jump
+			rigidBody->AddForce({ 0.0f, -100.0f });
+			animator->SetEvent("Jump");
+			audio->SetClip(jumpSound);
+			audio->Play(); 
+			state = State::Jump;
+		}
+		else if (state == State::Jump && hasPegicopter && rigidBody->GetVelocity().y < 0.0f)
+		{
+			audio->SetClip(jumpSound);
+			audio->Play();
+			state = State::Pegicopter;
+			pegicopterTime = pegicopterDuration;
+			pegicopterAni->SetEvent("Use");
+			direction.x = 0.0f;
+			rigidBody->SetVelocity({ 0.0f, rigidBody->GetVelocity().y });
+			hasPegicopter = false;
+			return;
+		}
 	}
 	Vector2f axis = { INPUT.GetAxisRaw(Axis::Horizontal), 0.0f };
 
 	if (Utils::SqrMagnitude(axis) != 0.0f)
 	{
-		if (abs(axis.x) > abs(axis.y))
+		if (abs(axis.x) > abs(axis.y)) 
 		{
 			direction = { axis.x < 0.0f ? -1.0f : 1.0f, 0.0f };
 		}
@@ -246,4 +284,33 @@ void Penta::OnCollisionEnter(Collider* col)
 	}
 
 	
+}
+
+void Penta::SetOrigin(Origins origin)
+{
+	SpriteGO::SetOrigin(origin); 
+	Rect<float> rect = sprite.getLocalBounds();
+	sf::Vector2f originPos(rect.width, rect.height);
+	originPos.x *= ((int)origin % 3) * 0.5f;
+	originPos.y *= ((int)origin / 3) * 0.5f;
+	//TODO
+	//pegicopter->SetOrigin(originPos.x + pegiCopter.GetOrigin)
+}
+
+void Penta::SetOrigin(float originX, float originY)
+{
+	SpriteGO::SetOrigin(origin);
+}
+
+void Penta::GetPegicopterItem()
+{
+	hasPegicopter = true;
+	pegicopter->SetActive(true);
+}
+
+void Penta::SetPegicopter(SpriteGO* pegicopter, Animator* pegicopterAni)
+{
+	this->pegicopter = pegicopter;
+	this->pegicopterAni = pegicopterAni;
+	pegicopter->SetActive(false);
 }

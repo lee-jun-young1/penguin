@@ -14,3 +14,6 @@
 3,animations/Fish_Type1.csv
 3,animations/Fish_Type2.csv
 0,graphics/Flag.png
+0,graphics/Pegicopter.png
+3,animations/Pegicopter_Idle.csv
+3,animations/Pegicopter_Use.csv

@@ -9,11 +9,18 @@ enum class State
 	Jump,
 	InHole,
 	Hit,
+	Pegicopter,
 };
 
 class Penta : public SpriteGO
 {
 protected:
+	SpriteGO* pegicopter = nullptr;
+	Animator* pegicopterAni = nullptr;
+	bool hasPegicopter = false;
+	float pegicopterTime = 0.0f;
+	float pegicopterDuration = 4.0f;
+
 	State state = State::Move;
 	Animator* animator = nullptr;
 	sf::Vector2f direction;
@@ -47,5 +54,11 @@ public:
 	void UpdateMove(float deltaTime);
 	virtual void Draw(sf::RenderWindow& window) override;
 	virtual void OnCollisionEnter(Collider* col) override;
+
+	void SetOrigin(Origins origin) override;
+	void SetOrigin(float originX, float originY) override;
+
+	void GetPegicopterItem();
+	void SetPegicopter(SpriteGO* pegicopter, Animator* pegicopterAni);
 };
 

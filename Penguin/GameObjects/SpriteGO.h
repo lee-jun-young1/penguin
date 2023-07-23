@@ -21,6 +21,7 @@ public:
 
 	void SetOrigin(Origins origin) override;
 	void SetOrigin(float originX, float originY) override;
+	sf::Vector2f GetOrigin() const;
 
 	sf::Vector2f GetSize() const;
 

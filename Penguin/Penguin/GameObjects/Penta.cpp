@@ -55,8 +55,6 @@ void Penta::Reset()
 	pegicopterAni->SetState("Idle");
 	pegicopterAni->Play();
 
-	pegicopter->SetOrigin(pegicopter->sprite.getGlobalBounds().width * 0.5f, sprite.getGlobalBounds().height * 1.05f );
-
 #pragma region AnimationAction
 	AnimationClip& hitClip = animator->GetState("Hit")->clip;
 
@@ -288,18 +286,19 @@ void Penta::OnCollisionEnter(Collider* col)
 
 void Penta::SetOrigin(Origins origin)
 {
-	SpriteGO::SetOrigin(origin); 
-	Rect<float> rect = sprite.getLocalBounds();
-	sf::Vector2f originPos(rect.width, rect.height);
+	SpriteGO::SetOrigin(origin);
+	sf::Vector2f originPos(sprite.getLocalBounds().width, sprite.getLocalBounds().height);
 	originPos.x *= ((int)origin % 3) * 0.5f;
 	originPos.y *= ((int)origin / 3) * 0.5f;
-	//TODO
-	//pegicopter->SetOrigin(originPos.x + pegiCopter.GetOrigin)
+	pegicopter->SetOrigin(pegicopter->sprite.getGlobalBounds().width * pegicopterOrigin.x, sprite.getGlobalBounds().height * pegicopterOrigin.y - (GetSize().y - originPos.y));
+ 	//pegicopter->SetOrigin(pegicopter->sprite.getGlobalBounds().width * 0.5f - (GetSize().x - originPos.x), sprite.getGlobalBounds().height * 1.05f - (GetSize().y - originPos.y));
 }
 
 void Penta::SetOrigin(float originX, float originY)
 {
-	SpriteGO::SetOrigin(origin);
+	SpriteGO::SetOrigin(originX, originY); 
+	pegicopter->SetOrigin(pegicopter->sprite.getGlobalBounds().width * pegicopterOrigin.x, sprite.getGlobalBounds().height * pegicopterOrigin.y - (GetSize().y - originY));
+	//pegicopter->SetOrigin(pegicopter->sprite.getGlobalBounds().width * 0.5f - (GetSize().x - originX), sprite.getGlobalBounds().height * 1.05f - (GetSize().y - originY));
 }
 
 void Penta::GetPegicopterItem()

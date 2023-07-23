@@ -20,6 +20,7 @@ protected:
 	bool hasPegicopter = false;
 	float pegicopterTime = 0.0f;
 	float pegicopterDuration = 4.0f;
+	const sf::Vector2f pegicopterOrigin = { 0.5f, 1.05f };
 
 	State state = State::Move;
 	Animator* animator = nullptr;

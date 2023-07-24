@@ -6,7 +6,7 @@ class StageManager;
 class FlagItem : public SpriteGO
 {
 protected:
-    bool isSuperFlag = false;
+    ScoreItemType itemType = ScoreItemType::Flag;
 
     StageManager* manager;
 

@@ -13,7 +13,7 @@ public:
 	virtual ~SceneGame() override;
 
 	virtual void Enter() override;
-	void Reset();
+	virtual void Reset() override;
 	virtual void Exit() override;
 
 	virtual void Init() override;

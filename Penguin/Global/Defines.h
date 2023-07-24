@@ -74,5 +74,13 @@ enum class ShapeType
 	Rectangle,
 };
 
+enum class ScoreItemType
+{
+	None = -1,
+	Fish,
+	Flag,
+	PegicopterFlag,
+};
+
 #define UILayer 100
 #include "AnimationClip.h"

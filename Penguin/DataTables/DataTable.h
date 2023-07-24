@@ -8,6 +8,7 @@ public:
 	{
 		None = -1,
 		String,
+		Stage,
 	};
 protected:
 	Ids tableId = Ids::None;

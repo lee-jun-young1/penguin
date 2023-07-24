@@ -37,7 +37,8 @@ void SceneGame::Enter()
 
 	Scene::Enter();
 	Reset();
-
+	stageManager->ResetScore();
+	stageManager->SetStage(1);
 
 	//test->SetTexture(*RESOURCE_MANAGER.GetTexture("graphics/SliceSpriteTest.png"), { 10, 6, 20, 2 }, { 0, 0, 40, 13 });
 }
@@ -49,7 +50,7 @@ void SceneGame::Reset()
 		go->Reset();
 	}
 	AudioSource* bgm = (AudioSource*)FindGameObject("Background")->GetComponent(ComponentType::Audio);
-	bgm->SetClip(RESOURCE_MANAGER.GetSoundBuffer("sound/bg/2_MainBgm.ogg"));
+	bgm->SetClip(Resources.GetSoundBuffer("sound/bg/2_MainBgm.ogg"));
 	bgm->SetLoop(true);
 	bgm->Play();
 }
@@ -117,23 +118,76 @@ void SceneGame::Init()
 
 
 	stageManager = (StageManager*)AddGameObject(new StageManager());
-
 	SpriteFont* font = new SpriteFont("fonts/SpriteFont_Data.csv");
-	SpriteTextGO* speedText = (SpriteTextGO*)AddGameObject(new SpriteTextGO("SpeedText"));
-	speedText->SetFont(font);
-	speedText->SetText("SPEED");
-	speedText->SetPosition(FRAMEWORK.GetWindowSize().x - 80.0f, -20.0f);
 
-	SpriteTextGO* st = (SpriteTextGO*)AddGameObject(new SpriteTextGO());
-	st->SetFont(font);
-	st->SetText("ANTARCTIC ADVENTURE DEMO");
-	st->SetPosition(15.0f, -45.0f);
+
+	SpriteTextGO* demoText = (SpriteTextGO*)AddGameObject(new SpriteTextGO());
+	demoText->sortLayer = UILayer;
+	demoText->SetFont(font);
+	demoText->SetText("ANTARCTIC ADVENTURE DEMO");
+	demoText->SetPosition({ 15.0f, 15.0f });
 
 
 	SpriteTextGO* scoreText = (SpriteTextGO*)AddGameObject(new SpriteTextGO("ScoreText"));
+	scoreText->sortLayer = UILayer;
 	scoreText->SetFont(font);
-	scoreText->SetText("SCORE");
-	scoreText->SetPosition(80.0f, -20.0f);
+	scoreText->SetText("1P-");
+	scoreText->SetPosition({ 15.0f, 30.0f });
+
+	SpriteTextGO* highScoreText = (SpriteTextGO*)AddGameObject(new SpriteTextGO("HighScoreText"));
+	highScoreText->sortLayer = UILayer;
+	highScoreText->SetFont(font);
+	highScoreText->SetText("HI-000000");
+	highScoreText->SetPosition({ 95.0f, 30.0f });
+
+
+	SpriteTextGO* timeText = (SpriteTextGO*)AddGameObject(new SpriteTextGO("TimeText"));
+	timeText->sortLayer = UILayer;
+	timeText->SetFont(font);
+	timeText->SetText("TIME-");
+	timeText->SetPosition({ 15.0f, 40.0f });
+
+	stageManager->SetTimeText(timeText);
+
+	SpriteTextGO* restText = (SpriteTextGO*)AddGameObject(new SpriteTextGO("RestText"));
+	restText->sortLayer = UILayer;
+	restText->SetFont(font);
+	restText->SetText("wxyz_1139km");
+	restText->SetPosition({ 95.0f, 40.0f });
+
+	stageManager->SetRestText(restText);
+
+	SpriteTextGO* sysMsgText = (SpriteTextGO*)AddGameObject(new SpriteTextGO("SysMsg"));
+	sysMsgText->sortLayer = UILayer;
+	sysMsgText->sortOrder = 1;
+
+	sysMsgText->SetFont(font);
+	sysMsgText->SetText("TIME OUT");
+	sysMsgText->SetPosition(UIPositionToScreen({ FRAMEWORK.GetWindowSize().x * 0.5f, FRAMEWORK.GetWindowSize().y * 0.3f }));
+	sysMsgText->SetOrigin(Origins::MC);
+	sysMsgText->SetActive(false);
+
+	SpriteTextGO* speedText = (SpriteTextGO*)AddGameObject(new SpriteTextGO("SpeedText"));
+	speedText->sortLayer = UILayer;
+	speedText->SetFont(font);
+	speedText->SetText("speed");
+	speedText->SetPosition(175.0f, 40.0f);
+
+
+	SpriteTextGO* stageText = (SpriteTextGO*)AddGameObject(new SpriteTextGO("StageText"));
+	stageText->sortLayer = UILayer;
+	stageText->SetFont(font);
+	stageText->SetText("STAGE-00");
+	stageText->SetPosition(175.0f, 30.0f);
+
+	RectangleShapeGO* sysMsgRect = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("SysMsgRect"));
+	sysMsgRect->sortLayer = UILayer;
+	sysMsgRect->sortOrder = 0;
+	sysMsgRect->SetFillColor(sf::Color::Black);
+	sysMsgRect->SetSize(sysMsgText->GetSize());
+	sysMsgRect->SetPosition(UIPositionToScreen( sysMsgText->GetPosition() ));
+	sysMsgRect->SetOrigin(Origins::MC);
+	sysMsgRect->SetActive(false);
 
 	for (auto go : gameObjects)
 	{

@@ -1,10 +1,12 @@
 #include "stdafx.h"
 #include "DataTableManager.h"
 #include "StringTable.h"
+#include "StageDataTable.h"
 
 void DataTableManager::LoadAll()
 {
 	tables.insert({ DataTable::Ids::String, new StringTable() });
+	tables.insert({ DataTable::Ids::Stage, new StageDataTable() });
 
 	for (auto pair : tables)
 	{

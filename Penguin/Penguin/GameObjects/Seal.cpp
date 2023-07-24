@@ -15,9 +15,9 @@ void Seal::SetManager(StageManager* manager)
 void Seal::Init()
 {
 	SpriteGO::Init();
-	RESOURCE_MANAGER.Load(ResourceTypes::AnimationClip, "animations/Seal_Hide.csv");
-	RESOURCE_MANAGER.Load(ResourceTypes::AnimationClip, "animations/Seal_Ready.csv");
-	RESOURCE_MANAGER.Load(ResourceTypes::AnimationClip, "animations/Seal_Pop.csv");
+	Resources.Load(ResourceTypes::AnimationClip, "animations/Seal_Hide.csv");
+	Resources.Load(ResourceTypes::AnimationClip, "animations/Seal_Ready.csv");
+	Resources.Load(ResourceTypes::AnimationClip, "animations/Seal_Pop.csv");
 
 	physicsLayer = 5;
 	sortOrder = 2;
@@ -57,15 +57,12 @@ void Seal::Update(float dt)
 {
 	SpriteGO::Update(dt);
 	time += dt * manager->GetSpeed();
-	if (time >= 1.0f)
-	{
-		collider->SetEnable(true);
-	}
-	else if (time >= 0.8f)
+	if (time >= 0.8f)
 	{
 		animator->SetEvent("Pop");
+		collider->SetEnable(true);
 	}
-	else if (time >= 0.4f)
+	else if (time >= 0.6f)
 	{
 		animator->SetEvent("Ready");
 	}
@@ -76,17 +73,6 @@ void Seal::Draw(sf::RenderWindow& window)
 	SpriteGO::Draw(window);
 }
 
-void Seal::OnTriggerEnter(Collider* col)
-{
-}
-
-void Seal::OnTriggerStay(Collider* col)
-{
-}
-
-void Seal::OnTriggerExit(Collider* col)
-{
-}
 
 void Seal::SetAnimator(Animator* animator)
 {

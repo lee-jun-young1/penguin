@@ -45,6 +45,7 @@ public:
 
 	virtual void Init();
 	virtual void Release() = 0;
+	virtual void Reset() = 0;
 	virtual void Update(float deltaTime);
 	virtual void Draw(sf::RenderWindow& window);
 	virtual void OnGUI(sf::RenderWindow& window);

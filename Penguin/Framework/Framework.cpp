@@ -19,7 +19,7 @@ void Framework::Init(int width, int height, const std::string& title)
     window.setSize({ (unsigned int)width * 2, (unsigned int)height * 2 });
 
     DATATABLE_MANAGER.LoadAll();
-    RESOURCE_MANAGER.Init();
+    Resources.Init();
     SCENE_MANAGER.Init();
 }
 
@@ -94,7 +94,7 @@ void Framework::Run()
             dt = 0.0f;
         }
 
-        INPUT.Update(dt);
+        Input.Update(dt);
         prevWindowPosition = window.getPosition();
 
         sf::Event event;
@@ -111,23 +111,23 @@ void Framework::Run()
                 break;
             }
 
-            INPUT.UpdateEvent(event);
+            Input.UpdateEvent(event);
         }
 
         if (window.isOpen())
         {
             //SystemEvent
 #ifdef _DEBUG
-            if (INPUT.GetKeyDown(sf::Keyboard::F1))
+            if (Input.GetKeyDown(sf::Keyboard::F1))
             {
                 SetDebugging(debugMode == Framework::DebugMode::Collider ? Framework::DebugMode::None : Framework::DebugMode::Collider);
             }
 #endif
-            if (INPUT.GetKeyDown(sf::Keyboard::Tilde))
+            if (Input.GetKeyDown(sf::Keyboard::Tilde))
             {
                 fpsViewer.SetActive(!fpsViewer.IsActive());
             }
-            if (INPUT.GetKeyDown(sf::Keyboard::F2))
+            if (Input.GetKeyDown(sf::Keyboard::F2))
             {
                 fpsTime = 0.0f;
                 fpsMin = INT_MAX;
@@ -159,7 +159,7 @@ void Framework::Run()
                 }
             }
 
-            Update(dt);
+            Update(dt * timeScale);
 
             window.clear();
 

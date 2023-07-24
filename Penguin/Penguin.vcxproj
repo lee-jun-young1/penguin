@@ -167,6 +167,7 @@
     <ClCompile Include="Components\Physics\BoxCollider.cpp" />
     <ClCompile Include="Components\Physics\Collider.cpp" />
     <ClCompile Include="Components\Component.cpp" />
+    <ClCompile Include="DataTables\StageDataTable.cpp" />
     <ClCompile Include="Penguin\GameObjects\Fish.cpp" />
     <ClCompile Include="Penguin\GameObjects\FlagItem.cpp" />
     <ClCompile Include="Penguin\GameObjects\StageManager.cpp" />
@@ -223,13 +224,11 @@
     <ClInclude Include="Components\Animation\AnimationClip.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="Components\Animation\Transition.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-    </ClInclude>
     <ClInclude Include="Components\Physics\CircleCollider.h" />
     <ClInclude Include="Components\Physics\BoxCollider.h" />
     <ClInclude Include="Components\Physics\Collider.h" />
     <ClInclude Include="Components\Component.h" />
+    <ClInclude Include="DataTables\StageDataTable.h" />
     <ClInclude Include="Penguin\GameObjects\Fish.h" />
     <ClInclude Include="Penguin\GameObjects\FlagItem.h" />
     <ClInclude Include="Penguin\GameObjects\CrevasseCenter.h" />

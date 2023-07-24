@@ -89,7 +89,7 @@ std::string Animation::GetClipName()
 
 void Animation::SetFrame(const AnimationFrame& frame)
 {
-	sf::Texture* tex = RESOURCE_MANAGER.GetTexture(frame.textureID);
+	sf::Texture* tex = Resources.GetTexture(frame.textureID);
 	target->setTexture(*tex);
 	target->setTextureRect(frame.tecCoord);
 }

@@ -32,7 +32,7 @@ void Animator::AddTransition(const std::string& stateName, const std::string& tr
 	}
 }
 
-void Animator::AddState(const std::string& stateName, const AnimationClip& newClip)
+void Animator::AddState(const std::string& stateName, AnimationClip* newClip)
 {
 	if (states.find(stateName) == states.end())
 	{
@@ -63,7 +63,7 @@ void Animator::SetEvent(std::string eventID)
 	{
 		currentEvent = "";
 		currentState = find->second.enterAnimationState;
-		SetClip(&currentState->clip);
+		SetClip(currentState->clip);
 		Seek(find->second.enterTime);
 	}
 }
@@ -77,7 +77,7 @@ void Animator::SetState(std::string stateID)
 		return;
 	}
 	currentState = &find->second;
-	SetClip(&currentState->clip);
+	SetClip(currentState->clip);
 }
 
 void Animator::Update(float dt)
@@ -102,7 +102,7 @@ void Animator::Update(float dt)
 	{
 		currentEvent = "";
 		currentState = find->second.enterAnimationState;
-		SetClip(&currentState->clip);
+		SetClip(currentState->clip);
 		Seek(find->second.enterTime);
 	}
 }
@@ -114,7 +114,7 @@ void Animator::LoadFromFile(std::string path)
 	std::vector<std::string> paths = states.GetColumn<std::string>(1);
 	for (int i = 0; i < keys.size(); i++)
 	{
-		AddState(keys[i], *RESOURCE_MANAGER.GetAnimationClip(paths[i]));
+		AddState(keys[i], Resources.GetAnimationClip(paths[i]));
 	}
 
 	rapidcsv::Document transitions(path + "_Transition.csv");

@@ -52,7 +52,7 @@ void SoundGO::Release()
 
 void SoundGO::Reset()
 {
-	sf::SoundBuffer* buffer = RESOURCE_MANAGER.GetSoundBuffer(soundID);
+	sf::SoundBuffer* buffer = Resources.GetSoundBuffer(soundID);
 	if (buffer != nullptr)
 	{
 		sound.setBuffer(*buffer);

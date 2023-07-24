@@ -37,9 +37,6 @@ public:
 
 	void SetDirection(sf::Vector2f startPos, sf::Vector2f endPos);
 
-	virtual void OnTriggerEnter(Collider* col) override;
-	virtual void OnTriggerStay(Collider* col) override;
-	virtual void OnTriggerExit(Collider* col) override;
 	void SetSize(sf::Vector2f size);
 };
 

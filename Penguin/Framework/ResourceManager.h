@@ -29,4 +29,4 @@ public:
 	AnimationClip* GetAnimationClip(const std::string& id);
 };
 
-#define RESOURCE_MANAGER (ResourceManager::GetInstance())
+#define Resources (ResourceManager::GetInstance())

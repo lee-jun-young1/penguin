@@ -25,6 +25,8 @@ public:
 
 	virtual void Reset() override; //√ ±‚»≠
 
+	virtual sf::Vector2f GetSize();
+
 	virtual void Update(float dt) override;
 	virtual void Draw(sf::RenderWindow& window) override;
 };

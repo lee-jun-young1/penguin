@@ -101,24 +101,6 @@ void Crevasse::Draw(sf::RenderWindow& window)
 	SlicedSpriteGO::Draw(window);
 }
 
-void Crevasse::OnTriggerEnter(Collider* col)
-{
-}
-
-void Crevasse::OnTriggerStay(Collider* col)
-{
-}
-
-void Crevasse::OnTriggerExit(Collider* col)
-{
-	if (col->GetGameObject().GetName() == "Ground")
-	{
-		Scene* scene = SCENE_MANAGER.GetCurrentScene();
-		SceneGame* gameScene = dynamic_cast<SceneGame*>(scene);
-		gameScene->GetStageManager()->ReturnCrevasse(this);
-	}
-}
-
 void Crevasse::SetSize(sf::Vector2f size)
 {
 	SlicedSpriteGO::SetSize(size);

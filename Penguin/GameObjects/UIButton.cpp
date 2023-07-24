@@ -32,7 +32,7 @@ void UIButton::Reset()
 void UIButton::Update(float dt)
 {
 	SpriteGO::Update(dt);
-	sf::Vector2f mousePos = INPUT.GetMousePosition();
+	sf::Vector2f mousePos = Input.GetMousePosition();
 	sf::Vector2f uiMousePos = SCENE_MANAGER.GetCurrentScene()->ScreenToUIPosition(mousePos);
 
 	bool prevHover = isHover;
@@ -55,7 +55,7 @@ void UIButton::Update(float dt)
 		}
 	}
 
-	if (isHover && INPUT.GetMouseButtonUp(sf::Mouse::Left))
+	if (isHover && Input.GetMouseButtonUp(sf::Mouse::Left))
 	{
 		if (OnClick != nullptr)
 		{

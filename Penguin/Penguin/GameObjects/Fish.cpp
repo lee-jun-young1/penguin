@@ -27,8 +27,8 @@ void Fish::Fire()
 void Fish::Init()
 {
 	SpriteGO::Init();
-	RESOURCE_MANAGER.Load(ResourceTypes::AnimationClip, "animations/Fish_Type1.csv");
-	RESOURCE_MANAGER.Load(ResourceTypes::AnimationClip, "animations/Fish_Type2.csv");
+	Resources.Load(ResourceTypes::AnimationClip, "animations/Fish_Type1.csv");
+	Resources.Load(ResourceTypes::AnimationClip, "animations/Fish_Type2.csv");
 
 	physicsLayer = 4;
 	animation = new Animation(*this);
@@ -48,7 +48,7 @@ void Fish::Reset()
 	rigidBody->SetVelocity({ 0.0f, 0.0f });
 	collider->SetEnable(false);
 	bool random = Utils::RandomRange(0, 2) == 0;
-	auto clip = RESOURCE_MANAGER.GetAnimationClip(random ? "animations/Fish_Type1.csv" : "animations/Fish_Type2.csv");
+	auto clip = Resources.GetAnimationClip(random ? "animations/Fish_Type1.csv" : "animations/Fish_Type2.csv");
 	animation->SetClip(clip);
 }
 
@@ -75,7 +75,7 @@ void Fish::OnTriggerEnter(Collider* col)
 {
 	if (col->GetGameObject().GetName() == "Player")
 	{
-		manager->IncreaseScore(100);
+		manager->IncreaseScore(ScoreItemType::Fish);
 		manager->ReturnFish(this);
 	}
 }

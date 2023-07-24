@@ -101,7 +101,7 @@ sf::Vector2f Scene::UIPositionToScreen(sf::Vector2f uiPos)
 
 void Scene::Enter()
 {
-	RESOURCE_MANAGER.Load(resources);
+	Resources.Load(resources);
 
 	for (auto go : gameObjects)
 	{
@@ -117,7 +117,7 @@ void Scene::Exit()
 	}
 	removeGameObjects.clear();
 
-	RESOURCE_MANAGER.Unload(resources);
+	Resources.Unload(resources);
 }
 
 void Scene::Init()

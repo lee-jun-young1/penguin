@@ -33,11 +33,15 @@ d,fonts/SpriteFont.png,240,0,4,8
 e,fonts/SpriteFont.png,244,0,4,8
 p,fonts/SpriteFont.png,248,0,4,8
 s,fonts/SpriteFont.png,252,0,4,8
-w,fonts/SpriteFont.png,256,0,5,8
-x,fonts/SpriteFont.png,262,0,6,8
+w,fonts/SpriteFont.png,262,0,6,8
+x,fonts/SpriteFont.png,256,0,5,8
 y,fonts/SpriteFont.png,267,0,5,8
 z,fonts/SpriteFont.png,272,0,7,8
 -,fonts/SpriteFont.png,279,0,7,8
 @,fonts/SpriteFont.png,286,0,8,8
 *,fonts/SpriteFont.png,294,0,34,8
  ,fonts/SpriteFont.png,328,0,4,8
+|,fonts/SpriteFont.png,332,0,4,8
+k,fonts/SpriteFont.png,336,0,6,8
+m,fonts/SpriteFont.png,342,0,6,8
+_,fonts/SpriteFont.png,280,0,3,8

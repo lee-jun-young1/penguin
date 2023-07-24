@@ -67,7 +67,7 @@ void SpriteGO::Release()
 
 void SpriteGO::Reset()
 {
-	sf::Texture* tex = RESOURCE_MANAGER.GetTexture(textureID);
+	sf::Texture* tex = Resources.GetTexture(textureID);
 	if (tex != nullptr)
 	{
 		SetTexture(*tex);

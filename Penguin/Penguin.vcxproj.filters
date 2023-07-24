@@ -144,6 +144,9 @@
     <ClCompile Include="Penguin\GameObjects\FlagItem.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="DataTables\StageDataTable.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -248,9 +251,6 @@
     <ClInclude Include="Components\Animation\Animator.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Components\Animation\Transition.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="GameObjects\UIButton.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -291,6 +291,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Penguin\GameObjects\FlagItem.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="DataTables\StageDataTable.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

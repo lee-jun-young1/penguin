@@ -53,4 +53,4 @@ public:
 	float GetAxisRaw(Axis axis);
 };
 
-#define INPUT (InputManager::GetInstance())
+#define Input (InputManager::GetInstance())

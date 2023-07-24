@@ -46,5 +46,8 @@ public:
 	static float Angle(const sf::Vector2f&direction);
 
 	static sf::Vector2f RectNormal(sf::Rect<float> base, sf::Rect<float> target);
+	static std::string ToString(int value, std::string format);
+	static std::string ToString(float value, std::string format);
+	static std::vector<std::string> Split(std::string input, char delimiter);
+	static bool Contains(const std::string& str, const char& c);
 };
-

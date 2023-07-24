@@ -86,7 +86,12 @@ void VertexArrayGO::Release()
 
 void VertexArrayGO::Reset()
 {
-	texture = RESOURCE_MANAGER.GetTexture(textureID);
+	texture = Resources.GetTexture(textureID);
+}
+
+sf::Vector2f VertexArrayGO::GetSize()
+{
+	return { vertexArray.getBounds().width, vertexArray.getBounds().height };
 }
 
 void VertexArrayGO::Update(float dt)

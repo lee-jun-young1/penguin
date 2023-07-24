@@ -32,7 +32,7 @@ void TextGameObj::Release()
 
 void TextGameObj::Reset()
 {
-	sf::Font* font = RESOURCE_MANAGER.GetFont(fontID);
+	sf::Font* font = Resources.GetFont(fontID);
 	if (font != nullptr)
 	{
 		text.setFont(*font);

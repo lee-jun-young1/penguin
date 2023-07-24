@@ -14,7 +14,7 @@ SpriteFont::SpriteFont(std::string spriteFontDataPath)
 
 	for (int j = 0; j < ids.size(); j++)
 	{
-		std::cout << ids[j] << " " << values[j] << std::endl;
+		std::cout << ids[j] << " ";
 		spriteDataTable.insert({ ids[j], {values[j], {left[j], top[j], width[j], height[j]} } });
 	}
 }

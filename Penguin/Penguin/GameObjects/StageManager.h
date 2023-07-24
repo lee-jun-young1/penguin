@@ -7,6 +7,7 @@
 #include <Framework.h>
 #include "Fish.h"
 #include "FlagItem.h"
+#include "SpriteTextGO.h"
 class StageManager : public GameObject
 {
 private:
@@ -15,22 +16,39 @@ private:
 	ObjectPool<Fish> fishPool;
 	ObjectPool<FlagItem> flagPool;
 
-	float cycle = 0.5f;
-	float time = 0.0f;
+	list<GameObject*> manageObjects;
+	vector<GameObject*> removeManageObjects;
+
+	int stage = 1;
+
+	vector<int> scoreTable = {100, 100, 200};
+	float stageTime = 10.0f;
+	float stageRest = 10.0f;
+
+	float genCycle = 0.5f;
+	float genTime = 0.0f;
+
+	float refreshCycle = 0.2f; //0.2f
+	float refreshTime = 0.0f;
 
 	const float defaultSpeed = 0.3f;
-	float speed = 0.05f;
+	float speed = 0.1f;
 
 	const int speedLevelMax = 12;
 	int speedLevel = 1;
 
 	//TODO ReadFile
 	sf::Vector2f startXRange = { FRAMEWORK.GetWindowSize().x * 0.4f, FRAMEWORK.GetWindowSize().x * 0.6f };
-	float startY = 60.0f;
+	float startY = 55.0f;
 	sf::Vector2f endXRange = { FRAMEWORK.GetWindowSize().x * 0.2f, FRAMEWORK.GetWindowSize().x * 0.8f };
 	float endY = 165.0f;
 
+	const float flagItemPercentage = 0.1f;
+
 	int score = 0;
+
+	SpriteTextGO* timeText;
+	SpriteTextGO* restText;
 public:
 
 	virtual void Init() override;
@@ -54,11 +72,22 @@ public:
 
 	void ReturnAll();
 
-	float GetSpeed() { return speedLevel == 0 ? 0.0f : defaultSpeed + (speed * speedLevel); };
+	const float GetSpeed() const { return speedLevel == 0 ? 0.0f : defaultSpeed + (speed * speedLevel); };
 	void IncreaseSpeedLevel();
+	void RemoveManageObject(GameObject*);
 	void DecreaseSpeedLevel();
-	void SetSpeedLevel(int i);
+	void SetSpeedLevel(const int& level);
 
-	void IncreaseScore(int score);
+	const float& GetFlagItemPercentage() { return flagItemPercentage; };
+
+	void IncreaseScore(const ScoreItemType& type);
+
+	void ResetScore();
+
+	void SetTimeText(SpriteTextGO* timeText) {this->timeText = timeText;}
+	void SetRestText(SpriteTextGO* restText) { this->restText = restText; }
+
+	void IncreaseStage();
+	void SetStage(const int& stage);
 };
 

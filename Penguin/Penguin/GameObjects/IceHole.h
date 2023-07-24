@@ -24,9 +24,6 @@ protected:
 public:
 	IceHole(const std::string& textureID = "graphics/IceHole.png", sf::Rect<float> centerRect = { 10, 6, 20, 2 }, sf::Rect<float> size = { 0, 0, 40, 13 });
 	void SetManager(StageManager* manager);
-	virtual void OnTriggerEnter(Collider* col) override;
-	virtual void OnTriggerStay(Collider* col) override;
-	virtual void OnTriggerExit(Collider* col) override;
 
 	virtual void Init() override;
 	virtual void Reset() override;

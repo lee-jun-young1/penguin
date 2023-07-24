@@ -2,7 +2,9 @@
 #include "BoxCollider.h"
 #include "CircleCollider.h"
 #include "GameObject.h"
+#ifdef _DEBUG
 #include <Framework.h>
+#endif
 
 BoxCollider::BoxCollider(GameObject& gameObject)
 	:Collider(gameObject, ColliderType::Box)
@@ -90,7 +92,7 @@ void BoxCollider::Draw(sf::RenderWindow& window)
 void BoxCollider::OnGUI(sf::RenderWindow& window)
 {
 #ifdef _DEBUG
-	if (FRAMEWORK.IsDebugging(Framework::DebugMode::Collider))
+	if (FRAMEWORK.IsDebugging(Framework::DebugMode::Collider) && IsEnable())
 	{
 		window.draw(debugShape);
 	}

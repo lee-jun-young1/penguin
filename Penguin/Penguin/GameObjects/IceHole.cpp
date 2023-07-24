@@ -18,24 +18,6 @@ void IceHole::SetManager(StageManager* manager)
 	this->manager = manager;
 }
 
-void IceHole::OnTriggerEnter(Collider* col)
-{
-}
-
-void IceHole::OnTriggerStay(Collider* col)
-{
-}
-
-void IceHole::OnTriggerExit(Collider* col)
-{
-	if (col->GetGameObject().GetName() == "Ground")
-	{
- 		Scene* scene = SCENE_MANAGER.GetCurrentScene();
-		SceneGame* gameScene = dynamic_cast<SceneGame*>(scene);
-		gameScene->GetStageManager()->ReturnIceHole(this);
-	}
-}
-
 void IceHole::SetDirection(sf::Vector2f startPos, sf::Vector2f endPos)
 {
 	this->startPos = startPos;
@@ -53,6 +35,7 @@ void IceHole::Init()
 
 void IceHole::Reset()
 {
+	time = 0;
 	SlicedSpriteGO::Reset();
 	size = sizeMin;
 	SetSize(size);
@@ -60,6 +43,10 @@ void IceHole::Reset()
 	collider->SetEnable(false);
 	SetOrigin(Origins::BC);
 	isFishFired = false;
+	if (seal != nullptr)
+	{
+		seal->SetActive(false);
+	}
 }
 
 void IceHole::Update(float dt)
@@ -72,7 +59,7 @@ void IceHole::Update(float dt)
 	if (!isFishFired && seal == nullptr && position.y > 100.0f)
 	{
 		isFishFired = true;
-		//if (Utils::RandomRange(0, 2) == 1)
+		if (Utils::RandomRange(0, 2) == 1)
 		{
 			Fish& fish = manager->GetFish();
 			fish.sortLayer = 30;
@@ -91,7 +78,6 @@ void IceHole::Update(float dt)
 	SlicedSpriteGO::Update(dt);
 	if (seal != nullptr)
 	{
-		//seal->SetPosition({position.x + size.x * 0.5f,  position.y + size.y * 0.5f});
 		seal->SetPosition({ position.x,  position.y - size.y * 0.5f });
 	}
 

@@ -16,6 +16,8 @@ protected:
 
 	float gravity = 9.8f;
 	float dotPerMeter = 20.0f;
+	
+	float timeScale = 1.0f;
 
 	sf::Cursor cursor;
 
@@ -41,6 +43,8 @@ public:
 
 	float GetGravity();
 	float GetDPM();
+
+	void SetTimeScale(const float& timeScale) { this->timeScale = timeScale; };
 #ifdef _DEBUG
 	enum class DebugMode 
 	{

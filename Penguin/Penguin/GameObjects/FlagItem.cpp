@@ -14,12 +14,16 @@ void FlagItem::Init()
 
 void FlagItem::Reset()
 {
+	time = 0;
 	SpriteGO::Reset();
 	collider->SetEnable(false);
-	isSuperFlag = Utils::RandomValue() < 0.1f ? true : false;
-
-	if (!isSuperFlag)
+	if (Utils::RandomValue() < manager->GetFlagItemPercentage())
 	{
+		itemType = ScoreItemType::PegicopterFlag;
+	}
+	else
+	{
+		itemType = ScoreItemType::Flag;
 		sprite.setColor(sf::Color::Green);
 	}
 }
@@ -37,7 +41,7 @@ void FlagItem::Update(float deltaTime)
 		collider->SetEnable(true);
 	}
 
-	if (isSuperFlag)
+	if (itemType == ScoreItemType::PegicopterFlag)
 	{
 		int t = time * 1000;
 		sf::Color color;
@@ -54,9 +58,9 @@ void FlagItem::OnTriggerEnter(Collider* col)
 {
 	if (col->GetGameObject().GetName() == "Player")
 	{
-		manager->IncreaseScore(100);
+		manager->IncreaseScore(itemType);
 		manager->ReturnFlag(this);
-		//if (!isSuperFlag)
+		if (itemType == ScoreItemType::PegicopterFlag)
 		{
 			Penta& player = dynamic_cast<Penta&>(col->GetGameObject());
 			player.GetPegicopterItem();

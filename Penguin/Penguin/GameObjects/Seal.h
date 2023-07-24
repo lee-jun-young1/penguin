@@ -24,9 +24,6 @@ public:
 	virtual void Draw(sf::RenderWindow& window) override;
 
 
-	virtual void OnTriggerEnter(Collider* col) override;
-	virtual void OnTriggerStay(Collider* col) override;
-	virtual void OnTriggerExit(Collider* col) override;
 	void SetAnimator(Animator* animator);
 
 	virtual void SetPosition(const sf::Vector2f& position) override;

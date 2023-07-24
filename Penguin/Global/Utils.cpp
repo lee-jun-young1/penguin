@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Utils.h"
 #include <SFML/Graphics.hpp>
+#include <sstream>
 
 std::random_device Utils::randomDevice;
 std::mt19937 Utils::gen(Utils::randomDevice());
@@ -161,4 +162,72 @@ sf::Vector2f Utils::RectNormal(sf::Rect<float> base, sf::Rect<float> target)
 	{
 		return val.x > 0.0f ? sf::Vector2f(1.0f, 0.0f) : sf::Vector2f(-1.0f, 0.0f);
 	}
+}
+
+std::string Utils::ToString(int value, std::string format)
+{
+	std::string temp = std::to_string(value);
+	std::string formatRealPart;
+	std::string formatDecimalPart;
+	if (Utils::Contains(format, '.'))
+	{
+		std::vector<std::string> formatResult = Split(format, '.');
+		formatRealPart = formatResult[0];
+		formatDecimalPart = formatResult[1];
+	}
+	else
+	{
+		formatRealPart = format;
+	}
+
+	std::stringstream ss;
+	for (int i = 0; i + temp.size() < formatRealPart.size(); i++)
+	{
+		if (format.c_str()[i] == '0')
+		{
+			ss << '0';
+		}
+	}
+	ss << temp;
+
+	if (formatDecimalPart.size() > 0)
+	{
+		ss << '.';
+		for (int i = 0; i < formatDecimalPart.size(); i++)
+		{
+			if (format.c_str()[i] == '0')
+			{
+				ss << '0';
+			}
+		}
+	}
+	return ss.str();
+}
+
+std::string Utils::ToString(float value, std::string format)
+{
+	std::string temp = std::to_string(value);
+	std::vector<std::string> result = Utils::Split(temp, '.');
+	std::string realPart = result[0];
+	std::string decimalPart = result[1];
+	//TODO
+	return nullptr;
+}
+
+std::vector<std::string> Utils::Split(std::string input, char delimiter) {
+	std::vector<std::string> result;
+	std::stringstream ss(input);
+	std::string temp;
+
+	while (getline(ss, temp, delimiter)) {
+		result.push_back(temp);
+	}
+
+	return result;
+}
+
+bool Utils::Contains(const std::string& str, const char& c)
+{
+	std::size_t found = str.find(c);
+	return found != std::string::npos;
 }

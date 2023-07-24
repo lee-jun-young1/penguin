@@ -36,7 +36,7 @@ protected:
 
 	GameObject* crevasse;
 
-	std::function<void(float)> stateUpdate;
+	std::function<void(float)> updateFunc;
 public:
 	Penta(const std::string& textureID = "", const std::string& name = "")
 		:SpriteGO(textureID, name) {}
@@ -53,6 +53,8 @@ public:
 	void UpdateHit(float deltaTime);
 	void UpdateCrevasse(float deltaTime);
 	void UpdateMove(float deltaTime);
+	void UpdateJump(float deltaTime);
+	void UpdatePegicopter(float deltaTime);
 	virtual void Draw(sf::RenderWindow& window) override;
 	virtual void OnCollisionEnter(Collider* col) override;
 

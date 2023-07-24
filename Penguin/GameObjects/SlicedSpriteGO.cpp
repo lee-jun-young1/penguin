@@ -111,7 +111,7 @@ void SlicedSpriteGO::Release()
 
 void SlicedSpriteGO::Reset()
 {
-	SetTexture(*RESOURCE_MANAGER.GetTexture(textureID), centerRect, spriteSize);
+	SetTexture(*Resources.GetTexture(textureID), centerRect, spriteSize);
 }
 
 void SlicedSpriteGO::Update(float dt)

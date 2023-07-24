@@ -7,7 +7,7 @@ struct Transition;
 
 struct AnimationState
 {
-	AnimationClip clip;
+	AnimationClip* clip;
 	std::unordered_map<std::string, Transition> transitions;
 };
 
@@ -30,7 +30,7 @@ public:
 	Animator(SpriteGO& spriteGO);
 	virtual ~Animator() override;
 	void AddTransition(const std::string& stateName, const std::string& transitionName, Transition transition);
-	void AddState(const std::string& stateName, const AnimationClip& newClip);
+	void AddState(const std::string& stateName, AnimationClip* newClip);
 
 	AnimationState* GetState(const std::string& stateName);
 

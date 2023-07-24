@@ -2,6 +2,7 @@
 #include "SceneManager.h"
 #include "Scene.h"
 #include "SceneGame.h"
+#include "SceneTitle.h"
 
 void SceneManager::ChangeScene(SceneId id)
 {
@@ -17,6 +18,7 @@ void SceneManager::Init()
 	{
 		Release();
 	}
+	scenes.push_back(new SceneTitle());
 	scenes.push_back(new SceneGame());
 
 	for (auto scene : scenes)

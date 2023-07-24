@@ -13,6 +13,7 @@ enum class Languages
 enum class SceneId
 {
 	None = -1,
+	Title,
 	Game,
 	Dev1,
 	Dev2,

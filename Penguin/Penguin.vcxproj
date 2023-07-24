@@ -43,7 +43,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
@@ -210,6 +210,7 @@
     <ClCompile Include="GameObjects\SpriteTextGO.cpp" />
     <ClCompile Include="GameObjects\SlicedSpriteGO.cpp" />
     <ClCompile Include="Penguin\GameObjects\Seal.cpp" />
+    <ClCompile Include="Penguin\Scenes\SceneTitle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3rd\rapidcsv.h" />
@@ -265,6 +266,7 @@
     <ClInclude Include="GameObjects\SpriteTextGO.h" />
     <ClInclude Include="GameObjects\SlicedSpriteGO.h" />
     <ClInclude Include="Penguin\GameObjects\Seal.h" />
+    <ClInclude Include="Penguin\Scenes\SceneTitle.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Global\Utils.h" />
     <ClInclude Include="Global\Variables.h" />

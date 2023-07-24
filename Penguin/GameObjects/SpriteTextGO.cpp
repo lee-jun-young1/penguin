@@ -6,7 +6,7 @@ SpriteTextGO::SpriteTextGO(const std::string& name)
 {
 }
 
-void SpriteTextGO::SetText(std::string text)
+void SpriteTextGO::SetText(std::string text, int colorIdx)
 {
 	sf::Vector2f offset = { 0.0f, 0.0f };
 	vertexArray.setPrimitiveType(sf::Quads);
@@ -20,19 +20,19 @@ void SpriteTextGO::SetText(std::string text)
 		for (int k = 0; k < 4; k++)
 		{
 			vertexArray[index].position = offset;
-			vertexArray[index].texCoords = { (float)data.rect.left, (float)data.rect.top };
+			vertexArray[index].texCoords = { (float)data.rect.left, (float)data.rect.top + colorIdx * (float)data.rect.height };
 
 
 			vertexArray[index + 1].position = offset + sf::Vector2f((float)data.rect.width, 0.0f);
-			vertexArray[index + 1].texCoords = { (float)data.rect.left + (float)data.rect.width, (float)data.rect.top };
+			vertexArray[index + 1].texCoords = { (float)data.rect.left + (float)data.rect.width, (float)data.rect.top + colorIdx * (float)data.rect.height };
 
 
 			vertexArray[index + 2].position = offset + sf::Vector2f((float)data.rect.width, (float)data.rect.height);
-			vertexArray[index + 2].texCoords = { (float)data.rect.left + (float)data.rect.width, (float)data.rect.top + (float)data.rect.height};
+			vertexArray[index + 2].texCoords = { (float)data.rect.left + (float)data.rect.width, (float)data.rect.top + (float)data.rect.height + colorIdx * (float)data.rect.height };
 
 
 			vertexArray[index + 3].position = offset + sf::Vector2f(0.0f , (float)data.rect.height);
-			vertexArray[index + 3].texCoords = { (float)data.rect.left, (float)data.rect.top + (float)data.rect.height };
+			vertexArray[index + 3].texCoords = { (float)data.rect.left, (float)data.rect.top + (float)data.rect.height + colorIdx * (float)data.rect.height };
 		}
 		offset.x += (float)data.rect.width;
 	}

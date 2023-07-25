@@ -1,0 +1,6 @@
+ID,FPS,LOOPTYPE,,
+Straight,1,1,,
+,,,,
+TextureID,Left,Top,Width,Height
+graphics/BG.png,0,0,256,168
+graphics/BG.png,256,0,256,168

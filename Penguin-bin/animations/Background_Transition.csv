@@ -1,0 +1,7 @@
+StateName,EventName,IgnoreExitTime,ExitTime,TargetState,EnterTime
+Straight,Left,1,0,Left,0
+Straight,Right,1,0,Right,0
+Left,Straight,1,0,Straight,0
+Left,Right,1,0,Right,0
+Right,Left,1,0,Left,0
+Right,Straight,1,0,Straight,0

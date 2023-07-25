@@ -6,7 +6,7 @@
 void DataTableManager::LoadAll()
 {
 	tables.insert({ DataTable::Ids::String, new StringTable() });
-	//tables.insert({ DataTable::Ids::Stage, new StageDataTable() });
+	tables.insert({ DataTable::Ids::Stage, new StageDataTable() });
 
 	for (auto pair : tables)
 	{

@@ -150,6 +150,12 @@
     <ClCompile Include="Penguin\Scenes\SceneTitle.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Penguin\GameObjects\IceStation.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Penguin\GameObjects\Background.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -300,6 +306,12 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Penguin\Scenes\SceneTitle.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Penguin\GameObjects\IceStation.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Penguin\GameObjects\Background.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

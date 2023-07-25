@@ -2,6 +2,7 @@
 #include "SpriteGO.h"
 #include "Animator.h"
 #include <AudioSource.h>
+#include <Framework.h>
 
 enum class State
 {
@@ -10,6 +11,7 @@ enum class State
 	InHole,
 	Hit,
 	Pegicopter,
+	Clear,
 };
 
 class Penta : public SpriteGO
@@ -37,6 +39,14 @@ protected:
 	GameObject* crevasse;
 
 	std::function<void(float)> updateFunc;
+
+	float afterClearTime;
+	sf::Vector2f clearPosition;
+	sf::Vector2f clearTargetPosition = { FRAMEWORK.GetWindowSize().x * 0.5f, FRAMEWORK.GetWindowSize().x * 0.5f };
+	/// <summary>
+	/// 원심력 방향
+	/// </summary>
+	float centrifugalForceDirection = 0.0f;
 public:
 	Penta(const std::string& textureID = "", const std::string& name = "")
 		:SpriteGO(textureID, name) {}
@@ -53,6 +63,7 @@ public:
 	void UpdateHit(float deltaTime);
 	void UpdateCrevasse(float deltaTime);
 	void UpdateMove(float deltaTime);
+	void UpdateClear(float deltaTime);
 	void UpdateJump(float deltaTime);
 	void UpdatePegicopter(float deltaTime);
 	virtual void Draw(sf::RenderWindow& window) override;
@@ -63,5 +74,9 @@ public:
 
 	void GetPegicopterItem();
 	void SetPegicopter(SpriteGO* pegicopter, Animator* pegicopterAni);
+	void Clear();
+
+	// 원심력 방향 설정
+	void SetCentrifugalForceDirection(const float& force) { centrifugalForceDirection = force; }
 };
 

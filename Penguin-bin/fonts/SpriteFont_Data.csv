@@ -45,7 +45,10 @@ z,fonts/SpriteFont.png,272,0,7,8
 k,fonts/SpriteFont.png,338,0,6,8
 m,fonts/SpriteFont.png,344,0,6,8
 _,fonts/SpriteFont.png,280,0,3,8
-#,e,350,0,5,8
-$,y,355,0,5,8
-%,with,360,0,16,8
-Y,Y,376,0,8,8
+#,fonts/SpriteFont.png,350,0,5,8
+$,fonts/SpriteFont.png,355,0,5,8
+%,fonts/SpriteFont.png,360,0,16,8
+Y,fonts/SpriteFont.png,376,0,8,8
+F,fonts/SpriteFont.png,386,0,8,8
+W,fonts/SpriteFont.png,394,0,8,8
+Z,fonts/SpriteFont.png,402,0,8,8

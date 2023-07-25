@@ -22,12 +22,15 @@ struct Transition
 class Animator : public Animation
 {
 protected:
-	std::unordered_map<std::string, AnimationState> states;
+	std::unordered_map<std::string, AnimationState*> states;
 	AnimationState* currentState;
 
 	string currentEvent;
+
+	string dataPath = "";
+	string defaultState = "";
 public:
-	Animator(SpriteGO& spriteGO);
+	Animator(SpriteGO& spriteGO, const string& dataPath, const string& defaultState);
 	virtual ~Animator() override;
 	void AddTransition(const std::string& stateName, const std::string& transitionName, Transition transition);
 	void AddState(const std::string& stateName, AnimationClip* newClip);
@@ -37,6 +40,7 @@ public:
 	void SetEvent(std::string eventID);
 	void SetState(std::string stateID);
 
+	virtual void Reset() override;
 	virtual void Update(float dt) override;
 
 	void LoadFromFile(std::string path);

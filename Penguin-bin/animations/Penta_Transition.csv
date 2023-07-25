@@ -11,3 +11,9 @@ CrevasseMove,Idle,1,0,CrevasseIdle,0
 CrevasseMove,Escape,1,0,Move,0
 Hit,Hit,1,0,Hit,0
 Hit,Crevasse,1,0,CrevasseIdle,0
+Move,Clear,1,0,Clear,0
+Jump,Clear,1,0,Clear,0
+Hit,Clear,1,0,Clear,0
+Move,SuperClear,1,0,SuperClear,0
+Jump,SuperClear,1,0,SuperClear,0
+Hit,SuperClear,1,0,SuperClear,0

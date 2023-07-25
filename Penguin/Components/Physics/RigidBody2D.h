@@ -20,6 +20,7 @@ public:
 	void SetVelocity(sf::Vector2f velocity);
 
 	virtual void Init() override;
+	virtual void Reset() override { velocity = { 0.0f, 0.0f }; };
 	virtual void Update(float deltaTime) override;
 	virtual void Draw(sf::RenderWindow& window) override;
 	virtual void Release() override;

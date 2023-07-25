@@ -12,6 +12,7 @@ protected:
 	std::map<std::string, std::tuple<sf::Font*, bool>> mapFont;
 	std::map<std::string, std::tuple<sf::SoundBuffer*, bool>> mapSoundBuffer;
 	std::map<std::string, std::tuple<AnimationClip*, bool>> mapAnimationClip;
+	std::map<std::string, std::tuple<AnimationClip*, bool>> mapAnimator;
 public:
 	void Init();
 

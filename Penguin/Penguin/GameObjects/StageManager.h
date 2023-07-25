@@ -8,18 +8,34 @@
 #include "Fish.h"
 #include "FlagItem.h"
 #include "SpriteTextGO.h"
+#include <AudioSource.h>
+#include <IceStation.h>
+#include <Background.h>
+
+enum class StageState
+{
+	Playing,
+	Clear,
+	Timeout,
+};
+
 class StageManager : public GameObject
 {
 private:
+	StageState state;
+
 	ObjectPool<Crevasse> crevassePool;
 	ObjectPool<IceHole> iceHolePool;
 	ObjectPool<Fish> fishPool;
 	ObjectPool<FlagItem> flagPool;
 
+	IceStation* iceStation;
+
 	list<GameObject*> manageObjects;
 	vector<GameObject*> removeManageObjects;
 
 	int stage = 1;
+	string stageName;
 
 	vector<int> scoreTable = {100, 100, 200};
 	float stageTime = 10.0f;
@@ -31,6 +47,8 @@ private:
 	float refreshCycle = 0.2f; //0.2f
 	float refreshTime = 0.0f;
 
+	float effectTime = 0.0f;
+
 	const float defaultSpeed = 0.3f;
 	float speed = 0.1f;
 
@@ -38,7 +56,7 @@ private:
 	int speedLevel = 1;
 
 	//TODO ReadFile
-	sf::Vector2f startXRange = { FRAMEWORK.GetWindowSize().x * 0.4f, FRAMEWORK.GetWindowSize().x * 0.6f };
+	sf::Vector2f startXRange = { FRAMEWORK.GetWindowSize().x * 0.45f, FRAMEWORK.GetWindowSize().x * 0.55f };
 	float startY = 55.0f;
 	sf::Vector2f endXRange = { FRAMEWORK.GetWindowSize().x * 0.2f, FRAMEWORK.GetWindowSize().x * 0.8f };
 	float endY = 165.0f;
@@ -49,6 +67,12 @@ private:
 
 	SpriteTextGO* timeText;
 	SpriteTextGO* restText;
+	AudioSource* timeLimitAlert;
+
+	Background* background;
+	AudioSource* bgm;
+
+	std::function<void(float)> updateFunc;
 public:
 
 	virtual void Init() override;
@@ -57,6 +81,11 @@ public:
 	virtual void Reset() override; //√ ±‚»≠
 
 	virtual void Update(float dt) override;
+	void UpdatePlaying(float dt);
+	void CreateObj();
+	void UpdateTimeOut(float dt);
+	void UpdateClear(float dt);
+	void RemoveObj();
 	virtual void Draw(sf::RenderWindow& window) override;
 	virtual void OnGUI(sf::RenderWindow& window) override;
 
@@ -78,8 +107,10 @@ public:
 	void DecreaseSpeedLevel();
 	void SetSpeedLevel(const int& level);
 
+
 	const float& GetFlagItemPercentage() { return flagItemPercentage; };
 
+	void IncreaseScore(const int& score);
 	void IncreaseScore(const ScoreItemType& type);
 
 	void ResetScore();
@@ -89,5 +120,7 @@ public:
 
 	void IncreaseStage();
 	void SetStage(const int& stage);
+	const std::string& GetStageName() const;
+	void StageClear();
 };
 

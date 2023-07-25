@@ -2,8 +2,8 @@
 #include "Animator.h"
 #include <rapidcsv.h>
 
-Animator::Animator(SpriteGO& spriteGO)
-	:Animation(spriteGO)
+Animator::Animator(SpriteGO& spriteGO, const string& dataPath, const string& defaultState)
+	:Animation(spriteGO), dataPath(dataPath), defaultState(defaultState)
 {
 }
 
@@ -25,10 +25,10 @@ void Animator::AddTransition(const std::string& stateName, const std::string& tr
 		std::cout << "undefined state :: " << stateName << std::endl;
 		return;
 	}
-	AnimationState& state = it->second;
-	if (state.transitions.find(transitionName) == state.transitions.end())
+	AnimationState* state = it->second;
+	if (state->transitions.find(transitionName) == state->transitions.end())
 	{
-		state.transitions.insert({ transitionName, transition});
+		state->transitions.insert({ transitionName, transition});
 	}
 }
 
@@ -36,7 +36,7 @@ void Animator::AddState(const std::string& stateName, AnimationClip* newClip)
 {
 	if (states.find(stateName) == states.end())
 	{
-		states.insert({ stateName, {newClip} });
+		states.insert({ stateName, new AnimationState({ newClip }) });
 	}
 }
 
@@ -47,7 +47,7 @@ AnimationState* Animator::GetState(const std::string& stateName)
 	{
 		return nullptr;
 	}
-	return &it->second;
+	return it->second;
 }
 
 void Animator::SetEvent(std::string eventID)
@@ -76,8 +76,17 @@ void Animator::SetState(std::string stateID)
 		std::cout << "Undefined state :: " << stateID << std::endl;
 		return;
 	}
-	currentState = &find->second;
+	currentState = find->second;
 	SetClip(currentState->clip);
+}
+
+void Animator::Reset()
+{
+	Animation::Reset();
+	states.clear();
+	LoadFromFile(dataPath);
+	SetState(defaultState);
+	Play();
 }
 
 void Animator::Update(float dt)

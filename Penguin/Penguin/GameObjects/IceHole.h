@@ -11,7 +11,7 @@ protected:
 
 	StageManager* manager;
 
-	const sf::Vector2f sizeMin = { 27.0f, 0.0f };
+	const sf::Vector2f sizeMin = { 0.0f, 0.0f };
 	const sf::Vector2f sizeMax = { 40.0f, 14.0f };
 	sf::Vector2f size;
 	BoxCollider* collider;

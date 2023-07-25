@@ -15,6 +15,7 @@ public:
 	virtual ~AudioSource();
 	// Component을(를) 통해 상속됨
 	virtual void Init() override;
+	virtual void Reset() override {};
 	virtual void Update(float deltaTime) override;
 	virtual void Draw(sf::RenderWindow& window) override;
 	virtual void Release() override;
@@ -23,6 +24,8 @@ public:
 
 	void Play();
 	void Stop();
+
+	bool IsPlaying();
 
 	void SetVolume(float volume);
 	void SetLoop(bool isLoop);

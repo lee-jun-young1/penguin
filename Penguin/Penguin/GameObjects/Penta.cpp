@@ -24,9 +24,6 @@ void Penta::Init()
 	Resources.Load(ResourceTypes::AnimationClip, "animations/Pegicopter_Idle.csv");
 	Resources.Load(ResourceTypes::AnimationClip, "animations/Pegicopter_Use.csv");
 
-	//TODO : File Read To Add
-	animator->LoadFromFile("animations/Penta");
-	pegicopterAni->LoadFromFile("animations/Pegicopter");
 
 
 	audio = new AudioSource(*this);
@@ -41,14 +38,12 @@ void Penta::Init()
 void Penta::Reset()
 {
 	SpriteGO::Reset();
-	animator->SetState("Move");
 	state = State::Move;
-	animator->Play();
 
 	SetOrigin(Origins::BC);
 	BoxCollider* boxCol = (BoxCollider*)GetComponent(ComponentType::Collider);
 	boxCol->SetRect({ position.x, position.y, 30.0f, 3.0f });
-	boxCol->SetOffset({ 30.0f * -0.5f, -3.0f });\
+	boxCol->SetOffset({ 30.0f * -0.5f, -3.0f });
 
 	SetPosition(FRAMEWORK.GetWindowSize().x * 0.5f, 165.0f);
 	spriteDirection = { 1.0f, 0.0f };
@@ -61,10 +56,7 @@ void Penta::Reset()
 
 	hasPegicopter = false;
 	pegicopter->SetActive(false);
-
-	pegicopterAni->SetState("Idle");
-	pegicopterAni->Play();
-
+	afterClearTime = 0.0f;
 #pragma region AnimationAction
 	AnimationClip* hitClip = animator->GetState("Hit")->clip;
 
@@ -214,7 +206,17 @@ void Penta::UpdateMove(float deltaTime)
 			direction = { 0.0f, axis.y < 0.0f ? -1.0f : 1.0f };
 		}
 	}
-	rigidBody->SetVelocity({ axis.x * speed , rigidBody->GetVelocity().y });
+	rigidBody->SetVelocity({ axis.x * speed + centrifugalForceDirection * speed * 0.7f, rigidBody->GetVelocity().y });
+}
+
+void Penta::UpdateClear(float deltaTime)
+{
+	afterClearTime += deltaTime;
+	SetPosition(Utils::Lerp(clearPosition, clearTargetPosition, afterClearTime));
+	if(afterClearTime > 1.0f)
+	{
+		animator->SetEvent("Clear");
+	}
 }
 
 void Penta::UpdateJump(float deltaTime)
@@ -250,7 +252,7 @@ void Penta::UpdatePegicopter(float deltaTime)
 		else
 		{
 			rigidBody->SetGravity(false);
-			rigidBody->SetVelocity({ rigidBody->GetVelocity().x, 0.0f });
+			rigidBody->SetVelocity({ centrifugalForceDirection * speed, 0.0f });
 		}
 		return;
 	}
@@ -329,6 +331,7 @@ void Penta::GetPegicopterItem()
 {
 	hasPegicopter = true;
 	pegicopter->SetActive(true);
+	pegicopterAni->SetEvent("Idle");
 }
 
 void Penta::SetPegicopter(SpriteGO* pegicopter, Animator* pegicopterAni)
@@ -336,4 +339,16 @@ void Penta::SetPegicopter(SpriteGO* pegicopter, Animator* pegicopterAni)
 	this->pegicopter = pegicopter;
 	this->pegicopterAni = pegicopterAni;
 	pegicopter->SetActive(false);
+}
+
+void Penta::Clear()
+{
+	state = State::Clear;
+	updateFunc = std::bind(&Penta::UpdateClear, this, std::placeholders::_1);
+	pegicopter->SetActive(false);
+	animator->SetEvent("Move");
+	afterClearTime = 0.0f;
+	clearPosition = position;
+	rigidBody->SetVelocity({ 0.0f, 0.0f });
+	direction.x = 0.0f;
 }

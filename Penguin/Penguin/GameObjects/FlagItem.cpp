@@ -43,7 +43,7 @@ void FlagItem::Update(float deltaTime)
 
 	if (itemType == ScoreItemType::PegicopterFlag)
 	{
-		int t = time * 1000;
+		int t = time * 100;
 		sf::Color color;
 		color.r = Utils::Lerp(0, 255, (t % 100) * 0.01f);
 		color.g = Utils::Lerp(0, 255, ((t + 33) % 100) * 0.01f);

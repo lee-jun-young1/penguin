@@ -42,6 +42,11 @@ void AudioSource::Stop()
 	soundStream.stop();
 }
 
+bool AudioSource::IsPlaying()
+{
+	return soundStream.getStatus() == sf::SoundSource::Playing;
+}
+
 void AudioSource::SetVolume(float volume)
 {
 	this->volume = volume;

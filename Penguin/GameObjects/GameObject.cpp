@@ -55,6 +55,14 @@ void GameObject::SetOrigin(float originX, float originY)
 	this->origin = Origins::CUSTOM;
 }
 
+void GameObject::Reset()
+{
+	for (auto component : components)
+	{
+		component->Reset();
+	}
+}
+
 void GameObject::Update(float dt)
 {
 	for (auto component : components)

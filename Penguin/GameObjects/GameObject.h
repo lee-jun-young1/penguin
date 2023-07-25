@@ -38,7 +38,7 @@ public:
 	virtual void Init() {};
 	virtual void Release() {};
 
-	virtual void Reset() {}; //초기화
+	virtual void Reset(); //초기화
 
 	virtual void Update(float dt);
 	virtual void Draw(sf::RenderWindow& window);

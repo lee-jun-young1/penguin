@@ -13,6 +13,7 @@ public:
 	virtual bool CheckCross(Collider* col) override;
 
 	virtual void Init() override;
+	virtual void Reset() override {};
 	virtual void Update(float deltaTime) override;
 	virtual void Draw(sf::RenderWindow& window) override;
 	virtual void OnGUI(sf::RenderWindow& window) override;

@@ -22,17 +22,12 @@ void Seal::Init()
 	physicsLayer = 5;
 	sortOrder = 2;
 
-	Animator* sealAnimator = new Animator(*this);
-	AddComponent(sealAnimator);
-	SetAnimator(sealAnimator);
+	animator = new Animator(*this, "animations/Seal", "Hide");
+	AddComponent(animator);
 
 	collider = new BoxCollider(*this);
 	collider->SetTrigger(true);
 	AddComponent(collider);
-
-
-	//TODO : File Read To Add
-	animator->LoadFromFile("animations/Seal");
 }
 
 void Seal::Release()
@@ -44,7 +39,6 @@ void Seal::Reset()
 {
 	SpriteGO::Reset();
 	time = 0;
-	animator->SetState("Hide");
 	animator->Play();
 	SetOrigin(Origins::BC);
 

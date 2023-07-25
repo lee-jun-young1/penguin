@@ -12,6 +12,7 @@
 #include <IceHole.h>
 #include <Crevasse.h>
 #include <Seal.h>
+#include <Background.h>
 
 SceneGame::SceneGame() 
 	: Scene(SceneId::Game)
@@ -65,7 +66,7 @@ void SceneGame::Init()
 	Scene::Init();
 	Release();
 
-	SpriteGO* bg = (SpriteGO*)AddGameObject(new SpriteGO("graphics/tempBG.png", "Background"));
+	Background* bg = (Background*)AddGameObject(new Background("graphics/BG.png", "Background"));
 	bg->sortLayer = -1;
 	AudioSource* bgm = new AudioSource(*bg);
 	bg->AddComponent(bgm);
@@ -74,7 +75,7 @@ void SceneGame::Init()
 	Penta* player = (Penta*)AddGameObject(new Penta("graphics/Penta.png", "Player"));
 	player->sortLayer = 2;
 	player->physicsLayer = (int)PhysicsLayer::Player;
-	Animator* animator = new Animator(*player);
+	Animator* animator = new Animator(*player, "animations/Penta", "Move");
 	player->AddComponent(animator);
 	player->SetAnimator(animator);
 	RigidBody2D* playerRig = new RigidBody2D(*player);
@@ -87,7 +88,7 @@ void SceneGame::Init()
 
 	SpriteGO* pegicopter = (SpriteGO*)AddGameObject(new SpriteGO("graphics/Pegicopter.png", "Player"));
 	pegicopter->sortLayer = 3;
-	Animator* pegicopterAni = new Animator(*pegicopter);
+	Animator* pegicopterAni = new Animator(*pegicopter, "animations/Pegicopter", "Idle");
 	pegicopter->AddComponent(pegicopterAni);
 	player->SetPegicopter(pegicopter, pegicopterAni);
 

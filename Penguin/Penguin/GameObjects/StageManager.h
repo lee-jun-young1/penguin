@@ -37,7 +37,7 @@ private:
 	int stage = 1;
 	string stageName;
 
-	vector<int> scoreTable = {100, 100, 200};
+	vector<int> scoreTable = {300, 500, 1000};
 	float stageTime = 10.0f;
 	float stageRest = 10.0f;
 

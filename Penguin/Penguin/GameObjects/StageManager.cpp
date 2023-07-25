@@ -8,6 +8,11 @@
 #include <DataTableManager.h>
 #include <StageDataTable.h>
 #include <Penta.h>
+StageManager::StageManager(const std::string& name)
+	:GameObject(name)
+{
+}
+
 void StageManager::Init()
 {
 	crevassePool.OnCreate = [this](Crevasse* crevasse) { crevasse->SetManager(this); };
@@ -73,8 +78,20 @@ void StageManager::Reset()
 	updateFunc = std::bind(&StageManager::UpdatePlaying, this, std::placeholders::_1);
 }
 
+void StageManager::UpdateComponent(float dt)
+{
+	for (auto& obj : manageObjects)
+	{
+		if (obj->IsActive())
+		{
+			obj->UpdateComponent(dt);
+		}
+	}
+}
+
 void StageManager::Update(float dt)
 {
+	//cout << "StageManager Update" << endl;
 	updateFunc(dt);
 }
 
@@ -171,34 +188,34 @@ void StageManager::UpdatePlaying(float dt)
 		}
 	}
 
-	for (auto crevasse : crevassePool.GetUseList())
-	{
-		if (!crevasse->IsActive())
-		{
-			crevassePool.Return(crevasse);
-		}
-	}
-	for (auto iceHole : iceHolePool.GetUseList())
-	{
-		if (!iceHole->IsActive())
-		{
-			iceHolePool.Return(iceHole);
-		}
-	}
-	for (auto fish : fishPool.GetUseList())
-	{
-		if (!fish->IsActive())
-		{
-			fishPool.Return(fish);
-		}
-	}
-	for (auto flag : flagPool.GetUseList())
-	{
-		if (!flag->IsActive())
-		{
-			flagPool.Return(flag);
-		}
-	}
+	//for (auto crevasse : crevassePool.GetUseList())
+	//{
+	//	if (!crevasse->IsActive())
+	//	{
+	//		crevassePool.Return(crevasse);
+	//	}
+	//}
+	//for (auto iceHole : iceHolePool.GetUseList())
+	//{
+	//	if (!iceHole->IsActive())
+	//	{
+	//		iceHolePool.Return(iceHole);
+	//	}
+	//}
+	//for (auto fish : fishPool.GetUseList())
+	//{
+	//	if (!fish->IsActive())
+	//	{
+	//		fishPool.Return(fish);
+	//	}
+	//}
+	//for (auto flag : flagPool.GetUseList())
+	//{
+	//	if (!flag->IsActive())
+	//	{
+	//		flagPool.Return(flag);
+	//	}
+	//}
 	RemoveObj();
 
 	refreshTime = 0;
@@ -208,6 +225,7 @@ void StageManager::CreateObj()
 {
 	int random = Utils::RandomRange(0, 4);
 
+	//cout << "gen " << name << endl;
 #ifdef _DEBUG
 	if (Input.GetKey(sf::Keyboard::F5))
 	{
@@ -228,7 +246,7 @@ void StageManager::CreateObj()
 		break;
 	case 1:
 	{
-		Crevasse* crevasse = &GetCrevasse();
+		Crevasse* crevasse = GetCrevasse();
 		float t = Utils::RandomValue();
 		crevasse->SetDirection({ Utils::Lerp(startXRange.x, startXRange.y, t), startY }, { Utils::Lerp(endXRange.x, endXRange.y, t), endY });
 		manageObjects.push_back(crevasse);
@@ -237,7 +255,7 @@ void StageManager::CreateObj()
 	break;
 	case 2:
 	{
-		IceHole* iceHole = &GetIceHole();
+		IceHole* iceHole = GetIceHole();
 		float t = Utils::RandomValue();
 		iceHole->SetDirection({ Utils::Lerp(startXRange.x, startXRange.y, t), startY }, { Utils::Lerp(endXRange.x, endXRange.y, t), endY });
 		manageObjects.push_back(iceHole);
@@ -255,7 +273,7 @@ void StageManager::CreateObj()
 	break;
 	case 3:
 	{
-		FlagItem* flag = &GetFlag();
+		FlagItem* flag = GetFlag();
 		float t = Utils::RandomValue();
 		flag->SetDirection({ Utils::Lerp(startXRange.x, startXRange.y, t), startY }, { Utils::Lerp(endXRange.x, endXRange.y, t), endY });
 		manageObjects.push_back(flag);
@@ -269,15 +287,20 @@ void StageManager::UpdateTimeOut(float dt)
 {
 	if (!bgm->IsPlaying())
 	{
-		FRAMEWORK.SetTimeScale(1.0f);
-		SpriteTextGO* sysMsgText = (SpriteTextGO*)SCENE_MANAGER.GetCurrentScene()->FindGameObject("SysMsg");
-		RectangleShapeGO* sysMsgRect = (RectangleShapeGO*)SCENE_MANAGER.GetCurrentScene()->FindGameObject("SysMsgRect");
-		sysMsgText->SetActive(false);
-		sysMsgRect->SetActive(false);
-		ReturnAll();
-		RemoveObj();
+		FRAMEWORK.SetTimeScale(1.0f); 
+		OnExitScene();
 		SCENE_MANAGER.ChangeScene(SceneId::Title);
 	}
+}
+
+void StageManager::OnExitScene()
+{
+	SpriteTextGO* sysMsgText = (SpriteTextGO*)SCENE_MANAGER.GetCurrentScene()->FindGameObject("SysMsg");
+	RectangleShapeGO* sysMsgRect = (RectangleShapeGO*)SCENE_MANAGER.GetCurrentScene()->FindGameObject("SysMsgRect");
+	sysMsgText->SetActive(false);
+	sysMsgRect->SetActive(false);
+	ReturnAll();
+	RemoveObj();
 }
 
 void StageManager::UpdateClear(float dt)
@@ -354,10 +377,10 @@ void StageManager::OnGUI(sf::RenderWindow& window)
 	}
 }
 
-Crevasse& StageManager::GetCrevasse()
+Crevasse* StageManager::GetCrevasse()
 {
-	cout << "crevassePool get :: " << crevassePool.GetUseList().size() + 1 << endl;
-	return *crevassePool.Get();
+	//cout << "crevassePool get :: " << crevassePool.GetUseList().size() + 1 << endl;
+	return crevassePool.Get();
 }
 
 void StageManager::ReturnCrevasse(Crevasse* crevasse)
@@ -365,23 +388,24 @@ void StageManager::ReturnCrevasse(Crevasse* crevasse)
 	//SCENE_MANAGER.GetCurrentScene()->RemoveGameObject(crevasse);
 	RemoveManageObject(crevasse);
 	crevassePool.Return(crevasse);
-	cout << "crevassePool return :: " << crevassePool.GetUseList().size() << endl;
+	//cout << "crevassePool return :: " << crevassePool.GetUseList().size() << endl;
 }
 
-Fish& StageManager::GetFish()
+Fish* StageManager::GetFish()
 {
- 	return *fishPool.Get();
+ 	return fishPool.Get();
 }
 
 void StageManager::ReturnFish(Fish* fish)
 {
 	SCENE_MANAGER.GetCurrentScene()->RemoveGameObject(fish);
 	fishPool.Return(fish);
+	cout << "fishReturn" << fishPool.GetUseList().size() << endl;
 }
 
-IceHole& StageManager::GetIceHole()
+IceHole* StageManager::GetIceHole()
 {
-	return *iceHolePool.Get();
+	return iceHolePool.Get();
 }
 
 void StageManager::ReturnIceHole(IceHole* iceHole)
@@ -396,13 +420,15 @@ void StageManager::ReturnIceHole(IceHole* iceHole)
 	iceHolePool.Return(iceHole);
 }
 
-FlagItem& StageManager::GetFlag()
+FlagItem* StageManager::GetFlag()
 {
-	return *flagPool.Get();
+	cout << "flag Get" << flagPool.GetUseList().size() << endl;
+	return flagPool.Get();
 }
 
 void StageManager::ReturnFlag(FlagItem* flag)
 {
+	cout << "flag Return" << flagPool.GetUseList().size() << endl;
 	//SCENE_MANAGER.GetCurrentScene()->RemoveGameObject(flag);
 	RemoveManageObject(flag);
 	flagPool.Return(flag);
@@ -580,6 +606,9 @@ void StageManager::StageClear()
 	sysMsgRect->SetPosition(sysMsgText->GetPosition());
 	sysMsgRect->SetOrigin(Origins::MC);
 	sysMsgRect->SetActive(true);
+
+	speedLevel = 0;
+	background->SetSpeed(0.0f);
 
 	Penta* player = (Penta*)SCENE_MANAGER.GetCurrentScene()->FindGameObject("Player");
 	player->Clear();

@@ -120,7 +120,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>./SFML-2.5.1/include;./Framework;./Scenes;./Global;./;./Utility;./GameObjects;./Components;./Components/Physics;./Components/Animation;./Components/Audio;./3rd;./DataTables;./Animation;./Example;./Example/Scenes;./Example/GameObjects;./Penguin/GameObjects;./Penguin/Scenes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./SFML-2.5.1/include;./Framework;./Scenes;./Global;./;./Utility;./GameObjects;./Components;./Components/Physics;./Components/Animation;./Components/Audio;./3rd;./DataTables;./Animation;./Example;./Example/Scenes;./Example/GameObjects;./Penguin/GameObjects;./Penguin/Scenes;./Penguin/GameObjects/Demo;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
     </ClCompile>
     <Link>
@@ -152,6 +152,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Penguin\GameObjects\Demo\DemoStageManager.cpp" />
     <ClCompile Include="Penguin\GameObjects\Background.cpp" />
     <ClCompile Include="Components\Audio\AudioGroup.cpp" />
     <ClCompile Include="Components\Audio\AudioSource.cpp" />
@@ -200,6 +201,8 @@
     <ClCompile Include="Framework\ResourceManager.cpp" />
     <ClCompile Include="Components\Physics\RigidBody2D.cpp" />
     <ClCompile Include="Framework\PhysicsManager.cpp" />
+    <ClCompile Include="Penguin\GameObjects\Demo\PentaBot.cpp" />
+    <ClCompile Include="Penguin\Scenes\SceneDemo.cpp" />
     <ClCompile Include="Scenes\Scene.cpp" />
     <ClCompile Include="Framework\SceneManager.cpp" />
     <ClCompile Include="Penguin\Scenes\SceneGame.cpp" />
@@ -216,6 +219,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3rd\rapidcsv.h" />
+    <ClInclude Include="Penguin\GameObjects\Demo\DemoStageManager.h" />
     <ClInclude Include="Penguin\GameObjects\Background.h" />
     <ClInclude Include="Components\Audio\AudioGroup.h" />
     <ClInclude Include="Components\Audio\AudioSource.h" />
@@ -262,6 +266,8 @@
     <ClInclude Include="Components\Physics\RigidBody2D.h" />
     <ClInclude Include="Framework\PhysicsManager.h" />
     <ClInclude Include="Penguin\GameObjects\IceHole.h" />
+    <ClInclude Include="Penguin\GameObjects\Demo\PentaBot.h" />
+    <ClInclude Include="Penguin\Scenes\SceneDemo.h" />
     <ClInclude Include="Scenes\Scene.h" />
     <ClInclude Include="Framework\SceneManager.h" />
     <ClInclude Include="Penguin\Scenes\SceneGame.h" />

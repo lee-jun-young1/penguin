@@ -166,7 +166,13 @@ sf::Vector2f Utils::RectNormal(sf::Rect<float> base, sf::Rect<float> target)
 
 std::string Utils::ToString(int value, std::string format)
 {
-	std::string temp = std::to_string(value);
+	std::string toString = std::to_string(value);
+	bool hasMinusSign = false;
+	if (Utils::Contains(std::to_string(value), '-'))
+	{
+		hasMinusSign = true;
+		remove(toString.begin(), toString.end(), '-');
+	}
 	std::string formatRealPart;
 	std::string formatDecimalPart;
 	if (Utils::Contains(format, '.'))
@@ -181,14 +187,18 @@ std::string Utils::ToString(int value, std::string format)
 	}
 
 	std::stringstream ss;
-	for (int i = 0; i + temp.size() < formatRealPart.size(); i++)
+	if (hasMinusSign)
+	{
+		ss << '-';
+	}
+	for (int i = 0; i + toString.size() < formatRealPart.size(); i++)
 	{
 		if (format.c_str()[i] == '0')
 		{
 			ss << '0';
 		}
 	}
-	ss << temp;
+	ss << toString;
 
 	if (formatDecimalPart.size() > 0)
 	{

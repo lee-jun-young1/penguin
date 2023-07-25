@@ -21,7 +21,7 @@ enum class StageState
 
 class StageManager : public GameObject
 {
-private:
+protected:
 	StageState state;
 
 	ObjectPool<Crevasse> crevassePool;
@@ -74,34 +74,39 @@ private:
 
 	std::function<void(float)> updateFunc;
 public:
+	StageManager(const std::string& name = "StageManager");
 
 	virtual void Init() override;
 	virtual void Release() override;
 
 	virtual void Reset() override; //√ ±‚»≠
 
+
+	virtual void UpdateComponent(float dt);
+
 	virtual void Update(float dt) override;
 	void UpdatePlaying(float dt);
-	void CreateObj();
+	virtual void CreateObj();
 	void UpdateTimeOut(float dt);
+	void OnExitScene();
 	void UpdateClear(float dt);
 	void RemoveObj();
 	virtual void Draw(sf::RenderWindow& window) override;
 	virtual void OnGUI(sf::RenderWindow& window) override;
 
-	Crevasse& GetCrevasse();
+	Crevasse* GetCrevasse();
 	void ReturnCrevasse(Crevasse* crevasse);
-	IceHole& GetIceHole();
+	IceHole* GetIceHole();
 	void ReturnIceHole(IceHole* iceHole);
-	FlagItem& GetFlag();
+	FlagItem* GetFlag();
 	void ReturnFlag(FlagItem* flag);
-
-	Fish& GetFish();
+	Fish* GetFish();
 	void ReturnFish(Fish* fish);
 
 	void ReturnAll();
 
 	const float GetSpeed() const { return speedLevel == 0 ? 0.0f : defaultSpeed + (speed * speedLevel); };
+	const float GetRest() const { return stageRest; }
 	void IncreaseSpeedLevel();
 	void RemoveManageObject(GameObject*);
 	void DecreaseSpeedLevel();

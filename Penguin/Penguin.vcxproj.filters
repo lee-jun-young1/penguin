@@ -156,6 +156,15 @@
     <ClCompile Include="Penguin\GameObjects\Background.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Penguin\GameObjects\Demo\PentaBot.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Penguin\GameObjects\Demo\DemoStageManager.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Penguin\Scenes\SceneDemo.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -312,6 +321,15 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Penguin\GameObjects\Background.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Penguin\GameObjects\Demo\PentaBot.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Penguin\GameObjects\Demo\DemoStageManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Penguin\Scenes\SceneDemo.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

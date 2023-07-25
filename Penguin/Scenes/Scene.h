@@ -44,6 +44,7 @@ public:
 	virtual void Exit();
 
 	virtual void Init();
+	void UpdateComponent(float deltaTime);
 	virtual void Release() = 0;
 	virtual void Reset() = 0;
 	virtual void Update(float deltaTime);

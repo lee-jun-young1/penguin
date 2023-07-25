@@ -135,6 +135,18 @@ void Scene::Init()
 }
 
 
+void Scene::UpdateComponent(float deltaTime)
+{
+	for (auto go : gameObjects)
+	{
+		if (go->IsActive())
+		{
+			go->UpdateComponent(deltaTime);
+		}
+	}
+}
+
+
 void Scene::Update(float deltaTime)
 {
 	for (auto go : gameObjects)

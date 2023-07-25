@@ -69,6 +69,18 @@ void Crevasse::SetDirection(sf::Vector2f startPos, sf::Vector2f endPos)
 	this->endPos = endPos;
 }
 
+void Crevasse::UpdateComponent(float dt)
+{
+	if (center->IsActive())
+	{
+		center->UpdateComponent(dt);
+	}
+	if (side->IsActive())
+	{
+		side->UpdateComponent(dt);
+	}
+}
+
 void Crevasse::Update(float dt)
 {
 	time += dt * manager->GetSpeed();
@@ -85,6 +97,10 @@ void Crevasse::Update(float dt)
 		side->SetActive(true);
 		center->Update(dt);
 		side->Update(dt);
+	}
+	if (FRAMEWORK.GetWindowSize().x + size.y < position.y)
+	{
+		manager->ReturnCrevasse(this);
 	}
 }
 

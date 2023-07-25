@@ -7,7 +7,7 @@
 Collider::Collider(GameObject& gameObject, ColliderType type)
 	:Component(gameObject, ComponentType::Collider, false), type(type), rigidbody(nullptr), isCollide(false), bounciness(0.0f), isTrigger(false)
 {
-	Physics.AddColliders(this, gameObject.physicsLayer);
+	//Physics.AddColliders(this, gameObject.physicsLayer);
 }
 
 Collider::~Collider()
@@ -158,6 +158,14 @@ void Collider::Init()
 {
 }
 
+void Collider::Reset()
+{
+	if (gameObject.IsActive() && isEnable)
+	{
+		Physics.AddColliders(this, gameObject.physicsLayer);
+	}
+}
+
 void Collider::Update(float deltaTime)
 {
 	list<Collider*> currentColliders;
@@ -260,7 +268,14 @@ void Collider::SetEnable(bool isEnable)
 	bool preEnable = this->isEnable;
 	if (gameObject.IsActive() && preEnable != isEnable)
 	{
-		isEnable ? Physics.AddColliders(this, gameObject.physicsLayer) : Physics.RemoveColliders(this, gameObject.physicsLayer);
+		if (isEnable)
+		{
+			Physics.AddColliders(this, gameObject.physicsLayer);
+		}
+		else if(!isEnable)
+		{
+			Physics.RemoveColliders(this, gameObject.physicsLayer);
+		}
 	}
 }
 

@@ -2,6 +2,8 @@
 #include "FlagItem.h"
 #include "StageManager.h"
 #include "Penta.h"
+#include <SceneManager.h>
+#include <Penguin/Scenes/SceneGame.h>
 
 void FlagItem::Init()
 {
@@ -36,7 +38,7 @@ void FlagItem::Update(float deltaTime)
 	SetSize(size);
 	SetPosition(Utils::Lerp(startPos, endPos, time, false));
 
-	if (position.y > 160.0f)
+	if (time > 0.85f)
 	{
 		collider->SetEnable(true);
 	}
@@ -51,6 +53,12 @@ void FlagItem::Update(float deltaTime)
 		sprite.setColor(color);
 	}
 
+	if (FRAMEWORK.GetWindowSize().x + sprite.getGlobalBounds().height < position.y)
+	{
+		manager->ReturnFlag(this);
+		//manager->ReturnFlag(this);
+	}
+
 	SpriteGO::Update(deltaTime);
 }
 
@@ -58,14 +66,30 @@ void FlagItem::OnTriggerEnter(Collider* col)
 {
 	if (col->GetGameObject().GetName() == "Player")
 	{
+		Penta& player = dynamic_cast<Penta&>(col->GetGameObject());
 		manager->IncreaseScore(itemType);
+		player.PlayFlagSound();
 		manager->ReturnFlag(this);
 		if (itemType == ScoreItemType::PegicopterFlag)
 		{
-			Penta& player = dynamic_cast<Penta&>(col->GetGameObject());
 			player.GetPegicopterItem();
 		}
 	}
+}
+
+void FlagItem::OnTriggerStay(Collider* col)
+{
+	//if (col->GetGameObject().GetName() == "Player")
+	//{
+	//	manager->ReturnFlag(this);
+	//	manager->IncreaseScore(itemType);
+	//	Penta& player = dynamic_cast<Penta&>(col->GetGameObject());
+	//	player.PlayFlagSound();
+	//	if (itemType == ScoreItemType::PegicopterFlag)
+	//	{
+	//		player.GetPegicopterItem();
+	//	}
+	//}
 }
 
 void FlagItem::SetManager(StageManager* manager)

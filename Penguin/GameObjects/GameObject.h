@@ -40,6 +40,8 @@ public:
 
 	virtual void Reset(); //√ ±‚»≠
 
+	virtual void UpdateComponent(float dt);
+
 	virtual void Update(float dt);
 	virtual void Draw(sf::RenderWindow& window);
 	virtual void OnGUI(sf::RenderWindow& window);
@@ -52,8 +54,6 @@ public:
 	bool Exist(Component* component);
 	void AddComponent(Component* component);
 	void RemoveGameObject(Component* component);
-
-
 
 	virtual void OnCollisionEnter(Collider* col) {};
 	virtual void OnCollisionStay(Collider* col) {};

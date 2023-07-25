@@ -61,13 +61,13 @@ void IceHole::Update(float dt)
 		isFishFired = true;
 		if (Utils::RandomRange(0, 2) == 1)
 		{
-			Fish& fish = manager->GetFish();
-			fish.sortLayer = 30;
-			fish.Reset();
-			fish.SetPosition(this->GetPosition());
-			fish.Fire();
-			fish.SetActive(true);
-			SCENE_MANAGER.GetCurrentScene()->AddGameObject(&fish);
+			Fish* fish = manager->GetFish();
+			fish->sortLayer = 30;
+			fish->Reset();
+			fish->SetPosition(this->GetPosition());
+			fish->Fire();
+			fish->SetActive(true);
+			SCENE_MANAGER.GetCurrentScene()->AddGameObject(fish);
 		}
 	}
 
@@ -83,9 +83,7 @@ void IceHole::Update(float dt)
 
 	if (FRAMEWORK.GetWindowSize().x + size.y < position.y)
 	{
-		Scene* scene = SCENE_MANAGER.GetCurrentScene();
-		SceneGame* gameScene = dynamic_cast<SceneGame*>(scene);
-		gameScene->GetStageManager()->ReturnIceHole(this);
+		manager->ReturnIceHole(this);
 	}
 }
 

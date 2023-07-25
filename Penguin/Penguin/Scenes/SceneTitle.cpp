@@ -30,7 +30,7 @@ void SceneTitle::Enter()
 
 	Scene::Enter();
 
-	SpriteFont* font = new SpriteFont("fonts/SpriteFont_Data.csv");
+	SpriteFont* font = Resources.GetSpriteFont("fonts/SpriteFont_Data.csv");
 
 	SpriteTextGO* originKonami = (SpriteTextGO*)FindGameObject("OriginKonami");
 	originKonami->sortLayer = UILayer;
@@ -49,7 +49,7 @@ void SceneTitle::Enter()
 	SpriteTextGO* press1Key = (SpriteTextGO*)FindGameObject("Press1Key");
 	press1Key->sortLayer = UILayer;
 	press1Key->SetFont(font);
-	press1Key->SetText("1-k#$    PLAY %  JOYSTICK", 1);
+	press1Key->SetText("1-k#$    PLAY %  PENTABOT", 1);
 	press1Key->SetPosition({ FRAMEWORK.GetWindowSize().x * 0.5f , FRAMEWORK.GetWindowSize().y * 0.55f });
 	press1Key->SetOrigin(Origins::MC);
 
@@ -69,9 +69,9 @@ void SceneTitle::Reset()
 	{
 		go->Reset();
 	}
-	AudioSource* bgm = (AudioSource*)FindGameObject("Background")->GetComponent(ComponentType::Audio);
+	bgm = (AudioSource*)FindGameObject("Background")->GetComponent(ComponentType::Audio);
 	bgm->SetClip(Resources.GetSoundBuffer("sound/bg/1_Opening.ogg"));
-	bgm->SetLoop(true);
+	bgm->SetLoop(false);
 	bgm->Play();
 
 }
@@ -121,9 +121,20 @@ void SceneTitle::Release()
 void SceneTitle::Update(float deltaTime)
 {
 	Scene::Update(deltaTime);
-	if (Input.GetKeyDown(sf::Keyboard::Num2))
+	if (Input.GetKeyUp(sf::Keyboard::Num1))
+	{
+		SCENE_MANAGER.ChangeScene(SceneId::Demo);
+		return;
+	}
+	if (Input.GetKeyUp(sf::Keyboard::Num2))
 	{
 		SCENE_MANAGER.ChangeScene(SceneId::Game);
+		return;
+	}
+	if (!bgm->IsPlaying()) 
+	{
+		SCENE_MANAGER.ChangeScene(SceneId::Demo);
+		return;
 	}
 }
 

@@ -5,6 +5,7 @@
 #include "BoxCollider.h"
 #include <SceneGame.h>
 #include <SceneManager.h>
+#include <Penta.h>
 
 void Fish::Fire()
 {
@@ -77,6 +78,8 @@ void Fish::OnTriggerEnter(Collider* col)
 	{
 		manager->IncreaseScore(ScoreItemType::Fish);
 		manager->ReturnFish(this);
+		Penta& player = dynamic_cast<Penta&>(col->GetGameObject());
+		player.PlayFishSound();
 	}
 }
 

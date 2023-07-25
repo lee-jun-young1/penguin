@@ -60,4 +60,5 @@ void ShapeGameObj::SetFillColor(sf::Color color)
 
 void ShapeGameObj::Reset()
 {
+	GameObject::Reset();
 }

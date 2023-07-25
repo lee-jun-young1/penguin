@@ -4,6 +4,7 @@
 #include <Penta.h>
 #include <InputManager.h>
 #include "Utils.h"
+#include <Penguin/Scenes/SceneGame.h>
 
 Background::Background(const std::string textureID, const std::string& name)
 	:SpriteGO(textureID, name)
@@ -50,7 +51,9 @@ void Background::Update(float dt)
 	loadRefreshTime += dt;
 	if (loadRefreshTime > loadRefreshCycle)
 	{
-		SetLoad((Load)Utils::Clamp(Utils::RandomRange(1, 5), 1, 3));
+		Scene* scene = SCENE_MANAGER.GetCurrentScene();
+		SceneGame* gameScene = dynamic_cast<SceneGame*>(scene);
+		SetLoad( gameScene->GetStageManager()->GetRest() < 100.0f ? Load::Straight : (Load)Utils::Clamp(Utils::RandomRange(1, 5), 1, 3));
 		loadRefreshTime -= loadRefreshCycle;
 	}
 }

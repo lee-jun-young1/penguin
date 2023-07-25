@@ -29,6 +29,8 @@ public:
 	virtual void Init(int width, int height, const std::string& title);
 	virtual void Release();
 
+	virtual void UpdateComponent(float deltaTime);
+
 	virtual void Update(float deltaTime);
 	virtual void Draw();
 	virtual void OnGUI();

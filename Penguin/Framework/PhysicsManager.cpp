@@ -9,16 +9,16 @@ PhysicsManager::PhysicsManager()
 		colliders.push_back(std::list<Collider*>());
 	}
 	layerCollide[1] += 1 << 3;
-	layerCollide[1] += 1 << 4;
-	layerCollide[1] += 1 << 5;
+
 	layerCollide[2] += 1 << 3;
+
 	layerCollide[3] += 1 << 1;
 	layerCollide[3] += 1 << 2;
 	layerCollide[3] += 1 << 4;
 	layerCollide[3] += 1 << 5;
-	layerCollide[4] += 1 << 1;
+
 	layerCollide[4] += 1 << 3;
-	layerCollide[5] += 1 << 1;
+
 	layerCollide[5] += 1 << 3;
 }
 
@@ -42,10 +42,26 @@ std::list<Collider*> PhysicsManager::GetColliders(const int& physicsLayer)
 
 void PhysicsManager::AddColliders(Collider* col, const int& physicsLayer)
 {
+	auto it = colliders[physicsLayer].begin();
+	for(it; it != colliders[physicsLayer].end(); it++)
+	{
+		if (*it == col)
+		{
+			return;
+		}
+	}
 	colliders[physicsLayer].push_back(col);
 }
 
 void PhysicsManager::RemoveColliders(Collider* col, const int& physicsLayer)
 {
 	colliders[physicsLayer].remove(col);
+}
+
+void PhysicsManager::Clear()
+{
+	for (int i = 0; i < (int)PhysicsLayer::Count; i++)
+	{
+		colliders[i].clear();
+	}
 }

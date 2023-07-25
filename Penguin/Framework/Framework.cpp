@@ -30,6 +30,12 @@ void Framework::Release()
     //cursor->Release();
 }
 
+void Framework::UpdateComponent(float deltaTime)
+{
+    SCENE_MANAGER.UpdateComponent(deltaTime);
+    //cursor->Update(deltaTime);
+}
+
 void Framework::Update(float deltaTime)
 {
     SCENE_MANAGER.Update(deltaTime);
@@ -93,6 +99,13 @@ void Framework::Run()
         {
             dt = 0.0f;
         }
+
+        //씬 이동시 등, 과도한 DeltaTime 방지, 물리로 인한 버그 발생
+        if (dt > 0.3f)
+        {
+            continue;
+        }
+
 
         Input.Update(dt);
         prevWindowPosition = window.getPosition();
@@ -159,6 +172,7 @@ void Framework::Run()
                 }
             }
 
+            UpdateComponent(dt * timeScale);
             Update(dt * timeScale);
 
             window.clear();

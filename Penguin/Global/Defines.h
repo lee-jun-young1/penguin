@@ -14,9 +14,8 @@ enum class SceneId
 {
 	None = -1,
 	Title,
+	Demo,
 	Game,
-	Dev1,
-	Dev2,
 	Count,
 };
 
@@ -26,6 +25,7 @@ enum class ResourceTypes
 	Font,
 	SoundBuffer,
 	AnimationClip,
+	SpriteFont,
 };
 
 enum class Origins

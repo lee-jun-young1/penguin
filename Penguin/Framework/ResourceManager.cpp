@@ -24,6 +24,11 @@ ResourceManager::~ResourceManager()
 		delete std::get<0>(pair.second);
 	}
 	mapAnimationClip.clear();
+	for (auto pair : mapSpriteFont)
+	{
+		delete std::get<0>(pair.second);
+	}
+	mapSpriteFont.clear();
 }
 
 void ResourceManager::Init()
@@ -74,6 +79,14 @@ void ResourceManager::UnLoadAll()
 		}
 	}
 	mapAnimationClip.clear();
+	for (auto pair : mapSpriteFont)
+	{
+		if (!std::get<0>(pair.second))
+		{
+			delete std::get<0>(pair.second);
+		}
+	}
+	mapSpriteFont.clear();
 }
 
 void ResourceManager::Load(ResourceTypes t, const std::string path, bool isStatic)
@@ -130,6 +143,17 @@ void ResourceManager::Load(ResourceTypes t, const std::string path, bool isStati
 		}
 	}
 		break;
+	case ResourceTypes::SpriteFont:
+	{
+		auto it = mapSpriteFont.find(path);
+		if (mapSpriteFont.end() == it)
+		{
+			auto sFont = new SpriteFont(path);
+
+			mapSpriteFont.insert({ path, std::make_tuple(sFont, isStatic) });
+		}
+	}
+	break;
 	}
 }
 
@@ -197,6 +221,7 @@ void ResourceManager::Unload(ResourceTypes t, const std::string path)
 			}
 		}
 	}
+	break;
 
 	case ResourceTypes::AnimationClip:
 	{
@@ -214,6 +239,24 @@ void ResourceManager::Unload(ResourceTypes t, const std::string path)
 			}
 		}
 	}
+	break;
+	case ResourceTypes::SpriteFont:
+	{
+		auto it = mapSpriteFont.find(path);
+		if (it != mapSpriteFont.end())
+		{
+			if (std::get<1>(it->second))
+			{
+				std::cout << "Cannot Remove Static Resource" << std::endl;
+			}
+			else
+			{
+				delete std::get<0>(it->second);
+				mapSpriteFont.erase(it);
+			}
+		}
+	}
+	break;
 	}
 }
 
@@ -259,6 +302,16 @@ AnimationClip* ResourceManager::GetAnimationClip(const std::string& id)
 {
 	auto it = mapAnimationClip.find(id);
 	if (mapAnimationClip.end() != it)
+	{
+		return std::get<0>(it->second);
+	}
+	return nullptr;
+}
+
+SpriteFont* ResourceManager::GetSpriteFont(const std::string& id)
+{
+	auto it = mapSpriteFont.find(id);
+	if (mapSpriteFont.end() != it)
 	{
 		return std::get<0>(it->second);
 	}

@@ -29,8 +29,8 @@ void AudioSource::Release()
 void AudioSource::SetClip(sf::SoundBuffer* soundClip)
 {
 	this->soundClip = soundClip;
-	soundStream.setBuffer((*soundClip));
-}
+	soundStream.setBuffer(*soundClip);
+ }
 
 void AudioSource::Play()
 {

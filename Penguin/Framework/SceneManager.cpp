@@ -3,12 +3,17 @@
 #include "Scene.h"
 #include "SceneGame.h"
 #include "SceneTitle.h"
+#include "SceneDemo.h"
+#include <PhysicsManager.h>
 
 void SceneManager::ChangeScene(SceneId id)
 {
 	currentScene->Exit();
+
+	Physics.Clear();
 	currentSceneId = id;
 	currentScene = scenes[(int)currentSceneId];
+
 	currentScene->Enter();
 }
 
@@ -19,6 +24,7 @@ void SceneManager::Init()
 		Release();
 	}
 	scenes.push_back(new SceneTitle());
+	scenes.push_back(new SceneDemo());
 	scenes.push_back(new SceneGame());
 
 	for (auto scene : scenes)
@@ -45,6 +51,11 @@ void SceneManager::Release()
 
 	currentSceneId = SceneId::None;
 	currentScene = nullptr;
+}
+
+void SceneManager::UpdateComponent(float deltaTime)
+{
+	scenes[(int)currentSceneId]->UpdateComponent(deltaTime);
 }
 
 void SceneManager::Update(float deltaTime)

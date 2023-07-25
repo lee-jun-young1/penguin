@@ -1,10 +1,9 @@
 #include "stdafx.h"
 #include <Framework.h>
-#include "SceneGame.h"
+#include "SceneDemo.h"
 #include <SpriteFont.h>
 #include <SpriteTextGO.h>
 #include <Animator.h>
-#include <Penta.h>
 #include <RigidBody2D.h>
 #include <BoxCollider.h>
 #include <RectangleShapeGO.h>
@@ -13,19 +12,23 @@
 #include <Crevasse.h>
 #include <Seal.h>
 #include <Background.h>
+#include <PentaBot.h>
+#include <DemoStageManager.h>
+#include <SceneManager.h>
+#include <InputManager.h>
 
-SceneGame::SceneGame() 
-	: Scene(SceneId::Game)
+SceneDemo::SceneDemo() 
+	: SceneGame()
 {
 	sceneName = "GameScene";
 }
 
-SceneGame::~SceneGame()
+SceneDemo::~SceneDemo()
 {
 	//Release();
 }
 
-void SceneGame::Enter()
+void SceneDemo::Enter()
 {
 	auto size = FRAMEWORK.GetWindowSize();
 	auto screenCenter = size * 0.5f;
@@ -39,17 +42,15 @@ void SceneGame::Enter()
 	Resources.Load(resources);
 
 	Reset();
-
 	for (auto go : gameObjects)
 	{
 		go->Reset();
 	}
 	stageManager->ResetScore();
 	stageManager->SetStage(1);
-	//test->SetTexture(*RESOURCE_MANAGER.GetTexture("graphics/SliceSpriteTest.png"), { 10, 6, 20, 2 }, { 0, 0, 40, 13 });
 }
 
-void SceneGame::Reset()
+void SceneDemo::Reset()
 {
 	SpriteFont* font = Resources.GetSpriteFont("fonts/SpriteFont_Data.csv");
 
@@ -114,14 +115,16 @@ void SceneGame::Reset()
 	bgm->SetClip(Resources.GetSoundBuffer("sound/bg/2_MainBgm.ogg"));
 	bgm->SetLoop(true);
 	bgm->Play();
+
+	demoTime = 30.0f;
 }
 
-void SceneGame::Exit()
+void SceneDemo::Exit()
 {
 	Scene::Exit();
 }
 
-void SceneGame::Init()
+void SceneDemo::Init()
 {
 	Scene::Init();
 	Release();
@@ -131,30 +134,17 @@ void SceneGame::Init()
 	AudioSource* bgm = new AudioSource(*bg);
 	bg->AddComponent(bgm);
 
-
-	stageManager = (StageManager*)AddGameObject(new StageManager());
-
-
-
-	RectangleShapeGO* ground = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
-	ground->physicsLayer = (int)PhysicsLayer::Ground;
-	ground->sortLayer = -1;
-	BoxCollider* boxCol = new BoxCollider(*ground);
-	ground->SetSize({ FRAMEWORK.GetWindowSize().x, 40.0f });
-	ground->SetPosition({ 0.0f, 165.0f });
-	boxCol->SetRect({ 0.0f, 165.0f, FRAMEWORK.GetWindowSize().x, 100.0f });
-	ground->AddComponent(boxCol);
+	stageManager = (DemoStageManager*)AddGameObject(new DemoStageManager());
+	SpriteFont* font = new SpriteFont("fonts/SpriteFont_Data.csv");
 
 
-
-	Penta* player = (Penta*)AddGameObject(new Penta("graphics/Penta.png", "Player"));
+	PentaBot* player = (PentaBot*)AddGameObject(new PentaBot("graphics/Penta.png", "Player"));
 	player->sortLayer = 2;
 	player->physicsLayer = (int)PhysicsLayer::Player;
 	Animator* animator = new Animator(*player, "animations/Penta", "Move");
 	player->AddComponent(animator);
 	player->SetAnimator(animator);
 	RigidBody2D* playerRig = new RigidBody2D(*player);
-	playerRig->SetGravity(false);
 	player->SetRigidBody(playerRig);
 	player->AddComponent(playerRig);
 	BoxCollider* playerCol = new BoxCollider(*player);
@@ -167,6 +157,17 @@ void SceneGame::Init()
 	Animator* pegicopterAni = new Animator(*pegicopter, "animations/Pegicopter", "Idle");
 	pegicopter->AddComponent(pegicopterAni);
 	player->SetPegicopter(pegicopter, pegicopterAni);
+
+
+	RectangleShapeGO* ground = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
+	ground->sortLayer = -1;
+	ground->physicsLayer = (int)PhysicsLayer::Ground;
+	BoxCollider* boxCol = new BoxCollider(*ground);
+	ground->SetSize({ FRAMEWORK.GetWindowSize().x, 40.0f });
+	ground->SetPosition({ 0.0f, 165.0f });
+	boxCol->SetRect({ 0.0f, 165.0f, FRAMEWORK.GetWindowSize().x, 100.0f });
+	ground->AddComponent(boxCol);
+
 
 
 	GameObject* wall = (GameObject*)AddGameObject(new GameObject("Wall"));
@@ -182,6 +183,8 @@ void SceneGame::Init()
 	rightWallCol->SetOffset({ FRAMEWORK.GetWindowSize().x - 10.0f, 0.0f });
 	sf::Vector2f offset = rightWallCol->GetOffset();
 	wall->AddComponent(rightWallCol);
+
+
 
 
 	SpriteTextGO* demoText = (SpriteTextGO*)AddGameObject(new SpriteTextGO("DemoText"));
@@ -227,7 +230,7 @@ void SceneGame::Init()
 	}
 }
 
-void SceneGame::Release()
+void SceneDemo::Release()
 {
 	for (auto go : gameObjects)
 	{
@@ -235,18 +238,37 @@ void SceneGame::Release()
 	}
 }
 
-void SceneGame::Update(float deltaTime)
+void SceneDemo::Update(float deltaTime)
 {
 	Scene::Update(deltaTime);
 
+	SpriteTextGO* sysMsgText = (SpriteTextGO*)FindGameObject("SysMsg");
+	sysMsgText->SetText("PRESS 2 TO PLAY");
+	sysMsgText->SetPosition(UIPositionToScreen({ FRAMEWORK.GetWindowSize().x * 0.5f, FRAMEWORK.GetWindowSize().y * 0.3f }));
+	sysMsgText->SetOrigin(Origins::MC);
+	sysMsgText->SetActive(true);
+
+	RectangleShapeGO* sysMsgRect = (RectangleShapeGO*)FindGameObject("SysMsgRect");
+	sysMsgRect->SetFillColor(sf::Color::Black);
+	sysMsgRect->SetSize(sysMsgText->GetSize());
+	sysMsgRect->SetPosition(UIPositionToScreen(sysMsgText->GetPosition()));
+	sysMsgRect->SetOrigin(Origins::MC);
+	sysMsgRect->SetActive(true);
+
+	demoTime -= deltaTime;
+	if (demoTime <= 0.0f || Input.GetKeyDown(sf::Keyboard::Num2))
+	{
+		stageManager->OnExitScene();
+		SCENE_MANAGER.ChangeScene(SceneId::Title);
+	}
 }
 
-void SceneGame::Draw(sf::RenderWindow& window)
+void SceneDemo::Draw(sf::RenderWindow& window)
 {
 	Scene::Draw(window);
 }
 
-StageManager* SceneGame::GetStageManager()
+StageManager* SceneDemo::GetStageManager()
 {
 	return stageManager;
 }

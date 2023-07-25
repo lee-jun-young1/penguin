@@ -1,16 +1,18 @@
 #pragma once
 #include "Scene.h"
 #include <StageManager.h>
-class SceneGame : public Scene
+#include "SceneGame.h"
+class SceneDemo : public SceneGame
 {
 protected:
 	std::map<std::string, bool> mouseOverStates;
 
 	StageManager* stageManager;
 
+	float demoTime = 30.0f;
 public:
-	SceneGame();
-	virtual ~SceneGame() override;
+	SceneDemo();
+	virtual ~SceneDemo() override;
 
 	virtual void Enter() override;
 	virtual void Reset() override;
@@ -21,6 +23,6 @@ public:
 	virtual void Update(float deltaTime) override;
 	virtual void Draw(sf::RenderWindow& window) override;
 
-	virtual StageManager* GetStageManager();
+	StageManager* GetStageManager();
 };
 

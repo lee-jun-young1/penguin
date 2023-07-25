@@ -14,6 +14,7 @@ public:
 	std::list<Collider*> GetColliders(const int& physicsLayer);
 	void AddColliders(Collider* col, const int& physicsLayer);
 	void RemoveColliders(Collider* col, const int& physicsLayer);
+	void Clear();
 };
 
 #define Physics (PhysicsManager::GetInstance())

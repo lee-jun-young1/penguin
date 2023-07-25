@@ -20,7 +20,8 @@ public:
 
 	void Init();
 	void Release();
-
+	
+	void UpdateComponent(float deltaTime);
 	void Update(float deltaTime);
 	void Draw(sf::RenderWindow& window);
 	void OnGUI(sf::RenderWindow& window);

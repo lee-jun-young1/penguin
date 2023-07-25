@@ -26,6 +26,7 @@ public:
     virtual void Reset() override;
     virtual void Update(float deltaTime) override;
     void OnTriggerEnter(Collider* col);
+    void OnTriggerStay(Collider* col);
     void SetManager(StageManager* manager);
 
     virtual void SetSize(sf::Vector2f size);

@@ -63,12 +63,17 @@ void GameObject::Reset()
 	}
 }
 
-void GameObject::Update(float dt)
+void GameObject::UpdateComponent(float dt)
 {
 	for (auto component : components)
 	{
 		component->Update(dt);
 	}
+}
+
+void GameObject::Update(float dt)
+{
+
 }
 
 void GameObject::Draw(sf::RenderWindow& window)

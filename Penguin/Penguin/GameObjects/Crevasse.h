@@ -37,6 +37,8 @@ public:
 
 	void SetDirection(sf::Vector2f startPos, sf::Vector2f endPos);
 
+	virtual void UpdateComponent(float dt) override;
+
 	void SetSize(sf::Vector2f size);
 };
 

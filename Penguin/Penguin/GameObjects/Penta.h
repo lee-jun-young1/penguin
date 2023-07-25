@@ -31,9 +31,13 @@ protected:
 
 	AudioSource* audio;
 	//TODO SoundClip
+	sf::SoundBuffer* fishSound;
+	sf::SoundBuffer* flagSound;
 	sf::SoundBuffer* jumpSound;
-	sf::SoundBuffer* HitHighSound;
-	sf::SoundBuffer* HitLowSound;
+	sf::SoundBuffer* hitHighSound;
+	sf::SoundBuffer* hitLowSound;
+	sf::SoundBuffer* crevasseSound;
+	sf::SoundBuffer* pegicopterSound;
 	RigidBody2D* rigidBody;
 
 	GameObject* crevasse;
@@ -60,12 +64,14 @@ public:
 	virtual void Init() override;
 	virtual void Reset() override;
 	virtual void Update(float dt) override;
-	void UpdateHit(float deltaTime);
-	void UpdateCrevasse(float deltaTime);
-	void UpdateMove(float deltaTime);
-	void UpdateClear(float deltaTime);
-	void UpdateJump(float deltaTime);
-	void UpdatePegicopter(float deltaTime);
+
+	virtual void UpdateHit(float deltaTime);
+	virtual void UpdateCrevasse(float deltaTime);
+	virtual void UpdateMove(float deltaTime);
+	virtual void UpdateClear(float deltaTime);
+	virtual void UpdateJump(float deltaTime);
+	virtual void UpdatePegicopter(float deltaTime);
+
 	virtual void Draw(sf::RenderWindow& window) override;
 	virtual void OnCollisionEnter(Collider* col) override;
 
@@ -75,6 +81,10 @@ public:
 	void GetPegicopterItem();
 	void SetPegicopter(SpriteGO* pegicopter, Animator* pegicopterAni);
 	void Clear();
+
+	void PlayFlagSound();
+
+	void PlayFishSound();
 
 	// 원심력 방향 설정
 	void SetCentrifugalForceDirection(const float& force) { centrifugalForceDirection = force; }

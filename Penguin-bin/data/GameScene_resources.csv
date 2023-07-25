@@ -1,9 +1,6 @@
 "RESOURCE_Types(0. Texture, 1. Font, 2.SoundClip, 3. AnimationClip)",RESOURCE_PATH
 0,graphics/Penta.png
-0,graphics/tempBG.png
-0,graphics/SliceSpriteTest.png
 0,graphics/IceHole.png
-0,fonts/SpriteFont.png
 0,graphics/Fish.png
 0,graphics/Flag.png
 0,graphics/Pegicopter.png
@@ -25,8 +22,12 @@
 2,sound/sfx/1_TimeScore.wav
 2,sound/sfx/2_Collided_High.wav
 2,sound/sfx/3_Collided_Low.wav
+2,sound/sfx/4_Fish.wav
+2,sound/sfx/5_Flag.wav
 2,sound/sfx/6_Jump.wav
+2,sound/sfx/7_InCrevasse.wav
 2,sound/sfx/10_NearTimeLimit.wav
+2,sound/sfx/13_Pegicopter.wav
 3,animations/Fish_Type1.csv
 3,animations/Fish_Type2.csv
 3,animations/Pegicopter_Idle.csv

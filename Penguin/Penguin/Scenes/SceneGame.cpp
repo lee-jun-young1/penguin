@@ -13,6 +13,7 @@
 #include <Crevasse.h>
 #include <Seal.h>
 #include <Background.h>
+#include <PentaShadow.h>
 
 SceneGame::SceneGame() 
 	: Scene(SceneId::Game)
@@ -150,6 +151,10 @@ void SceneGame::Init()
 	Penta* player = (Penta*)AddGameObject(new Penta("graphics/Penta.png", "Player"));
 	player->sortLayer = 2;
 	player->physicsLayer = (int)PhysicsLayer::Player;
+	PentaShadow* shadow = (PentaShadow*)AddGameObject(new PentaShadow());
+	shadow->SetPenta(player);
+	player->SetShadow(shadow);
+
 	Animator* animator = new Animator(*player, "animations/Penta", "Move");
 	player->AddComponent(animator);
 	player->SetAnimator(animator);

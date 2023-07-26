@@ -16,6 +16,7 @@
 #include <DemoStageManager.h>
 #include <SceneManager.h>
 #include <InputManager.h>
+#include <PentaShadow.h>
 
 SceneDemo::SceneDemo() 
 	: SceneGame()
@@ -141,6 +142,10 @@ void SceneDemo::Init()
 	PentaBot* player = (PentaBot*)AddGameObject(new PentaBot("graphics/Penta.png", "Player"));
 	player->sortLayer = 2;
 	player->physicsLayer = (int)PhysicsLayer::Player;
+	PentaShadow* shadow = (PentaShadow*)AddGameObject(new PentaShadow());
+	shadow->SetPenta(player);
+	player->SetShadow(shadow);
+
 	Animator* animator = new Animator(*player, "animations/Penta", "Move");
 	player->AddComponent(animator);
 	player->SetAnimator(animator);

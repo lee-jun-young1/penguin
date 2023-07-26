@@ -26,7 +26,8 @@ void IceStation::Reset()
 
 void IceStation::Update(float deltaTime)
 {
- 	time += deltaTime * manager->GetSpeed() * 0.2f;
+	
+ 	time += deltaTime * (time < 1.0f ? manager->GetSpeed() * 0.2f : 0.2f) ;
 
 	size = Utils::Lerp(sizeMin, sizeMax, time);
 	SetPosition(Utils::Lerp(startPos, endPos, time));
@@ -61,9 +62,9 @@ void IceStation::SetDirection(sf::Vector2f startPos, sf::Vector2f endPos)
 
 void IceStation::Draw(sf::RenderWindow& window)
 {
-	SpriteGO::Draw(window);
 	if (flag->IsActive())
 	{
 		flag->Draw(window);
 	}
+	SpriteGO::Draw(window);
 }

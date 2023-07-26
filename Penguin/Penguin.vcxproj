@@ -213,6 +213,7 @@
     <ClCompile Include="Framework\PhysicsManager.cpp" />
     <ClCompile Include="Penguin\GameObjects\Demo\PentaBot.cpp" />
     <ClCompile Include="Penguin\Scenes\SceneDemo.cpp" />
+    <ClCompile Include="Penguin\GameObjects\PentaShadow.cpp" />
     <ClCompile Include="Scenes\Scene.cpp" />
     <ClCompile Include="Framework\SceneManager.cpp" />
     <ClCompile Include="Penguin\Scenes\SceneGame.cpp" />
@@ -290,6 +291,7 @@
     <ClInclude Include="Penguin\GameObjects\IceHole.h" />
     <ClInclude Include="Penguin\GameObjects\Demo\PentaBot.h" />
     <ClInclude Include="Penguin\Scenes\SceneDemo.h" />
+    <ClInclude Include="Penguin\GameObjects\PentaShadow.h" />
     <ClInclude Include="Scenes\Scene.h" />
     <ClInclude Include="Framework\SceneManager.h" />
     <ClInclude Include="Penguin\Scenes\SceneGame.h" />

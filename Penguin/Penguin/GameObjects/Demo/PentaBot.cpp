@@ -9,7 +9,7 @@
 void PentaBot::Reset()
 {
 	SpriteGO::Reset();
-	state = State::Move;
+	state = PentaState::Move;
 
 	SetOrigin(Origins::BC);
 	BoxCollider* boxCol = (BoxCollider*)GetComponent(ComponentType::Collider);
@@ -42,7 +42,7 @@ void PentaBot::Reset()
 	hitClip->frames[0].action =
 		[this]()
 	{
-		if (state == State::Move)
+		if (state == PentaState::Move)
 		{
 			rigidBody->AddForce({ 0.0f, -40.0f });
 		}
@@ -69,7 +69,7 @@ void PentaBot::Reset()
 		animator->SetEvent("HitEnd");
 		SetFlipX(false);
 		updateFunc = std::bind(&PentaBot::UpdateMove, this, std::placeholders::_1);
-		state = State::Move;
+		state = PentaState::Move;
 	};
 
 	AnimationClip* CrevasseIdle = animator->GetState("CrevasseIdle")->clip;
@@ -143,10 +143,12 @@ void PentaBot::UpdateCrevasse(float deltaTime)
 		cout << "PENTABOT :: " << "Escape!!" << endl;
 		actionCooldown = 0.5f;
 		animator->SetEvent("Escape");
-		state = State::Move;
+		state = PentaState::Move;
 		SetPosition(position.x, 165.0f);
 		SetOrigin(Origins::BC);
 		updateFunc = std::bind(&PentaBot::UpdateMove, this, std::placeholders::_1);
+
+		shadow->SetActive(true);
 
 		Scene* scene = SCENE_MANAGER.GetCurrentScene();
 		SceneGame* gameScene = dynamic_cast<SceneGame*>(scene);
@@ -193,7 +195,7 @@ void PentaBot::UpdateMove(float deltaTime)
 	case 3:
 	{
 		actionCooldown = 0.1f;
-		if (state == State::Move)
+		if (state == PentaState::Move)
 		{
 			cout << "PENTABOT :: " << "Jump!!" << endl;
 			//Jump
@@ -201,7 +203,7 @@ void PentaBot::UpdateMove(float deltaTime)
 			animator->SetEvent("Jump");
 			audio->SetClip(jumpSound);
 			audio->Play();
-			state = State::Jump;
+			state = PentaState::Jump;
 			updateFunc = std::bind(&PentaBot::UpdateJump, this, std::placeholders::_1);
 		}
 	}
@@ -234,7 +236,7 @@ void PentaBot::UpdateJump(float deltaTime)
 	if (hasPegicopter && rigidBody->GetVelocity().y < 0.0f)
 	{
 		cout << "PENTABOT :: " << "Use Item!!" << endl;
-		state = State::Pegicopter;
+		state = PentaState::Pegicopter;
 		pegicopterTime = pegicopterDuration;
 		pegicopterAni->SetEvent("Use");
 		direction.x = 0.0f;
@@ -262,7 +264,7 @@ void PentaBot::UpdatePegicopter(float deltaTime)
 			pegicopter->SetActive(false);
 
 			audio->Stop();
-			state = State::Jump;
+			state = PentaState::Jump;
 			updateFunc = std::bind(&PentaBot::UpdateJump, this, std::placeholders::_1);
 		}
 		else
@@ -276,12 +278,12 @@ void PentaBot::UpdatePegicopter(float deltaTime)
 
 void PentaBot::OnCollisionEnter(Collider* col)
 {
-	if (state == State::Move || state == State::Jump || state == State::Hit)
+	if (state == PentaState::Move || state == PentaState::Jump || state == PentaState::Hit)
 	{
 		if (col->GetGameObject().GetName() == "Seal" || (((col->GetGameObject().GetName() == "IceHole" || col->GetGameObject().GetName() == "CrevasseSide") && rigidBody->GetVelocity().y >= 0.0f)))
 		{
 			animator->SetEvent("Hit");
-			state = State::Hit;
+			state = PentaState::Hit;
 			if (position.x < col->GetGameObject().GetPosition().x)
 			{
 				direction.x = -1.0f;
@@ -301,7 +303,7 @@ void PentaBot::OnCollisionEnter(Collider* col)
 		{
 			animator->SetEvent("Crevasse");
 			crevasse = col->GetGameObject().GetParent();
-			state = State::InHole;
+			state = PentaState::InHole;
 			rigidBody->SetVelocity({ 0.0f, 0.0f });
 			direction.x = 0.0f;
 			updateFunc = std::bind(&Penta::UpdateCrevasse, this, std::placeholders::_1);
@@ -309,14 +311,16 @@ void PentaBot::OnCollisionEnter(Collider* col)
 			audio->SetClip(crevasseSound);
 			audio->Play();
 
+			shadow->SetActive(false);
+
 			Scene* scene = SCENE_MANAGER.GetCurrentScene();
 			SceneGame* gameScene = dynamic_cast<SceneGame*>(scene);
 			gameScene->GetStageManager()->SetSpeedLevel(0);
 		}
 	}
-	if (state == State::Jump && col->GetGameObject().GetName() == "Ground")
+	if (state == PentaState::Jump && col->GetGameObject().GetName() == "Ground")
 	{
-		state = State::Move;
+		state = PentaState::Move;
 		animator->SetEvent("Move");
 		updateFunc = std::bind(&Penta::UpdateMove, this, std::placeholders::_1);
 	}

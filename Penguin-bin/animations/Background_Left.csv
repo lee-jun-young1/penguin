@@ -1,5 +1,5 @@
 ID,FPS,LOOPTYPE,,
-Left,1,1,,
+Left,3,1,,
 ,,,,
 TextureID,Left,Top,Width,Height
 graphics/BG.png,0,168,256,168

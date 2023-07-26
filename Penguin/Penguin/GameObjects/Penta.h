@@ -4,7 +4,7 @@
 #include <AudioSource.h>
 #include <Framework.h>
 
-enum class State
+enum class PentaState
 {
 	Move,
 	Jump,
@@ -24,7 +24,7 @@ protected:
 	float pegicopterDuration = 4.0f;
 	const sf::Vector2f pegicopterOrigin = { 0.5f, 1.05f };
 
-	State state = State::Move;
+	PentaState state = PentaState::Move;
 	Animator* animator = nullptr;
 	sf::Vector2f direction;
 	float speed = 50.0f; 
@@ -42,6 +42,8 @@ protected:
 
 	GameObject* crevasse;
 
+	GameObject* shadow;
+
 	std::function<void(float)> updateFunc;
 
 	float afterClearTime;
@@ -51,6 +53,7 @@ protected:
 	/// 원심력 방향
 	/// </summary>
 	float centrifugalForceDirection = 0.0f;
+
 public:
 	Penta(const std::string& textureID = "", const std::string& name = "")
 		:SpriteGO(textureID, name) {}
@@ -80,11 +83,15 @@ public:
 
 	void GetPegicopterItem();
 	void SetPegicopter(SpriteGO* pegicopter, Animator* pegicopterAni);
+
+	void SetShadow(GameObject* shadow) { this->shadow = shadow; };
 	void Clear();
 
 	void PlayFlagSound();
 
 	void PlayFishSound();
+
+	const PentaState& GetState() { return state; }
 
 	// 원심력 방향 설정
 	void SetCentrifugalForceDirection(const float& force) { centrifugalForceDirection = force; }

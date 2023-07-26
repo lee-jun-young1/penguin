@@ -8,6 +8,7 @@
 #include <DataTableManager.h>
 #include <StageDataTable.h>
 #include <Penta.h>
+#include <GameDataManager.h>
 StageManager::StageManager(const std::string& name)
 	:GameObject(name)
 {
@@ -400,7 +401,7 @@ void StageManager::ReturnFish(Fish* fish)
 {
 	SCENE_MANAGER.GetCurrentScene()->RemoveGameObject(fish);
 	fishPool.Return(fish);
-	cout << "fishReturn" << fishPool.GetUseList().size() << endl;
+	//cout << "fishReturn" << fishPool.GetUseList().size() << endl;
 }
 
 IceHole* StageManager::GetIceHole()
@@ -422,13 +423,13 @@ void StageManager::ReturnIceHole(IceHole* iceHole)
 
 FlagItem* StageManager::GetFlag()
 {
-	cout << "flag Get" << flagPool.GetUseList().size() << endl;
+	//cout << "flag Get" << flagPool.GetUseList().size() << endl;
 	return flagPool.Get();
 }
 
 void StageManager::ReturnFlag(FlagItem* flag)
 {
-	cout << "flag Return" << flagPool.GetUseList().size() << endl;
+	//cout << "flag Return" << flagPool.GetUseList().size() << endl;
 	//SCENE_MANAGER.GetCurrentScene()->RemoveGameObject(flag);
 	RemoveManageObject(flag);
 	flagPool.Return(flag);
@@ -528,6 +529,13 @@ void StageManager::IncreaseScore(const int& score)
 	stringstream ss;
 	ss << "1P-" << Utils::ToString(this->score, "000000");
 	scoreText->SetText(ss.str());
+
+	PlayerPrefs.SetInt("HighScore", max(score, PlayerPrefs.GetInt("HighScore", 0)));
+
+	SpriteTextGO* highScoreText = (SpriteTextGO*)SCENE_MANAGER.GetCurrentScene()->FindGameObject("HighScoreText");
+	ss.str("");
+	ss << "HI-" << Utils::ToString(PlayerPrefs.GetInt("HighScore", 0), "000000");
+	highScoreText->SetText(ss.str());
 }
 
 void StageManager::IncreaseScore(const ScoreItemType& type)
@@ -538,6 +546,13 @@ void StageManager::IncreaseScore(const ScoreItemType& type)
 	stringstream ss;
 	ss << "1P-" << Utils::ToString(this->score, "000000");
 	scoreText->SetText(ss.str());
+
+	PlayerPrefs.SetInt("HighScore", max(score, PlayerPrefs.GetInt("HighScore", 0)));
+
+	SpriteTextGO* highScoreText = (SpriteTextGO*)SCENE_MANAGER.GetCurrentScene()->FindGameObject("HighScoreText");
+	ss.str("");
+	ss << "HI-" << Utils::ToString(PlayerPrefs.GetInt("HighScore", 0), "000000");
+	highScoreText->SetText(ss.str());
 }
 
 void StageManager::ResetScore()
@@ -548,6 +563,11 @@ void StageManager::ResetScore()
 	stringstream ss;
 	ss << "1P-" << Utils::ToString(this->score, "000000");
 	scoreText->SetText(ss.str());
+
+	SpriteTextGO* highScoreText = (SpriteTextGO*)SCENE_MANAGER.GetCurrentScene()->FindGameObject("HighScoreText");
+	ss.str("");
+	ss << "HI-" << Utils::ToString(PlayerPrefs.GetInt("HighScore", 0), "000000");
+	highScoreText->SetText(ss.str());
 }
 
 void StageManager::IncreaseStage()

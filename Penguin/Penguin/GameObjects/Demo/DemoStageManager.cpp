@@ -1,5 +1,8 @@
 #include "stdafx.h"
 #include "DemoStageManager.h"
+#include <SceneManager.h>
+#include <sstream>
+#include <GameDataManager.h>
 
 DemoStageManager::DemoStageManager(const std::string& name)
 	:StageManager(name)
@@ -43,13 +46,47 @@ void DemoStageManager::Init()
 	AddComponent(timeLimitAlert);
 }
 
-void DemoStageManager::Update(float dt)
+void DemoStageManager::IncreaseScore(const int& score)
 {
-	//cout << "DemoStageManager Update" << endl;
-	updateFunc(dt);
+	this->score += score;
+
+	SpriteTextGO* scoreText = (SpriteTextGO*)SCENE_MANAGER.GetCurrentScene()->FindGameObject("ScoreText");
+	stringstream ss;
+	ss << "AI-" << Utils::ToString(this->score, "000000");
+	scoreText->SetText(ss.str());
+
+	SpriteTextGO* highScoreText = (SpriteTextGO*)SCENE_MANAGER.GetCurrentScene()->FindGameObject("HighScoreText");
+	ss.str("");
+	ss << "HI-" << Utils::ToString(PlayerPrefs.GetInt("HighScore", 0), "000000");
+	highScoreText->SetText(ss.str());
 }
 
-void DemoStageManager::CreateObj()
+void DemoStageManager::IncreaseScore(const ScoreItemType& type)
 {
-	StageManager::CreateObj();
+	this->score += scoreTable[(int)type];
+
+	SpriteTextGO* scoreText = (SpriteTextGO*)SCENE_MANAGER.GetCurrentScene()->FindGameObject("ScoreText");
+	stringstream ss;
+	ss << "AI-" << Utils::ToString(this->score, "000000");
+	scoreText->SetText(ss.str());
+
+	SpriteTextGO* highScoreText = (SpriteTextGO*)SCENE_MANAGER.GetCurrentScene()->FindGameObject("HighScoreText");
+	ss.str("");
+	ss << "HI-" << Utils::ToString(PlayerPrefs.GetInt("HighScore", 0), "000000");
+	highScoreText->SetText(ss.str());
+}
+
+void DemoStageManager::ResetScore()
+{
+	this->score = 0;
+
+	SpriteTextGO* scoreText = (SpriteTextGO*)SCENE_MANAGER.GetCurrentScene()->FindGameObject("ScoreText");
+	stringstream ss;
+	ss << "AI-" << Utils::ToString(this->score, "000000");
+	scoreText->SetText(ss.str());
+
+	SpriteTextGO* highScoreText = (SpriteTextGO*)SCENE_MANAGER.GetCurrentScene()->FindGameObject("HighScoreText");
+	ss.str("");
+	ss << "HI-" << Utils::ToString(PlayerPrefs.GetInt("HighScore", 0), "000000");
+	highScoreText->SetText(ss.str());
 }

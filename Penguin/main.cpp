@@ -1,5 +1,6 @@
 ﻿#include "stdafx.h"
 #include "Framework.h"
+#include "GameDataManager.h"
 
 int main()
 {

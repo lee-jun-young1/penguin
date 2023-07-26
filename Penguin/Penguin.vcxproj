@@ -120,7 +120,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>./SFML-2.5.1/include;./Framework;./Scenes;./Global;./;./Utility;./GameObjects;./Components;./Components/Physics;./Components/Animation;./Components/Audio;./3rd;./DataTables;./Animation;./Example;./Example/Scenes;./Example/GameObjects;./Penguin/GameObjects;./Penguin/Scenes;./Penguin/GameObjects/Demo;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./SFML-2.5.1/include;./Framework;./Scenes;./Global;./;./Utility;./GameObjects;./Components;./Components/Physics;./Components/Animation;./Components/Audio;./3rd/json;./3rd;./DataTables;./Animation;./Example;./Example/Scenes;./Example/GameObjects;./Penguin/GameObjects;./Penguin/Scenes;./Penguin/GameObjects/Demo;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
     </ClCompile>
     <Link>
@@ -152,6 +152,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="3rd\json\json_reader.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="3rd\json\json_value.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="3rd\json\json_writer.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Framework\GameDataManager.cpp" />
     <ClCompile Include="Penguin\GameObjects\Demo\DemoStageManager.cpp" />
     <ClCompile Include="Penguin\GameObjects\Background.cpp" />
     <ClCompile Include="Components\Audio\AudioGroup.cpp" />
@@ -218,7 +228,19 @@
     <ClCompile Include="Penguin\Scenes\SceneTitle.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="3rd\json\allocator.h" />
+    <ClInclude Include="3rd\json\assertions.h" />
+    <ClInclude Include="3rd\json\config.h" />
+    <ClInclude Include="3rd\json\forwards.h" />
+    <ClInclude Include="3rd\json\json.h" />
+    <ClInclude Include="3rd\json\json_features.h" />
+    <ClInclude Include="3rd\json\json_tool.h" />
+    <ClInclude Include="3rd\json\reader.h" />
+    <ClInclude Include="3rd\json\value.h" />
+    <ClInclude Include="3rd\json\version.h" />
+    <ClInclude Include="3rd\json\writer.h" />
     <ClInclude Include="3rd\rapidcsv.h" />
+    <ClInclude Include="Framework\GameDataManager.h" />
     <ClInclude Include="Penguin\GameObjects\Demo\DemoStageManager.h" />
     <ClInclude Include="Penguin\GameObjects\Background.h" />
     <ClInclude Include="Components\Audio\AudioGroup.h" />
@@ -281,6 +303,9 @@
     <ClInclude Include="Global\Utils.h" />
     <ClInclude Include="Global\Variables.h" />
     <ClInclude Include="GameObjects\UIButton.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="3rd\json\json_valueiterator.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

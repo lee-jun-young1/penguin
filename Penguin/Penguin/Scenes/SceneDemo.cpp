@@ -244,14 +244,14 @@ void SceneDemo::Update(float deltaTime)
 
 	SpriteTextGO* sysMsgText = (SpriteTextGO*)FindGameObject("SysMsg");
 	sysMsgText->SetText("PRESS 2 TO PLAY");
-	sysMsgText->SetPosition(UIPositionToScreen({ FRAMEWORK.GetWindowSize().x * 0.5f, FRAMEWORK.GetWindowSize().y * 0.3f }));
+	sysMsgText->SetPosition({ FRAMEWORK.GetWindowSize().x * 0.5f, FRAMEWORK.GetWindowSize().y * 0.3f });
 	sysMsgText->SetOrigin(Origins::MC);
 	sysMsgText->SetActive(true);
 
 	RectangleShapeGO* sysMsgRect = (RectangleShapeGO*)FindGameObject("SysMsgRect");
 	sysMsgRect->SetFillColor(sf::Color::Black);
 	sysMsgRect->SetSize(sysMsgText->GetSize());
-	sysMsgRect->SetPosition(UIPositionToScreen(sysMsgText->GetPosition()));
+	sysMsgRect->SetPosition(sysMsgText->GetPosition());
 	sysMsgRect->SetOrigin(Origins::MC);
 	sysMsgRect->SetActive(true);
 

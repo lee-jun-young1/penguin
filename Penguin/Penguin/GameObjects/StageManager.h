@@ -115,10 +115,10 @@ public:
 
 	const float& GetFlagItemPercentage() { return flagItemPercentage; };
 
-	void IncreaseScore(const int& score);
-	void IncreaseScore(const ScoreItemType& type);
+	virtual void IncreaseScore(const int& score);
+	virtual void IncreaseScore(const ScoreItemType& type);
 
-	void ResetScore();
+	virtual void ResetScore();
 
 	void SetTimeText(SpriteTextGO* timeText) {this->timeText = timeText;}
 	void SetRestText(SpriteTextGO* restText) { this->restText = restText; }

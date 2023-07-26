@@ -165,34 +165,33 @@ void PentaBot::UpdateMove(float deltaTime)
 
 	rigidBody->SetVelocity({ 0.0f * speed + centrifugalForceDirection * speed * 0.7f, rigidBody->GetVelocity().y });
 
-	int random = Utils::RandomRange(0, 6);
+	int random = Utils::RandomRange(0, 9);
 	
 	switch (random)
 	{
 	case 0:
 	case 1:
+	case 2:
+	case 3:
 	{
 		cout << "PENTABOT :: " << "Increase Speed!!" << endl;
 		actionCooldown = 0.1f;
 		Scene* scene = SCENE_MANAGER.GetCurrentScene();
 		SceneGame* gameScene = dynamic_cast<SceneGame*>(scene);
 		gameScene->GetStageManager()->IncreaseSpeedLevel();
-		gameScene->GetStageManager()->IncreaseSpeedLevel();
-		gameScene->GetStageManager()->IncreaseSpeedLevel();
-		gameScene->GetStageManager()->IncreaseSpeedLevel();
 	}
 	break;
-	case 2:
+	case 4:
+	case 5:
 	{
 		cout << "PENTABOT :: " << "Decrease Speed!!" << endl;
 		actionCooldown = 0.1f;
 		Scene* scene = SCENE_MANAGER.GetCurrentScene();
 		SceneGame* gameScene = dynamic_cast<SceneGame*>(scene);
 		gameScene->GetStageManager()->DecreaseSpeedLevel();
-		gameScene->GetStageManager()->DecreaseSpeedLevel();
 	}
 		break;
-	case 3:
+	case 6:
 	{
 		actionCooldown = 0.1f;
 		if (state == PentaState::Move)
@@ -208,12 +207,12 @@ void PentaBot::UpdateMove(float deltaTime)
 		}
 	}
 		break;
-	case 4:
+	case 7:
 		cout << "PENTABOT :: " << "Goto Left!!" << endl;
 		actionCooldown = 1.0f;
 		rigidBody->SetVelocity({ -1.0f * speed + centrifugalForceDirection * speed * 0.7f, rigidBody->GetVelocity().y });
 		break;
-	case 5:
+	case 8:
 		cout << "PENTABOT :: " << "Goto Right!!" << endl;
 		actionCooldown = 1.0f;
 		rigidBody->SetVelocity({ 1.0f * speed + centrifugalForceDirection * speed * 0.7f, rigidBody->GetVelocity().y });

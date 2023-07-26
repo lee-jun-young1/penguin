@@ -16,16 +16,6 @@ void Penta::SetAnimator(Animator* animator)
 
 void Penta::Init()
 {
-	Resources.Load(ResourceTypes::AnimationClip, "animations/Penta_Jump.csv");
-	Resources.Load(ResourceTypes::AnimationClip, "animations/Penta_Move.csv");
-	Resources.Load(ResourceTypes::AnimationClip, "animations/Penta_Hit.csv");
-	Resources.Load(ResourceTypes::AnimationClip, "animations/Penta_CrevasseIdle.csv");
-	Resources.Load(ResourceTypes::AnimationClip, "animations/Penta_CrevasseMove.csv");
-	Resources.Load(ResourceTypes::AnimationClip, "animations/Pegicopter_Idle.csv");
-	Resources.Load(ResourceTypes::AnimationClip, "animations/Pegicopter_Use.csv");
-
-
-
 	audio = new AudioSource(*this);
 	AddComponent(audio);
 
@@ -237,6 +227,18 @@ void Penta::UpdateClear(float deltaTime)
 
 void Penta::UpdateJump(float deltaTime)
 {
+	if (Input.GetKeyDown(sf::Keyboard::Up))
+	{
+		Scene* scene = SCENE_MANAGER.GetCurrentScene();
+		SceneGame* gameScene = dynamic_cast<SceneGame*>(scene);
+		gameScene->GetStageManager()->IncreaseSpeedLevel();
+	}
+	if (Input.GetKeyDown(sf::Keyboard::Down))
+	{
+		Scene* scene = SCENE_MANAGER.GetCurrentScene();
+		SceneGame* gameScene = dynamic_cast<SceneGame*>(scene);
+		gameScene->GetStageManager()->DecreaseSpeedLevel();
+	}
 	if (Input.GetKeyDown(sf::Keyboard::Space) && hasPegicopter && rigidBody->GetVelocity().y < 0.0f)
 	{
 		state = PentaState::Pegicopter;

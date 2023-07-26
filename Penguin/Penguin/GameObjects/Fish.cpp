@@ -14,22 +14,11 @@ void Fish::Fire()
 	rigidBody->SetVelocity({ random * 50.0f, -50.0f });
 
 	animation->Play();
-	if (random < 0.0f)
-	{
-		SetFlipX(true);
-	}
-	else
-	{
-		SetFlipX(false);
-		collider->SetOffset({ -14.0f , 0.0f});
-	}
 }
 
 void Fish::Init()
 {
 	SpriteGO::Init();
-	Resources.Load(ResourceTypes::AnimationClip, "animations/Fish_Type1.csv");
-	Resources.Load(ResourceTypes::AnimationClip, "animations/Fish_Type2.csv");
 
 	physicsLayer = 4;
 	animation = new Animation(*this);
@@ -49,7 +38,7 @@ void Fish::Reset()
 	rigidBody->SetVelocity({ 0.0f, 0.0f });
 	collider->SetEnable(false);
 	bool random = Utils::RandomRange(0, 2) == 0;
-	auto clip = Resources.GetAnimationClip(random ? "animations/Fish_Type1.csv" : "animations/Fish_Type2.csv");
+	auto clip = Resources.GetAnimationClip(random ? "animations/Fish_Type2.csv" : "animations/Fish_Type1.csv" );
 	animation->SetClip(clip);
 }
 

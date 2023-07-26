@@ -15,9 +15,6 @@ void Seal::SetManager(StageManager* manager)
 void Seal::Init()
 {
 	SpriteGO::Init();
-	Resources.Load(ResourceTypes::AnimationClip, "animations/Seal_Hide.csv");
-	Resources.Load(ResourceTypes::AnimationClip, "animations/Seal_Ready.csv");
-	Resources.Load(ResourceTypes::AnimationClip, "animations/Seal_Pop.csv");
 
 	physicsLayer = 5;
 	sortOrder = 2;

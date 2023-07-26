@@ -49,7 +49,7 @@ protected:
 
 	float effectTime = 0.0f;
 
-	const float defaultSpeed = 0.3f;
+	const float defaultSpeed = 0.8f;
 	float speed = 0.1f;
 
 	const int speedLevelMax = 12;

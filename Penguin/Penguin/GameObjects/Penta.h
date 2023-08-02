@@ -70,6 +70,7 @@ public:
 
 	virtual void UpdateHit(float deltaTime);
 	virtual void UpdateCrevasse(float deltaTime);
+	void UpdateIdle(float deltaTime);
 	virtual void UpdateMove(float deltaTime);
 	virtual void UpdateClear(float deltaTime);
 	virtual void UpdateJump(float deltaTime);
@@ -90,6 +91,8 @@ public:
 	void PlayFlagSound();
 
 	void PlayFishSound();
+
+	void StartStage();
 
 	const PentaState& GetState() { return state; }
 

@@ -9,37 +9,33 @@ DemoStageManager::DemoStageManager(const std::string& name)
 {
 }
 
+void DemoStageManager::Reset()
+{
+	state = StageState::Playing;
+
+
+	timeLimitAlert->SetClip(Resources.GetSoundBuffer("sound/sfx/10_NearTimeLimit.wav"));
+	iceStation->Reset();
+	iceStation->SetActive(false);
+	background = (Background*)SCENE_MANAGER.GetCurrentScene()->FindGameObject("Background");
+	bgm = (AudioSource*)background->GetComponent(ComponentType::Audio);
+	bgm->SetClip(Resources.GetSoundBuffer("sound/bg/2_MainBgm.ogg"));
+	bgm->SetLoop(false);
+	bgm->Play();
+
+
+	SetSpeedLevel(4);
+
+	updateFunc = std::bind(&StageManager::UpdatePlaying, this, std::placeholders::_1);
+}
+
 void DemoStageManager::Init()
 {
-	crevassePool.OnCreate = [this](Crevasse* crevasse) { crevasse->SetManager(this); };
-	iceHolePool.OnCreate = [this](IceHole* iceHole)
-	{
-		iceHole->SetManager(this);
-		int random = Utils::RandomRange(0, 4);
-		switch (random)
-		{
-		case 0:
-		{
-			Seal* seal = new Seal();
-			seal->Init();
-			iceHole->SetSeal(seal);
-			seal->SetManager(this);
-		}
-		break;
-		}
-	};
-	fishPool.OnCreate = [this](Fish* fish) { fish->SetManager(this); fish->SetName("DemoFish"); };
-	flagPool.OnCreate = [this](FlagItem* flag) { flag->SetManager(this); flag->SetName("DemoFlag"); };
-	crevassePool.Init(20);
-	iceHolePool.Init(20);
-	fishPool.Init(20);
-	flagPool.Init(20);
-
+	hurdleManager.Init();
 	iceStation = new IceStation();
 	iceStation->SetManager(this);
-	iceStation->SetDirection({ FRAMEWORK.GetWindowSize().x * 0.5f, startY }, { FRAMEWORK.GetWindowSize().x * 0.5f, endY - 50.0f });
+	iceStation->SetDirection({ FRAMEWORK.GetWindowSize().x * 0.5f, 55.0f }, { FRAMEWORK.GetWindowSize().x * 0.5f, 115.0f });
 	iceStation->Init();
-	manageObjects.push_back(iceStation);
 
 	timeLimitAlert = new AudioSource(*this);
 	timeLimitAlert->SetLoop(false);

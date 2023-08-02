@@ -61,7 +61,7 @@ void IceHole::Update(float dt)
 		isFishFired = true;
 		if (Utils::RandomRange(0, 2) == 1)
 		{
-			Fish* fish = manager->GetFish();
+			Fish* fish = manager->GetHurdleManager().GetFish();
 			fish->sortLayer = 30;
 			fish->Reset();
 			fish->SetPosition(this->GetPosition());
@@ -83,7 +83,7 @@ void IceHole::Update(float dt)
 
 	if (FRAMEWORK.GetWindowSize().x + size.y < position.y)
 	{
-		manager->ReturnIceHole(this);
+		manager->GetHurdleManager().ReturnIceHole(this);
 	}
 }
 

@@ -100,7 +100,7 @@ void Crevasse::Update(float dt)
 	}
 	if (FRAMEWORK.GetWindowSize().x + size.y < position.y)
 	{
-		manager->ReturnCrevasse(this);
+		manager->GetHurdleManager().ReturnCrevasse(this);
 	}
 }
 

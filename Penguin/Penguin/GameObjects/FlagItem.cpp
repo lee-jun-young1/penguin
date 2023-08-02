@@ -55,7 +55,7 @@ void FlagItem::Update(float deltaTime)
 
 	if (FRAMEWORK.GetWindowSize().x + sprite.getGlobalBounds().height < position.y)
 	{
-		manager->ReturnFlag(this);
+		manager->GetHurdleManager().ReturnFlag(this);
 		//manager->ReturnFlag(this);
 	}
 
@@ -69,7 +69,7 @@ void FlagItem::OnTriggerEnter(Collider* col)
 		Penta& player = dynamic_cast<Penta&>(col->GetGameObject());
 		manager->IncreaseScore(itemType);
 		player.PlayFlagSound();
-		manager->ReturnFlag(this);
+		manager->GetHurdleManager().ReturnFlag(this);
 		if (itemType == ScoreItemType::PegicopterFlag)
 		{
 			player.GetPegicopterItem();

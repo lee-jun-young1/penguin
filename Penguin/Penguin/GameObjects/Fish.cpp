@@ -51,7 +51,7 @@ void Fish::Update(float deltaTime)
 	}
 	if (FRAMEWORK.GetWindowSize().x + sprite.getGlobalBounds().height < position.y)
 	{
-		manager->ReturnFish(this);
+		manager->GetHurdleManager().ReturnFish(this);
 	}
 	//cout << position.x <<", " << position.y << endl;
 }
@@ -66,7 +66,7 @@ void Fish::OnTriggerEnter(Collider* col)
 	if (col->GetGameObject().GetName() == "Player")
 	{
 		manager->IncreaseScore(ScoreItemType::Fish);
-		manager->ReturnFish(this);
+		manager->GetHurdleManager().ReturnFish(this);
 		Penta& player = dynamic_cast<Penta&>(col->GetGameObject());
 		player.PlayFishSound();
 	}

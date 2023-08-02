@@ -162,6 +162,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Framework\GameDataManager.cpp" />
+    <ClCompile Include="Penguin\GameObjects\HurdleManager.cpp" />
     <ClCompile Include="Penguin\GameObjects\Demo\DemoStageManager.cpp" />
     <ClCompile Include="Penguin\GameObjects\Background.cpp" />
     <ClCompile Include="Components\Audio\AudioGroup.cpp" />
@@ -242,6 +243,7 @@
     <ClInclude Include="3rd\json\writer.h" />
     <ClInclude Include="3rd\rapidcsv.h" />
     <ClInclude Include="Framework\GameDataManager.h" />
+    <ClInclude Include="Penguin\GameObjects\HurdleManager.h" />
     <ClInclude Include="Penguin\GameObjects\Demo\DemoStageManager.h" />
     <ClInclude Include="Penguin\GameObjects\Background.h" />
     <ClInclude Include="Components\Audio\AudioGroup.h" />

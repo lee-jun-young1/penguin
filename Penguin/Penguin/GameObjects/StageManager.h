@@ -11,6 +11,7 @@
 #include <AudioSource.h>
 #include <IceStation.h>
 #include <Background.h>
+#include <HurdleManager.h>
 
 enum class StageState
 {
@@ -22,17 +23,11 @@ enum class StageState
 class StageManager : public GameObject
 {
 protected:
+	HurdleManager hurdleManager;
+
 	StageState state;
 
-	ObjectPool<Crevasse> crevassePool;
-	ObjectPool<IceHole> iceHolePool;
-	ObjectPool<Fish> fishPool;
-	ObjectPool<FlagItem> flagPool;
-
 	IceStation* iceStation;
-
-	list<GameObject*> manageObjects;
-	vector<GameObject*> removeManageObjects;
 
 	int stage = 1;
 	string stageName;
@@ -40,9 +35,6 @@ protected:
 	vector<int> scoreTable = {300, 500, 1000};
 	float stageTime = 10.0f;
 	float stageRest = 10.0f;
-
-	float genCycle = 0.5f;
-	float genTime = 0.0f;
 
 	float refreshCycle = 0.2f; //0.2f
 	float refreshTime = 0.0f;
@@ -55,11 +47,8 @@ protected:
 	const int speedLevelMax = 12;
 	int speedLevel = 1;
 
-	//TODO ReadFile
-	sf::Vector2f startXRange = { FRAMEWORK.GetWindowSize().x * 0.45f, FRAMEWORK.GetWindowSize().x * 0.55f };
-	float startY = 55.0f;
-	sf::Vector2f endXRange = { FRAMEWORK.GetWindowSize().x * 0.2f, FRAMEWORK.GetWindowSize().x * 0.8f };
-	float endY = 165.0f;
+	float genCycle = 0.5f;
+	float genTime = 0.0f;
 
 	const float flagItemPercentage = 0.1f;
 
@@ -85,30 +74,18 @@ public:
 	virtual void UpdateComponent(float dt);
 
 	virtual void Update(float dt) override;
+	void UpdateViewMap(float dt);
 	void UpdatePlaying(float dt);
-	virtual void CreateObj();
 	void UpdateTimeOut(float dt);
 	void OnExitScene();
 	void UpdateClear(float dt);
-	void RemoveObj();
 	virtual void Draw(sf::RenderWindow& window) override;
 	virtual void OnGUI(sf::RenderWindow& window) override;
 
-	Crevasse* GetCrevasse();
-	void ReturnCrevasse(Crevasse* crevasse);
-	IceHole* GetIceHole();
-	void ReturnIceHole(IceHole* iceHole);
-	FlagItem* GetFlag();
-	void ReturnFlag(FlagItem* flag);
-	Fish* GetFish();
-	void ReturnFish(Fish* fish);
-
-	void ReturnAll();
 
 	const float GetSpeed() const { return speedLevel == 0 ? 0.0f : defaultSpeed + (speed * speedLevel); };
 	const float GetRest() const { return stageRest; }
 	void IncreaseSpeedLevel();
-	void RemoveManageObject(GameObject*);
 	void DecreaseSpeedLevel();
 	void SetSpeedLevel(const int& level);
 
@@ -127,5 +104,7 @@ public:
 	void SetStage(const int& stage);
 	const std::string& GetStageName() const;
 	void StageClear();
+
+	HurdleManager& GetHurdleManager() { return hurdleManager; };
 };
 

@@ -136,7 +136,7 @@ void Penta::Reset()
 
 #pragma endregion
 
-	updateFunc = std::bind(&Penta::UpdateMove, this, std::placeholders::_1);
+	updateFunc = std::bind(&Penta::UpdateIdle, this, std::placeholders::_1);
 }
 
 void Penta::Update(float dt)
@@ -171,6 +171,9 @@ void Penta::UpdateCrevasse(float deltaTime)
 		SceneGame* gameScene = dynamic_cast<SceneGame*>(scene);
 		gameScene->GetStageManager()->SetSpeedLevel(1);
 	}
+}
+void Penta::UpdateIdle(float deltaTime)
+{
 }
 void Penta::UpdateMove(float deltaTime)
 {
@@ -393,4 +396,9 @@ void Penta::PlayFishSound()
 {
 	audio->SetClip(fishSound);
 	audio->Play();
+}
+
+void Penta::StartStage()
+{
+	updateFunc = std::bind(&Penta::UpdateMove, this, std::placeholders::_1);
 }

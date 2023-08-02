@@ -12,39 +12,16 @@
 StageManager::StageManager(const std::string& name)
 	:GameObject(name)
 {
+	hurdleManager.SetStageManager(this);
 }
 
 void StageManager::Init()
 {
-	crevassePool.OnCreate = [this](Crevasse* crevasse) { crevasse->SetManager(this); };
-	iceHolePool.OnCreate = [this](IceHole* iceHole) 
-	{
-		iceHole->SetManager(this);
-		int random = Utils::RandomRange(0, 4);
-		switch(random)
-		{
-		case 0:
-			{
-				Seal* seal = new Seal();
-				seal->Init();
-				iceHole->SetSeal(seal);
-				seal->SetManager(this);
-			}
-			break;
-		}
-	};
-	fishPool.OnCreate = [this](Fish* fish) { fish->SetManager(this); };
-	flagPool.OnCreate = [this](FlagItem* flag) { flag->SetManager(this); };
-	crevassePool.Init(20);
-	iceHolePool.Init(20);
-	fishPool.Init(20);
-	flagPool.Init(20);
-
+	hurdleManager.Init();
 	iceStation = new IceStation();
 	iceStation->SetManager(this);
-	iceStation->SetDirection({ FRAMEWORK.GetWindowSize().x * 0.5f, startY}, { FRAMEWORK.GetWindowSize().x * 0.5f, endY - 50.0f});
+	iceStation->SetDirection({ FRAMEWORK.GetWindowSize().x * 0.5f, 55.0f }, { FRAMEWORK.GetWindowSize().x * 0.5f, 115.0f});
 	iceStation->Init();
-	manageObjects.push_back(iceStation);
 
 	timeLimitAlert = new AudioSource(*this);
 	timeLimitAlert->SetLoop(false);
@@ -53,10 +30,7 @@ void StageManager::Init()
 
 void StageManager::Release()
 {
-	crevassePool.Release();
-	iceHolePool.Release();
-	fishPool.Release();
-	flagPool.Release();
+	hurdleManager.Release();
 }
 
 void StageManager::Reset()
@@ -65,35 +39,53 @@ void StageManager::Reset()
 
 
 	timeLimitAlert->SetClip(Resources.GetSoundBuffer("sound/sfx/10_NearTimeLimit.wav"));
+
 	iceStation->Reset();
 	iceStation->SetActive(false);
+
 	background = (Background*)SCENE_MANAGER.GetCurrentScene()->FindGameObject("Background");
 	bgm = (AudioSource*)background->GetComponent(ComponentType::Audio);
-	bgm->SetClip(Resources.GetSoundBuffer("sound/bg/2_MainBgm.ogg"));
-	bgm->SetLoop(false);
-	bgm->Play();
-	
+	bgm->Stop();
 
-	SetSpeedLevel(4);
+	SCENE_MANAGER.GetCurrentScene()->FindGameObject("MapBG")->SetActive(true);
+	SCENE_MANAGER.GetCurrentScene()->FindGameObject("Map")->SetActive(true);
 
-	updateFunc = std::bind(&StageManager::UpdatePlaying, this, std::placeholders::_1);
+
+	SetSpeedLevel(0);
+
+	refreshTime = 0.0f;
+	updateFunc = std::bind(&StageManager::UpdateViewMap, this, std::placeholders::_1);
 }
 
 void StageManager::UpdateComponent(float dt)
 {
-	for (auto& obj : manageObjects)
-	{
-		if (obj->IsActive())
-		{
-			obj->UpdateComponent(dt);
-		}
-	}
+	hurdleManager.UpdateComponent(dt);
 }
 
 void StageManager::Update(float dt)
 {
 	//cout << "StageManager Update" << endl;
 	updateFunc(dt);
+}
+void StageManager::UpdateViewMap(float dt)
+{
+	refreshTime += dt;
+	if (refreshTime > 3.0f)
+	{
+		SCENE_MANAGER.GetCurrentScene()->FindGameObject("MapBG")->SetActive(false);
+		SCENE_MANAGER.GetCurrentScene()->FindGameObject("Map")->SetActive(false);
+
+		bgm = (AudioSource*)background->GetComponent(ComponentType::Audio);
+		bgm->SetClip(Resources.GetSoundBuffer("sound/bg/2_MainBgm.ogg"));
+		bgm->SetLoop(false);
+		bgm->Play();
+
+		Penta* player = (Penta*)SCENE_MANAGER.GetCurrentScene()->FindGameObject("Player");
+		player->StartStage();
+
+		SetSpeedLevel(4);
+		updateFunc = std::bind(&StageManager::UpdatePlaying, this, std::placeholders::_1);
+	}
 }
 
 void StageManager::UpdatePlaying(float dt)
@@ -173,21 +165,14 @@ void StageManager::UpdatePlaying(float dt)
 	if (genTime > genCycle && stageRest > 50.0f)
 	{
 		genTime -= genCycle;
-		CreateObj();
+		hurdleManager.CreateObj();
 	}
 	else if (stageRest <= 50.0f)
 	{
 		iceStation->SetActive(true);
 	}
 
-
-	for (auto& obj : manageObjects)
-	{
-		if (obj->IsActive())
-		{
-			obj->Update(refreshTime);
-		}
-	}
+	hurdleManager.Update(refreshTime);
 
 	//for (auto crevasse : crevassePool.GetUseList())
 	//{
@@ -217,71 +202,9 @@ void StageManager::UpdatePlaying(float dt)
 	//		flagPool.Return(flag);
 	//	}
 	//}
-	RemoveObj();
+	hurdleManager.RemoveObj();
 
 	refreshTime = 0;
-}
-
-void StageManager::CreateObj()
-{
-	int random = Utils::RandomRange(0, 4);
-
-	//cout << "gen " << name << endl;
-#ifdef _DEBUG
-	if (Input.GetKey(sf::Keyboard::F5))
-	{
-		random = 1;
-	}
-	if (Input.GetKey(sf::Keyboard::F6))
-	{
-		random = 2;
-	}
-	if (Input.GetKey(sf::Keyboard::F7))
-	{
-		random = 3;
-	}
-#endif
-	switch (random)
-	{
-	case 0:
-		break;
-	case 1:
-	{
-		Crevasse* crevasse = GetCrevasse();
-		float t = Utils::RandomValue();
-		crevasse->SetDirection({ Utils::Lerp(startXRange.x, startXRange.y, t), startY }, { Utils::Lerp(endXRange.x, endXRange.y, t), endY });
-		manageObjects.push_back(crevasse);
-		//SCENE_MANAGER.GetCurrentScene()->AddGameObject(crevasse);
-	}
-	break;
-	case 2:
-	{
-		IceHole* iceHole = GetIceHole();
-		float t = Utils::RandomValue();
-		iceHole->SetDirection({ Utils::Lerp(startXRange.x, startXRange.y, t), startY }, { Utils::Lerp(endXRange.x, endXRange.y, t), endY });
-		manageObjects.push_back(iceHole);
-		//SCENE_MANAGER.GetCurrentScene()->AddGameObject(iceHole);
-
-		Seal* seal = iceHole->GetSeal();
-		if (seal != nullptr)
-		{
-			seal->SetActive(true);
-			manageObjects.push_back(seal);
-			//SCENE_MANAGER.GetCurrentScene()->AddGameObject(seal);
-			seal->Reset();
-		}
-	}
-	break;
-	case 3:
-	{
-		FlagItem* flag = GetFlag();
-		float t = Utils::RandomValue();
-		flag->SetDirection({ Utils::Lerp(startXRange.x, startXRange.y, t), startY }, { Utils::Lerp(endXRange.x, endXRange.y, t), endY });
-		manageObjects.push_back(flag);
-		//SCENE_MANAGER.GetCurrentScene()->AddGameObject(flag);
-	}
-	break;
-	}
 }
 
 void StageManager::UpdateTimeOut(float dt)
@@ -300,8 +223,8 @@ void StageManager::OnExitScene()
 	RectangleShapeGO* sysMsgRect = (RectangleShapeGO*)SCENE_MANAGER.GetCurrentScene()->FindGameObject("SysMsgRect");
 	sysMsgText->SetActive(false);
 	sysMsgRect->SetActive(false);
-	ReturnAll();
-	RemoveObj();
+	GetHurdleManager().ReturnAll();
+	hurdleManager.RemoveObj();
 }
 
 void StageManager::UpdateClear(float dt)
@@ -331,8 +254,8 @@ void StageManager::UpdateClear(float dt)
 		RectangleShapeGO* sysMsgRect = (RectangleShapeGO*)SCENE_MANAGER.GetCurrentScene()->FindGameObject("SysMsgRect");
 		sysMsgText->SetActive(false);
 		sysMsgRect->SetActive(false);
-		ReturnAll();
-		RemoveObj();
+		GetHurdleManager().ReturnAll();
+		hurdleManager.RemoveObj();
 		IncreaseStage();
 		Penta* player = (Penta*)SCENE_MANAGER.GetCurrentScene()->FindGameObject("Player");
 		player->Reset();
@@ -347,132 +270,15 @@ void StageManager::UpdateClear(float dt)
 	}
 }
 
-void StageManager::RemoveObj()
-{
-	for (auto removeObj : removeManageObjects)
-	{
-		manageObjects.remove(removeObj);
-	}
-	removeManageObjects.clear();
-}
-
 void StageManager::Draw(sf::RenderWindow& window)
 {
-	for (auto& obj : manageObjects)
-	{
-		if (obj->IsActive())
-		{
-			obj->Draw(window);
-		}
-	}
+	hurdleManager.Draw(window);
+	iceStation->Draw(window);
 }
 
 void StageManager::OnGUI(sf::RenderWindow& window)
 {
-	for (auto& obj : manageObjects)
-	{
-		if (obj->IsActive())
-		{
-			obj->OnGUI(window);
-		}
-	}
-}
-
-Crevasse* StageManager::GetCrevasse()
-{
-	//cout << "crevassePool get :: " << crevassePool.GetUseList().size() + 1 << endl;
-	return crevassePool.Get();
-}
-
-void StageManager::ReturnCrevasse(Crevasse* crevasse)
-{
-	//SCENE_MANAGER.GetCurrentScene()->RemoveGameObject(crevasse);
-	RemoveManageObject(crevasse);
-	crevassePool.Return(crevasse);
-	//cout << "crevassePool return :: " << crevassePool.GetUseList().size() << endl;
-}
-
-Fish* StageManager::GetFish()
-{
- 	return fishPool.Get();
-}
-
-void StageManager::ReturnFish(Fish* fish)
-{
-	SCENE_MANAGER.GetCurrentScene()->RemoveGameObject(fish);
-	fishPool.Return(fish);
-	//cout << "fishReturn" << fishPool.GetUseList().size() << endl;
-}
-
-IceHole* StageManager::GetIceHole()
-{
-	return iceHolePool.Get();
-}
-
-void StageManager::ReturnIceHole(IceHole* iceHole)
-{
-	if (iceHole->GetSeal() != nullptr)
-	{
-		RemoveManageObject(iceHole->GetSeal());
-		//SCENE_MANAGER.GetCurrentScene()->RemoveGameObject(iceHole->GetSeal());
-	}
-	RemoveManageObject(iceHole);
-	//SCENE_MANAGER.GetCurrentScene()->RemoveGameObject(iceHole);
-	iceHolePool.Return(iceHole);
-}
-
-FlagItem* StageManager::GetFlag()
-{
-	//cout << "flag Get" << flagPool.GetUseList().size() << endl;
-	return flagPool.Get();
-}
-
-void StageManager::ReturnFlag(FlagItem* flag)
-{
-	//cout << "flag Return" << flagPool.GetUseList().size() << endl;
-	//SCENE_MANAGER.GetCurrentScene()->RemoveGameObject(flag);
-	RemoveManageObject(flag);
-	flagPool.Return(flag);
-}
-
-void StageManager::ReturnAll()
-{
-
-	for (auto& crevasse : crevassePool.GetUseList())
-	{
-		crevasse->Reset();
-		RemoveManageObject(crevasse);
-	}
-	for (auto& iceHole : iceHolePool.GetUseList())
-	{
-		if (iceHole->GetSeal() != nullptr)
-		{
-			iceHole->GetSeal()->Reset();
-			RemoveManageObject(iceHole->GetSeal());
-		}
-		iceHole->Reset();
-		RemoveManageObject(iceHole);
-	}
-	for (auto& fish : fishPool.GetUseList())
-	{
-		fish->Reset();
-		SCENE_MANAGER.GetCurrentScene()->RemoveGameObject(fish);
-	}
-	for (auto& flag : flagPool.GetUseList())
-	{
-		flag->Reset();
-		RemoveManageObject(flag);
-	}
-
-	crevassePool.Clear();
-	iceHolePool.Clear();
-	fishPool.Clear();
-	flagPool.Clear();
-}
-
-void StageManager::RemoveManageObject(GameObject* go)
-{
-	removeManageObjects.push_back(go);
+	hurdleManager.OnGUI(window);
 }
 
 void StageManager::IncreaseSpeedLevel()

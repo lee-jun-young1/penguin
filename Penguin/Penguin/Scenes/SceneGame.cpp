@@ -226,6 +226,15 @@ void SceneGame::Init()
 	sysMsgRect->sortLayer = UILayer;
 	sysMsgRect->sortOrder = 0;
 
+	RectangleShapeGO* mapBG = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("MapBG"));
+	mapBG->sortLayer = UILayer + 100;
+	mapBG->sortOrder = -1;
+	mapBG->SetSize(FRAMEWORK.GetWindowSize());
+	mapBG->SetFillColor(sf::Color::Black);
+
+	SpriteGO* map = (SpriteGO*)AddGameObject(new SpriteGO("graphics/map.png", "Map"));
+	map->sortLayer = UILayer + 100;
+
 	for (auto go : gameObjects)
 	{
 		go->Init();

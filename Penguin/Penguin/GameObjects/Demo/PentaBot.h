@@ -20,5 +20,8 @@ public:
 	virtual void UpdateJump(float deltaTime) override;
 	virtual void UpdatePegicopter(float deltaTime) override;
 	virtual void OnCollisionEnter(Collider* col) override;
+
+
+	virtual void StartStage() override;
 };
 

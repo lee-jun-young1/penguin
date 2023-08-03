@@ -92,7 +92,7 @@ public:
 
 	void PlayFishSound();
 
-	void StartStage();
+	virtual void StartStage();
 
 	const PentaState& GetState() { return state; }
 

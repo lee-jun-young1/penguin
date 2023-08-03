@@ -3,6 +3,7 @@
 #include <SceneManager.h>
 #include <sstream>
 #include <GameDataManager.h>
+#include <Penta.h>
 
 DemoStageManager::DemoStageManager(const std::string& name)
 	:StageManager(name)
@@ -24,9 +25,33 @@ void DemoStageManager::Reset()
 	bgm->Play();
 
 
+	SCENE_MANAGER.GetCurrentScene()->FindGameObject("MapBG")->SetActive(true);
+	SCENE_MANAGER.GetCurrentScene()->FindGameObject("Map")->SetActive(true);
+
 	SetSpeedLevel(4);
 
-	updateFunc = std::bind(&StageManager::UpdatePlaying, this, std::placeholders::_1);
+	updateFunc = std::bind(&DemoStageManager::UpdateViewMap, this, std::placeholders::_1);
+}
+
+void DemoStageManager::UpdateViewMap(float dt)
+{
+	refreshTime += dt;
+	if (refreshTime > 3.0f)
+	{
+		SCENE_MANAGER.GetCurrentScene()->FindGameObject("MapBG")->SetActive(false);
+		SCENE_MANAGER.GetCurrentScene()->FindGameObject("Map")->SetActive(false);
+
+		bgm = (AudioSource*)background->GetComponent(ComponentType::Audio);
+		bgm->SetClip(Resources.GetSoundBuffer("sound/bg/2_MainBgm.ogg"));
+		bgm->SetLoop(false);
+		bgm->Play();
+
+		Penta* player = (Penta*)SCENE_MANAGER.GetCurrentScene()->FindGameObject("Player");
+		player->StartStage();
+
+		SetSpeedLevel(4);
+		updateFunc = std::bind(&StageManager::UpdatePlaying, this, std::placeholders::_1);
+	}
 }
 
 void DemoStageManager::Init()

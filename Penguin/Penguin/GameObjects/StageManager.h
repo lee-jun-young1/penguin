@@ -74,7 +74,7 @@ public:
 	virtual void UpdateComponent(float dt);
 
 	virtual void Update(float dt) override;
-	void UpdateViewMap(float dt);
+	virtual void UpdateViewMap(float dt);
 	void UpdatePlaying(float dt);
 	void UpdateTimeOut(float dt);
 	void OnExitScene();

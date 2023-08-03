@@ -110,7 +110,7 @@ void PentaBot::Reset()
 
 #pragma endregion
 
-	updateFunc = std::bind(&PentaBot::UpdateMove, this, std::placeholders::_1);
+	updateFunc = std::bind(&PentaBot::UpdateIdle, this, std::placeholders::_1);
 }
 
 void PentaBot::Update(float dt)
@@ -325,4 +325,9 @@ void PentaBot::OnCollisionEnter(Collider* col)
 	}
 
 
+}
+
+void PentaBot::StartStage()
+{
+	updateFunc = std::bind(&Penta::UpdateMove, this, std::placeholders::_1);
 }

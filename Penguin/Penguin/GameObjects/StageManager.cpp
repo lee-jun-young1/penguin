@@ -173,6 +173,10 @@ void StageManager::UpdatePlaying(float dt)
 	}
 
 	hurdleManager.Update(refreshTime);
+	if (iceStation->IsActive())
+	{
+		iceStation->Update(refreshTime);
+	}
 
 	//for (auto crevasse : crevassePool.GetUseList())
 	//{
@@ -229,7 +233,10 @@ void StageManager::OnExitScene()
 
 void StageManager::UpdateClear(float dt)
 {
-	iceStation->Update(dt);
+	if (iceStation->IsActive())
+	{
+		iceStation->Update(dt);
+	}
 	effectTime -= dt;
 	if (effectTime < 0.0f)
 	{
@@ -273,7 +280,10 @@ void StageManager::UpdateClear(float dt)
 void StageManager::Draw(sf::RenderWindow& window)
 {
 	hurdleManager.Draw(window);
-	iceStation->Draw(window);
+	if (iceStation->IsActive())
+	{
+ 		iceStation->Draw(window);
+	}
 }
 
 void StageManager::OnGUI(sf::RenderWindow& window)

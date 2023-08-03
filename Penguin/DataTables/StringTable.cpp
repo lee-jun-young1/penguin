@@ -16,9 +16,7 @@ const std::string& StringTable::Get(const std::string& id, Languages lang) const
 bool StringTable::Load()
 {
 	std::vector<std::string> filenames;
-	filenames.push_back("tables/SampleStringTable_KOR.csv");
-	filenames.push_back("tables/SampleStringTable_ENG.csv");
-	filenames.push_back("tables/SampleStringTable_JPN.csv");
+	filenames.push_back("data/StringTable_Eng.csv");
 	for (int i = 0; i < tables.size(); i++)
 	{
 		rapidcsv::Document doc(filenames[i]);
